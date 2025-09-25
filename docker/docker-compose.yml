@@ -1,0 +1,6 @@
+services:
+  axioniq:
+    image: 'axoniq/axonserver:2024.2.15-jdk-17-nonroot'
+    restart: always
+    env_file:
+      - .env
