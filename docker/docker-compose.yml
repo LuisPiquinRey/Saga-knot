@@ -2,5 +2,23 @@ services:
   axioniq:
     image: 'axoniq/axonserver:2024.2.15-jdk-17-nonroot'
     restart: always
+    ports:
+      - "8024:8024"
+      - "8124:8124"  
+      - "8224:8224"
+    environment:
+      - AXONIQ_AXONSERVER_NAME=axon-server-dev
+      - AXONIQ_AXONSERVER_HOSTNAME=localhost
+      - AXONIQ_AXONSERVER_DEVMODE_ENABLED=true
+      - AXONIQ_AXONSERVER_STANDALONE=true
+    volumes:
+      - axonserver-data:/opt/axonserver/data
+      - axonserver-events:/opt/axonserver/events
+      - axonserver-config:/opt/axonserver/config
     env_file:
       - .env
+
+volumes:
+  axonserver-data:
+  axonserver-events:
+  axonserver-config:
