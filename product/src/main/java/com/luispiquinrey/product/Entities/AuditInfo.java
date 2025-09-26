@@ -4,18 +4,14 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 
 @Embeddable
 public class AuditInfo implements Serializable{
 
-    @Temporal(TemporalType.TIME)
     private LocalDateTime createdAt;
 
     private String createdBy;
 
-    @Temporal(TemporalType.TIME)
     private LocalDateTime updatedAt;
 
     private String updatedBy;
