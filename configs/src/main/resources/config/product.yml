@@ -28,3 +28,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+axon:
+  axonserver:
+    servers: localhost:8124
