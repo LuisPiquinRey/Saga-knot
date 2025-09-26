@@ -3,8 +3,13 @@ package com.luispiquinrey.product.Entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.constraints.Length;
+
 import com.luispiquinrey.product.Enums.Status;
 
+import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -18,68 +23,95 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Version;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
-@Table(name="product", 
-    uniqueConstraints= {@UniqueConstraint(columnNames={"name"})})
-public class Product implements Serializable{
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Table(name = "product",
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"name"})})
+public class Product implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProduct;
 
+    @NotNull @NotBlank @Length(min=3 , max=20)
     private String name;
 
     @Embedded
     private AuditInfo auditInfo;
 
+    @NotNull @NotBlank @Length(min=3 , max=20)
     private String brand;
-    
+
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @NotNull @PositiveOrZero
     private float price;
+
     @Version
-    @Column(name="OPTLOCK")
+    @Column(name = "OPTLOCK")
     private Integer version;
-    public Product(String name, String brand) {
+
+    public Product(String name, String brand, Float price) {
         this.name = name;
         this.brand = brand;
+        this.price=price;
     }
+
     public Long getIdProduct() {
         return idProduct;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getBrand() {
         return brand;
     }
+
     public void setBrand(String brand) {
         this.brand = brand;
     }
+
     public Status getStatus() {
         return status;
     }
+
     public void setStatus(Status status) {
         this.status = status;
     }
+
     public Integer getVersion() {
         return version;
     }
+
     public void setVersion(Integer version) {
         this.version = version;
     }
+
     public float getPrice() {
         return price;
     }
+
     public void setPrice(float price) {
         this.price = price;
     }
+
     public AuditInfo getAuditInfo() {
         return auditInfo;
     }
+
     public void setAuditInfo(AuditInfo auditInfo) {
         this.auditInfo = auditInfo;
     }
