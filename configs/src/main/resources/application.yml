@@ -8,5 +8,10 @@ spring:
             server:
                 native:
                     search-locations: "classpath:/config"
+                encrypt:
+                    enabled: true
+encrypt:
+    key: myS1c_retKey123456
+
 server:
     port: 8090

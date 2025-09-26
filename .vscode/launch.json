@@ -10,7 +10,8 @@
             "args": "",
             "envFile": "${workspaceFolder}/.env",
             "env": {
-                "GITHUB_TOKEN": "${env:GITHUB_TOKEN}"
+                "GITHUB_TOKEN": "${env:GITHUB_TOKEN}",
+                "KEY_ENCRYPT": "${env:KEY_ENCRYPT}"
             },
             "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=52538 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=configs"
         },
