@@ -55,10 +55,13 @@ public class Product implements Serializable {
     @Column(name = "OPTLOCK")
     private Integer version;
 
-    public Product(String name, String brand, Float price) {
+    private Integer stock;
+
+    public Product(String name, String brand, Float price,Integer stock) {
         this.name = name;
         this.brand = brand;
         this.price=price;
+        this.stock=stock;
     }
 
     public Long getIdProduct() {
@@ -112,4 +115,13 @@ public class Product implements Serializable {
     public void setAuditInfo(AuditInfo auditInfo) {
         this.auditInfo = auditInfo;
     }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+    
 }

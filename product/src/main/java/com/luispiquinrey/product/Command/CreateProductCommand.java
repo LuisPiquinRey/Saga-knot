@@ -19,5 +19,7 @@ public class CreateProductCommand {
     private Status status;
 
     private float price;
+
+    private Integer stock;
     
 }

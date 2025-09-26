@@ -15,4 +15,6 @@ public class ProductCreatedEvent {
     private Status status;
 
     private float price;
+
+    private Integer stock;
 }
