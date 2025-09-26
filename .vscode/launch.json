@@ -23,7 +23,10 @@
             "mainClass": "com.luispiquinrey.product.ProductApplication",
             "projectName": "product",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "env": {
+                "CREDENTIALS_AXION": "${env:CREDENTIALS_AXION}"
+            }
         },
         {
             "type": "java",

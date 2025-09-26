@@ -31,3 +31,8 @@ spring:
 axon:
   axonserver:
     servers: localhost:8124
+axoniq:
+  console:
+    application-name: Shopping-axion
+    credentials: ${CREDENTIALS_AXION}
+    dlq-mode: FULL
