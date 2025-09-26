@@ -1,6 +1,7 @@
 package com.luispiquinrey.product.Aggregate;
 
 import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
@@ -49,5 +50,15 @@ public class ProductAggregate {
         ProductCreatedEvent productCreatedEvent = new ProductCreatedEvent();
         BeanUtils.copyProperties(createProductCommand, productCreatedEvent);
         AggregateLifecycle.apply(productCreatedEvent);
+    }
+
+    @EventSourcingHandler
+    public void on(ProductCreatedEvent event) {
+        this.productId = event.getIdProduct();
+        this.name = event.getName();
+        this.brand = event.getBrand();
+        this.status = event.getStatus();
+        this.price = event.getPrice();
+        this.stock = event.getStock();
     }
 }

@@ -17,4 +17,5 @@ public class ProductCreatedEvent {
     private float price;
 
     private Integer stock;
+
 }
