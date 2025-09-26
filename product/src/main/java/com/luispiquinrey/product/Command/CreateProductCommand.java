@@ -7,19 +7,16 @@ import com.luispiquinrey.product.Enums.Status;
 import lombok.Builder;
 import lombok.Data;
 
-@Data @Builder
+@Data 
+@Builder
 public class CreateProductCommand {
     @TargetAggregateIdentifier
-    private Long idProduct;
-
-    private String name;
-
-    private String brand;
-
-    private Status status;
-
-    private float price;
-
-    private Integer stock;
+    @Builder.Default
+    private Long idProduct = null;
     
+    private String name;
+    private String brand;
+    private Status status;
+    private float price;
+    private Integer stock;
 }
