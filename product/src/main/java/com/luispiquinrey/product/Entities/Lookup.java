@@ -13,6 +13,9 @@ public class Lookup {
 
     public Lookup() {
     }
+    public Lookup(String idProduct){
+        this.idProduct=idProduct;
+    }
 
     public String getIdProduct() {
         return idProduct;
