@@ -67,6 +67,9 @@ public class Product implements Serializable {
     public String getIdProduct() {
         return idProduct;
     }
+    public void setIdProduct(String idProduct){
+        this.idProduct=idProduct;
+    }
 
     public String getName() {
         return name;
