@@ -54,6 +54,9 @@ public class Product implements Serializable {
 
     private Integer stock;
 
+    public Product() {
+    }
+
     public Product(String name, String brand, Float price,Integer stock) {
         this.name = name;
         this.brand = brand;
