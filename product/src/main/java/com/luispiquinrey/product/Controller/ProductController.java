@@ -48,7 +48,7 @@ public class ProductController {
                     .stock(productRequest.stock())
                     .build();
 
-                Long productId = commandGateway.sendAndWait(createProductCommand);
+                String productId = commandGateway.sendAndWait(createProductCommand);
 
                 return ResponseEntity.ok()
                     .body(Map.of(

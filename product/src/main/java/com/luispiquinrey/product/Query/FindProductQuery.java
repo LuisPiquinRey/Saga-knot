@@ -4,5 +4,5 @@ import lombok.Value;
 
 @Value
 public class FindProductQuery {
-    private Long idProduct;
+    private String idProduct;
 }
