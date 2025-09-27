@@ -11,14 +11,5 @@ services:
       - AXONIQ_AXONSERVER_HOSTNAME=localhost
       - AXONIQ_AXONSERVER_DEVMODE_ENABLED=true
       - AXONIQ_AXONSERVER_STANDALONE=true
-    volumes:
-      - axonserver-data:/opt/axonserver/data
-      - axonserver-events:/opt/axonserver/events
-      - axonserver-config:/opt/axonserver/config
     env_file:
       - .env
-
-volumes:
-  axonserver-data:
-  axonserver-events:
-  axonserver-config:

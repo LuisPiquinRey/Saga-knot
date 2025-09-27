@@ -1,5 +1,10 @@
 server:
     port: 8080
+spring: 
+  config:
+    import:
+      - "product_test.yml"
+      - "product_dev.yml"
 eureka:
   instance:
     preferIpAddress: true
@@ -16,18 +21,6 @@ eureka:
     endpoint:
       health:
         show-details: ALWAYS
-spring:
-  h2:
-    console:
-      enabled: true
-  datasource:
-    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE
-    driver-class-name: org.h2.Driver
-    username: LuisPiquinRey
-    password: '{cipher}fef3e59cdad42e36000fd0d95649ae0c78000b11ac625ab0ceb98466f0497e47'
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
 axon:
   axonserver:
     servers: localhost:8124
