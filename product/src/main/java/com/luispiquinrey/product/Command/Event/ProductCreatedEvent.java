@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class ProductCreatedEvent {
-    private Long idProduct;
+    private String idProduct;
 
     private String name;
 

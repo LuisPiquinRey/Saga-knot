@@ -7,5 +7,5 @@ import com.luispiquinrey.product.Entities.Product;
 
 
 @Repository
-public interface RepositoryProduct extends JpaRepository<Product, Long>{
+public interface RepositoryProduct extends JpaRepository<Product, String>{
 }

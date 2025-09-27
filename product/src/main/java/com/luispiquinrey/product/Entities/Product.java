@@ -14,8 +14,6 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -33,8 +31,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 public class Product implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idProduct;
+    private String idProduct;
 
     @NotNull @NotBlank @Length(min=3 , max=20)
     private String name;
@@ -64,7 +61,7 @@ public class Product implements Serializable {
         this.stock=stock;
     }
 
-    public Long getIdProduct() {
+    public String getIdProduct() {
         return idProduct;
     }
 

@@ -11,8 +11,7 @@ import lombok.Data;
 @Builder
 public class CreateProductCommand {
     @TargetAggregateIdentifier
-    @Builder.Default
-    private Long idProduct = null;
+    private String idProduct;
     
     private String name;
     private String brand;

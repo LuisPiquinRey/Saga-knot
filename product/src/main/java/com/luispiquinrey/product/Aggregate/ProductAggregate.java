@@ -1,5 +1,7 @@
 package com.luispiquinrey.product.Aggregate;
 
+import java.util.UUID;
+
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -15,7 +17,7 @@ import com.luispiquinrey.product.Enums.Status;
 public class ProductAggregate {
 
     @AggregateIdentifier
-    private Long productId;
+    private String productId;
 
     private String name;
 
