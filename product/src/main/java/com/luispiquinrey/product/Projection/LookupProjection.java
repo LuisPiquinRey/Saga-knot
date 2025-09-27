@@ -7,24 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.luispiquinrey.product.Command.Event.ProductCreatedEvent;
-import com.luispiquinrey.product.Entities.Product;
-import com.luispiquinrey.product.Repository.RepositoryProduct;
+import com.luispiquinrey.product.Entities.Lookup;
+import com.luispiquinrey.product.Repository.RepositoryLookup;
 
 @Component
 @ProcessingGroup("product-collection")
-public class ProductProjection {
-    
-    private final RepositoryProduct repositoryProduct;
+public class LookupProjection {
+    private final RepositoryLookup repositoryLookup;
 
     @Autowired
-    public ProductProjection(RepositoryProduct repositoryProduct) {
-        this.repositoryProduct = repositoryProduct;
+    public LookupProjection(RepositoryLookup repositoryLookup) {
+        this.repositoryLookup = repositoryLookup;
     }
 
     @EventHandler
     public void on(ProductCreatedEvent productCreatedEvent){
-        Product product=new Product();
-        BeanUtils.copyProperties(productCreatedEvent,product);
-        repositoryProduct.save(product);
+        Lookup lookup=new Lookup();
+        BeanUtils.copyProperties(productCreatedEvent,lookup);
+        repositoryLookup.save(lookup);
     }
 }
