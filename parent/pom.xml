@@ -5,10 +5,11 @@
 
     <groupId>com.luispiquinrey</groupId>
     <artifactId>saga-knot-parent</artifactId>
-    <version>3.0</version>
+    <version>4.0</version>
     <packaging>pom</packaging>
     <modules>
         <module>product</module>
+        <module>order</module>
     </modules>
 
     <parent>

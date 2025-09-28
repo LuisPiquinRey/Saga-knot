@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.luispiquinrey</groupId>
         <artifactId>saga-knot-parent</artifactId>
-        <version>3.0</version>
+        <version>4.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
