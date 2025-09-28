@@ -27,5 +27,5 @@ axon:
 axoniq:
   console:
     application-name: Shopping-axion
-    credentials: ${env:CREDENTIALS_AXION}
+    credentials: ${CREDENTIALS_AXION}
     dlq-mode: FULL
