@@ -1,5 +1,5 @@
 services:
-  axioniq:
+  axoniq:
     image: 'axoniq/axonserver:2024.2.15-jdk-17-nonroot'
     restart: always
     ports:
@@ -13,3 +13,33 @@ services:
       - AXONIQ_AXONSERVER_STANDALONE=true
     env_file:
       - .env
+
+  mysql_master:
+    image: mysql:oraclelinux9
+    restart: always
+    ports:
+      - "3308:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=LuisPiquinRey
+      - MYSQL_DATABASE=product_master
+    networks:
+      - mysql-network
+    volumes:
+      - ./mysql/master.cnf:/etc/my.cnf
+
+  mysql_slave:
+    image: mysql:oraclelinux9
+    restart: always
+    ports:
+      - "3309:3306"  
+    environment:
+      - MYSQL_ROOT_PASSWORD=LuisPiquinRey
+      - MYSQL_DATABASE=product_slave
+    networks:
+      - mysql-network
+    volumes:
+      - ./mysql/slave.cnf:/etc/my.cnf
+
+networks:
+  mysql-network:
+    driver: bridge
