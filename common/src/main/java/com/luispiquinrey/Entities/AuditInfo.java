@@ -1,4 +1,4 @@
-package com.luispiquinrey.product.Entities;
+package com.luispiquinrey.Entities;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
