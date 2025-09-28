@@ -1,10 +1,10 @@
-package com.luispiquinrey.product;
+package com.luispiquinrey.order;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProductApplicationTests {
+class OrderApplicationTests {
 
 	@Test
 	void contextLoads() {
