@@ -11,7 +11,7 @@ import lombok.Data;
 @Builder
 public class CreateOrderCommand {
     @TargetAggregateIdentifier
-    private Long idOrder;
+    private String idOrder;
 
     private Status status;
 }

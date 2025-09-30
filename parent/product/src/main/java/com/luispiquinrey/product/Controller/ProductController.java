@@ -2,7 +2,6 @@ package com.luispiquinrey.product.Controller;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryGateway;
@@ -40,7 +39,6 @@ public class ProductController {
         } else {
             try {
                 CreateProductCommand createProductCommand = CreateProductCommand.builder()
-                .   idProduct(UUID.randomUUID().toString())
                     .brand(productRequest.brand())
                     .name(productRequest.name())
                     .status(Status.BOUGHT)

@@ -1,5 +1,7 @@
 package com.luispiquinrey.order.Entities;
 
+import java.util.UUID;
+
 import com.luispiquinrey.Entities.AuditInfo;
 import com.luispiquinrey.order.Enums.Status;
 
@@ -8,23 +10,26 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="order")
+@Table(name = "order")
 public class Order {
+
     @Id
-    private Long idOrder;
+    private String idOrder;
 
     private Status status;
 
     private AuditInfo auditInfo;
 
     public Order() {
+        this.idOrder = UUID.randomUUID().toString();
+        this.status = Status.PENDING; 
     }
 
-    public Long getIdOrder() {
+    public String getIdOrder() {
         return idOrder;
     }
 
-    public void setIdOrder(Long idOrder) {
+    public void setIdOrder(String idOrder) {
         this.idOrder = idOrder;
     }
 
@@ -35,5 +40,5 @@ public class Order {
     public void setStatus(Status status) {
         this.status = status;
     }
-    
+
 }

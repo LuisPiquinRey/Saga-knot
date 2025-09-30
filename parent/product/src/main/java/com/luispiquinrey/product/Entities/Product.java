@@ -1,6 +1,7 @@
 package com.luispiquinrey.product.Entities;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -56,9 +57,11 @@ public class Product implements Serializable {
     private Integer stock;
 
     public Product() {
+        this.idProduct=UUID.randomUUID().toString();
     }
 
     public Product(String name, String brand, Float price,Integer stock) {
+        this.idProduct=UUID.randomUUID().toString();
         this.name = name;
         this.brand = brand;
         this.price=price;
