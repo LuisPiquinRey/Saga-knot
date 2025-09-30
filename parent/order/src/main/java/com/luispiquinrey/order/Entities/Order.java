@@ -1,5 +1,6 @@
 package com.luispiquinrey.order.Entities;
 
+import com.luispiquinrey.Entities.AuditInfo;
 import com.luispiquinrey.order.Enums.Status;
 
 import jakarta.persistence.Entity;
@@ -13,6 +14,8 @@ public class Order {
     private Long idOrder;
 
     private Status status;
+
+    private AuditInfo auditInfo;
 
     public Order() {
     }
@@ -32,4 +35,5 @@ public class Order {
     public void setStatus(Status status) {
         this.status = status;
     }
+    
 }
