@@ -20,6 +20,10 @@ public class Order {
 
     private AuditInfo auditInfo;
 
+    private float total;
+
+    private int quantity;
+
     public Order() {
         this.idOrder = UUID.randomUUID().toString();
         this.status = Status.PENDING; 
@@ -41,4 +45,19 @@ public class Order {
         this.status = status;
     }
 
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }
