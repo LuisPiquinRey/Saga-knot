@@ -1,0 +1,7 @@
+spring:
+    application:
+        name: saga
+    config:
+        import: configserver:http://localhost:8090/
+server:
+    port: 9020
