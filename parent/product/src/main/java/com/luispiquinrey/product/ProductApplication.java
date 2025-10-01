@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.ApplicationContext;
 
-import com.luispiquinrey.product.Configuration.CommandInterceptor;
+import com.luispiquinrey.product.Configuration.CommandInterceptorProduct;
 import com.luispiquinrey.product.Configuration.EventErrorHandler;
 
 @SpringBootApplication
@@ -20,7 +20,7 @@ public class ProductApplication {
 	}
 	@Autowired
 	public void registerInterceptorCommandProduct(ApplicationContext context, CommandBus commandBus){
-		commandBus.registerDispatchInterceptor(context.getBean(CommandInterceptor.class));
+		commandBus.registerDispatchInterceptor(context.getBean(CommandInterceptorProduct.class));
 	}
 	@Autowired
 	public void configure(EventProcessingConfigurer config){

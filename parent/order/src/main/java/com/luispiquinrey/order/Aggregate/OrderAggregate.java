@@ -15,9 +15,9 @@ import com.luispiquinrey.order.Enums.Status;
 public class OrderAggregate {
     @AggregateIdentifier
     private String idOrder;
-
     private Status status;
-
+    private float total;
+    private int quantity;
     public OrderAggregate() {
     }
     @CommandHandler
@@ -30,5 +30,7 @@ public class OrderAggregate {
     public void on(OrderCreatedEvent event) {
         this.idOrder=event.getIdOrder();
         this.status=event.getStatus();
+        this.total=event.getTotal();
+        this.quantity=event.getQuantity();
     }
 }

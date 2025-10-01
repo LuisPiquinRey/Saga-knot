@@ -12,6 +12,7 @@ import lombok.Data;
 public class CreateOrderCommand {
     @TargetAggregateIdentifier
     private String idOrder;
-
     private Status status;
+    private float total;
+    private int quantity;
 }

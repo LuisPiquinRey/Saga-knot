@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class OrderCreatedEvent {
     private String idOrder;
-
     private Status status;
-
+    private float total;
+    private int quantity;
 }
