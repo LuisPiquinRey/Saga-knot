@@ -1,10 +1,10 @@
 services:
   axoniq:
-    image: 'axoniq/axonserver:2024.2.15-jdk-17-nonroot'
+    image: "axoniq/axonserver:2024.2.15-jdk-17-nonroot"
     restart: always
     ports:
       - "8024:8024"
-      - "8124:8124"  
+      - "8124:8124"
       - "8224:8224"
     environment:
       - AXONIQ_AXONSERVER_NAME=axon-server-dev
@@ -31,7 +31,7 @@ services:
     image: mysql:oraclelinux9
     restart: always
     ports:
-      - "3309:3306"  
+      - "3309:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=LuisPiquinRey
       - MYSQL_DATABASE=product_slave
@@ -39,7 +39,30 @@ services:
       - mysql-network
     volumes:
       - ./mysql/slave.cnf:/etc/my.cnf
-
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.4.0
+    restart: always
+    ports:
+      - "9030:8080"
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+      - KC_DB=mysql
+      - KC_DB_URL_HOST=mysql_master
+      - KC_DB_URL_PORT=3306
+      - KC_DB_USERNAME=root
+      - KC_DB_PASSWORD=LuisPiquinRey
+      - KC_DB_DATABASE=keycloak
+      - KC_ADMIN=admin
+      - KC_ADMIN_PASSWORD=admin
+      - KC_HOSTNAME_STRICT=false
+      - KC_HOSTNAME_STRICT_HTTPS=false
+    command:
+      - start-dev
+    depends_on:
+      - mysql_master
+    networks:
+      - mysql-network
 networks:
   mysql-network:
     driver: bridge
