@@ -8,7 +8,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Length;
 
 import com.luispiquinrey.Entities.AuditInfo;
-import com.luispiquinrey.product.Enums.Status;
+import com.luispiquinrey.Enums.Status;
 
 import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;

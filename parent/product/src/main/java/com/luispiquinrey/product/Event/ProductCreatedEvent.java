@@ -1,6 +1,6 @@
-package com.luispiquinrey.product.Command.Event;
+package com.luispiquinrey.product.Event;
 
-import com.luispiquinrey.product.Enums.Status;
+import com.luispiquinrey.Enums.Status;
 
 import lombok.Data;
 

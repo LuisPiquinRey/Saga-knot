@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.luispiquinrey.product.Command.CreateProductCommand;
+import com.luispiquinrey.Command.CreateProductCommand;
+import com.luispiquinrey.Enums.Status;
 import com.luispiquinrey.product.DTO.ProductRequest;
-import com.luispiquinrey.product.Enums.Status;
 
 import jakarta.validation.Valid;
 

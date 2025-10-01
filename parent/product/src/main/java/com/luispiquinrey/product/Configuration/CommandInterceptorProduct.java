@@ -8,7 +8,7 @@ import org.axonframework.messaging.MessageDispatchInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.luispiquinrey.product.Command.CreateProductCommand;
+import com.luispiquinrey.Command.CreateProductCommand;
 import com.luispiquinrey.product.Repository.RepositoryLookup;
 
 @Component

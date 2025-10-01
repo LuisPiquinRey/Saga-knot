@@ -1,4 +1,4 @@
-package com.luispiquinrey.product.Enums;
+package com.luispiquinrey.Enums;
 
 public enum Status {
     BOUGHT,

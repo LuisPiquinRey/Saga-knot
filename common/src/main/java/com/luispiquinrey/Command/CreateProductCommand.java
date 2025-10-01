@@ -1,8 +1,8 @@
-package com.luispiquinrey.product.Command;
+package com.luispiquinrey.Command;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-import com.luispiquinrey.product.Enums.Status;
+import com.luispiquinrey.Enums.Status;
 
 import lombok.Builder;
 import lombok.Data;
