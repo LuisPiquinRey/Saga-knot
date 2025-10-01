@@ -1,12 +1,14 @@
 package com.luispiquinrey.order.Entities;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="item")
-public class Item {
+public class Item implements Serializable{
     @Id
     private String idItem;
     private String idProduct;

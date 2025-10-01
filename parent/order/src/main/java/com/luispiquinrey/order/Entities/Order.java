@@ -1,5 +1,6 @@
 package com.luispiquinrey.order.Entities;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import com.luispiquinrey.Entities.AuditInfo;
@@ -11,7 +12,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "order")
-public class Order {
+public class Order implements Serializable{
 
     @Id
     private String idOrder;
