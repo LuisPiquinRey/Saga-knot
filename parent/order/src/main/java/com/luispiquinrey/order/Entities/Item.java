@@ -2,8 +2,11 @@ package com.luispiquinrey.order.Entities;
 
 import java.io.Serializable;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -12,6 +15,12 @@ public class Item implements Serializable{
     @Id
     private String idItem;
     private String idProduct;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+        ,targetEntity = Order.class)
+    @JoinColumn(name = "idOrder")
+    private Order order;
+
     public Item() {
     }
     public Item(String idItem, String idProduct) {
