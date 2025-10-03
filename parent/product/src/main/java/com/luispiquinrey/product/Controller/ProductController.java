@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.luispiquinrey.Command.RequestAddToOrderProductCommand;
-import com.luispiquinrey.Enums.StatusProduct;
 import com.luispiquinrey.product.Command.CreateProductCommand;
 import com.luispiquinrey.product.DTO.ProductRequest;
 import com.luispiquinrey.product.Entities.Product;
@@ -47,7 +46,6 @@ public class ProductController {
                         .idProduct(product.getIdProduct())
                         .brand(productRequest.brand())
                         .name(productRequest.name())
-                        .status(StatusProduct.BOUGHT)
                         .price(productRequest.price())
                         .stock(productRequest.stock())
                         .build();

@@ -1,23 +1,12 @@
 package com.luispiquinrey.product.Event;
 
-import java.util.ArrayList;
-
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
-
-import com.luispiquinrey.Enums.StatusProduct;
-
 import lombok.Data;
 
 @Data
-public class ProductCreatedEvent {
+public class ProductUpdatedEvent {
     private String idProduct;
-
     private String name;
-
     private String brand;
-
     private float price;
-
     private Integer stock;
-
 }

@@ -13,7 +13,9 @@ import com.luispiquinrey.Command.RequestAddToOrderProductCommand;
 import com.luispiquinrey.Enums.StatusProduct;
 import com.luispiquinrey.Event.ProductRequestedAddToOrderEvent;
 import com.luispiquinrey.product.Command.CreateProductCommand;
+import com.luispiquinrey.product.Command.UpdateProductCommand;
 import com.luispiquinrey.product.Event.ProductCreatedEvent;
+import com.luispiquinrey.product.Event.ProductUpdatedEvent;
 
 @Aggregate
 public class ProductAggregate {
@@ -47,13 +49,26 @@ public class ProductAggregate {
         BeanUtils.copyProperties(addToOrderProductCommand, productAddedToOrderEvent);
         AggregateLifecycle.apply(productAddedToOrderEvent);
     }
+    @CommandHandler
+    public ProductAggregate(UpdateProductCommand updateProductCommand){
+        ProductUpdatedEvent productUpdatedEvent=new ProductUpdatedEvent();
+        BeanUtils.copyProperties(updateProductCommand,productUpdatedEvent);
+        AggregateLifecycle.apply(productUpdatedEvent);
+    }
 
     @EventSourcingHandler
     public void on(ProductCreatedEvent event) {
         this.productId = event.getIdProduct();
         this.name = event.getName();
         this.brand = event.getBrand();
-        this.status = event.getStatus();
+        this.price = event.getPrice();
+        this.stock = event.getStock();
+    }
+        @EventSourcingHandler
+    public void on(ProductUpdatedEvent event) {
+        this.productId = event.getIdProduct();
+        this.name = event.getName();
+        this.brand = event.getBrand();
         this.price = event.getPrice();
         this.stock = event.getStock();
     }
