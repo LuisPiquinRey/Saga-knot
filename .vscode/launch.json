@@ -12,7 +12,7 @@
             "env": {
                 "GITHUB_TOKEN": "${env:GITHUB_TOKEN}",
                 "KEY_ENCRYPT": "${env:KEY_ENCRYPT}",
-                "CREDENTIALS_SQL":"${env:CREDENTIALS_SQL}"
+                "CREDENTIALS_SQL": "${env:CREDENTIALS_SQL}"
             },
             "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=52538 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=configs"
         },
@@ -27,7 +27,8 @@
             "envFile": "${workspaceFolder}/.env",
             "env": {
                 "CREDENTIALS_AXION": "${env:CREDENTIALS_AXION}"
-            }
+            },
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=57544 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=product"
         },
         {
             "type": "java",
@@ -37,7 +38,8 @@
             "mainClass": "com.luispiquinrey.discovery.DiscoveryApplication",
             "projectName": "discovery",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=56242 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=discovery"
         },
         {
             "type": "java",
@@ -47,7 +49,22 @@
             "mainClass": "com.luispiquinrey.administration.AdministrationApplication",
             "projectName": "administration",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=60466 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=administration"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-OrderApplication<order>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.luispiquinrey.order.OrderApplication",
+            "projectName": "order",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "env": {
+                "CREDENTIALS_AXION": "${env:CREDENTIALS_AXION}",
+                "URI_MONGODB": "${env:URI_MONGODB}"
+            }
         }
     ]
 }

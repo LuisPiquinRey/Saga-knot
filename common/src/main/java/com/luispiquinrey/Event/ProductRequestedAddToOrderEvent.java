@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class ProductRequestedAddToOrderEvent {
-    private String idProduct;
     private String idOrder;
+    private String idItem;
     private float price;
     private Integer stock;
 }

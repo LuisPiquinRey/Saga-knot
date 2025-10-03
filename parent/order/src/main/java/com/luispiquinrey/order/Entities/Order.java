@@ -2,6 +2,7 @@ package com.luispiquinrey.order.Entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
@@ -38,12 +39,22 @@ public class Order implements Serializable{
     private int version;
 
     @DBRef
-    private ArrayList<Item> items;
+    private List<Item> items;
 
     public Order() {
         this.idOrder = UUID.randomUUID().toString();
         this.status = StatusOrder.PENDING; 
     }
+
+    public Order(StatusOrder status, @PositiveOrZero float total, @PositiveOrZero @Max(1000) int quantity,
+            List<Item> items) {
+        this.idOrder = UUID.randomUUID().toString();
+        this.status = status;
+        this.total = total;
+        this.quantity = quantity;
+        this.items = items;
+    }
+
 
     public String getIdOrder() {
         return idOrder;
@@ -76,4 +87,13 @@ public class Order implements Serializable{
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+    
 }

@@ -8,25 +8,29 @@ import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.luispiquinrey.Command.RequestAddToOrderProductCommand;
 import com.luispiquinrey.Enums.StatusProduct;
 import com.luispiquinrey.product.Command.CreateProductCommand;
 import com.luispiquinrey.product.DTO.ProductRequest;
+import com.luispiquinrey.product.Entities.Product;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/product")
 public class ProductController {
+
     @Autowired
-    private CommandGateway commandGateway; 
-    
+    private CommandGateway commandGateway;
+
     @Autowired
-    private QueryGateway queryGateway; 
+    private QueryGateway queryGateway;
 
     @PostMapping("/create")
     public ResponseEntity<?> createProduct(@RequestBody @Valid ProductRequest productRequest, BindingResult bindingResult) {
@@ -39,24 +43,55 @@ public class ProductController {
         } else {
             try {
                 CreateProductCommand createProductCommand = CreateProductCommand.builder()
-                    .brand(productRequest.brand())
-                    .name(productRequest.name())
-                    .status(StatusProduct.BOUGHT)
-                    .price(productRequest.price())
-                    .stock(productRequest.stock())
-                    .build();
+                        .brand(productRequest.brand())
+                        .name(productRequest.name())
+                        .status(StatusProduct.BOUGHT)
+                        .price(productRequest.price())
+                        .stock(productRequest.stock())
+                        .build();
 
                 String productId = commandGateway.sendAndWait(createProductCommand);
 
                 return ResponseEntity.ok()
-                    .body(Map.of(
-                        "message", "Product created successfully",
-                        "productId", productId
-                    ));
-                    
+                        .body(Map.of(
+                                "message", "Product created successfully",
+                                "productId", productId
+                        ));
+
             } catch (Exception e) {
                 return ResponseEntity.internalServerError()
-                    .body(Map.of("error", "Failed to create product: " + e.getMessage()));
+                        .body(Map.of("error", "Failed to create product: " + e.getMessage()));
+            }
+        }
+    }
+
+    @PostMapping("/addToOrder")
+    public ResponseEntity<?> addToOrder(@RequestBody @Valid ProductRequest productRequest, BindingResult bindingResult, @PathVariable String idOrder) {
+        if (bindingResult.hasFieldErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(err -> {
+                errors.put(err.getField(), err.getDefaultMessage());
+            });
+            return ResponseEntity.badRequest().body(errors);
+        } else {
+            try {
+                Product product = new Product(productRequest.name(), productRequest.brand(), productRequest.price(), productRequest.stock());
+                RequestAddToOrderProductCommand requestAddToOrderProductCommand = RequestAddToOrderProductCommand.builder()
+                        .idOrder(idOrder)
+                        .idProduct(product.getIdProduct())
+                        .price(product.getPrice())
+                        .stock(product.getStock())
+                        .build();
+
+                commandGateway.sendAndWait(requestAddToOrderProductCommand);
+
+                return ResponseEntity.ok()
+                        .body(Map.of(
+                                "message", "Product created successfully"
+                        ));
+            } catch (Exception e) {
+                return ResponseEntity.internalServerError()
+                        .body(Map.of("error", "Failed to create product: " + e.getMessage()));
             }
         }
     }

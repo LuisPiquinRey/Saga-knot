@@ -11,11 +11,10 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CreateOrderCommand {
+public class AddProductToOrderCommand {
     @TargetAggregateIdentifier
     private String idOrder;
-    private StatusOrder status;
+    private String idItem;
     private float total;
     private int quantity;
-    private String idProduct;
 }

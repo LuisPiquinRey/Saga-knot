@@ -9,9 +9,9 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
+import com.luispiquinrey.Command.RequestAddToOrderProductCommand;
 import com.luispiquinrey.Enums.StatusProduct;
 import com.luispiquinrey.Event.ProductRequestedAddToOrderEvent;
-import com.luispiquinrey.product.Command.RequestAddToOrderProductCommand;
 import com.luispiquinrey.product.Command.CreateProductCommand;
 import com.luispiquinrey.product.Event.ProductCreatedEvent;
 

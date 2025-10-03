@@ -10,7 +10,7 @@ import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.luispiquinrey.Command.CreateOrderCommand;
+import com.luispiquinrey.Command.AddProductToOrderCommand;
 import com.luispiquinrey.Event.ProductRequestedAddToOrderEvent;
 
 
@@ -26,12 +26,12 @@ public class SagaAdministration {
     @StartSaga
     @SagaEventHandler(associationProperty="idProduct")
     public void on(ProductRequestedAddToOrderEvent productRequestedAddToOrderEvent){
-        CreateOrderCommand createOrderCommand=CreateOrderCommand.builder()
+        AddProductToOrderCommand addProductToOrderCommand=AddProductToOrderCommand.builder()
+            .idItem(productRequestedAddToOrderEvent.getIdItem())
             .idOrder(productRequestedAddToOrderEvent.getIdOrder())
-            .idProduct(productRequestedAddToOrderEvent.getIdProduct())
             .quantity(productRequestedAddToOrderEvent.getStock())
             .total(productRequestedAddToOrderEvent.getPrice())
             .build();
-        commandGateway.send(createOrderCommand);
+        commandGateway.send(addProductToOrderCommand);
     }
 }

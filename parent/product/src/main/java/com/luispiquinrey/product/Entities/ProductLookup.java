@@ -7,13 +7,13 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="productLookUp")
-public class Lookup {
+public class ProductLookup {
     @Id
     private String idProduct;
 
-    public Lookup() {
+    public ProductLookup() {
     }
-    public Lookup(String idProduct){
+    public ProductLookup(String idProduct){
         this.idProduct=idProduct;
     }
 

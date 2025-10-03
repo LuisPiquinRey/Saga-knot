@@ -1,7 +1,9 @@
 package com.luispiquinrey.order.Entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.luispiquinrey.Entities.AuditInfo;
@@ -17,13 +19,18 @@ import jakarta.persistence.Table;
 public class Item implements Serializable{
     @org.springframework.data.annotation.Id
     private String idItem;
-    private String idProduct;
+
+    @DBRef
+    private ArrayList<Order> orders;
     private AuditInfo auditInfo;
     public Item() {
     }
-    public Item(String idItem, String idProduct) {
+    public Item(String idItem){
+        this.idItem=idItem;
+    }
+    public Item(String idItem, ArrayList<Order> orders) {
         this.idItem = idItem;
-        this.idProduct = idProduct;
+        this.orders = orders;
     }
     public String getIdItem() {
         return idItem;
@@ -31,10 +38,10 @@ public class Item implements Serializable{
     public void setIdItem(String idItem) {
         this.idItem = idItem;
     }
-    public String getIdProduct() {
-        return idProduct;
+    public ArrayList<Order> getOrders() {
+        return orders;
     }
-    public void setIdProduct(String idProduct) {
-        this.idProduct = idProduct;
+    public void setOrders(ArrayList<Order> orders) {
+        this.orders = orders;
     }
 }

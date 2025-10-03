@@ -10,10 +10,9 @@ import com.luispiquinrey.order.Entities.Item;
 import lombok.Data;
 
 @Data
-public class OrderCreatedEvent {
+public class AddedProductToOrderEvent {
     private String idOrder;
-    private StatusOrder status;
+    private String idItem;
     private float total;
     private int quantity;
-    private String idProduct;
 }
