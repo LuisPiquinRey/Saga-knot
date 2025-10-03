@@ -4,26 +4,25 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import com.luispiquinrey.Entities.AuditInfo;
 import com.luispiquinrey.order.Enums.Status;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.PositiveOrZero;
 
-@Entity
-@Table(name = "order")
+@Document("order")
 public class Order implements Serializable{
 
     @Id
     private String idOrder;
 
-    @Column(columnDefinition = "PENDING")
     private Status status;
 
     private AuditInfo auditInfo;
@@ -36,10 +35,9 @@ public class Order implements Serializable{
     private int quantity;
 
     @Version
-    @Column(name="OPTLOCK")
     private int version;
 
-    @OneToMany(mappedBy = "order")
+    @DBRef
     private ArrayList<Item> items;
 
     public Order() {

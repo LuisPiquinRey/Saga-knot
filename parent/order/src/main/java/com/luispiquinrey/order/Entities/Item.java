@@ -2,6 +2,8 @@ package com.luispiquinrey.order.Entities;
 
 import java.io.Serializable;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -9,16 +11,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-@Entity
-@Table(name="item")
+@Document("item")
 public class Item implements Serializable{
-    @Id
+    @org.springframework.data.annotation.Id
     private String idItem;
     private String idProduct;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}
-        ,targetEntity = Order.class)
-    @JoinColumn(name = "idOrder")
     private Order order;
 
     public Item() {
