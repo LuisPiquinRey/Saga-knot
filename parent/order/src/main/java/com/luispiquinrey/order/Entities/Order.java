@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.luispiquinrey.Entities.AuditInfo;
-import com.luispiquinrey.order.Enums.Status;
+import com.luispiquinrey.Enums.StatusOrder;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
@@ -23,7 +23,7 @@ public class Order implements Serializable{
     @Id
     private String idOrder;
 
-    private Status status;
+    private StatusOrder status;
 
     private AuditInfo auditInfo;
 
@@ -42,7 +42,7 @@ public class Order implements Serializable{
 
     public Order() {
         this.idOrder = UUID.randomUUID().toString();
-        this.status = Status.PENDING; 
+        this.status = StatusOrder.PENDING; 
     }
 
     public String getIdOrder() {
@@ -53,11 +53,11 @@ public class Order implements Serializable{
         this.idOrder = idOrder;
     }
 
-    public Status getStatus() {
+    public StatusOrder getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(StatusOrder status) {
         this.status = status;
     }
 

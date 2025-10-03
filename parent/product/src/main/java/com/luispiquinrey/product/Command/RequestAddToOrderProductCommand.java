@@ -1,14 +1,16 @@
-package com.luispiquinrey.Command;
+package com.luispiquinrey.product.Command;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import lombok.Builder;
 import lombok.Data;
 
-@Data
+@Data 
 @Builder
-public class ReserveItemCommand {
+public class RequestAddToOrderProductCommand {
     @TargetAggregateIdentifier
-    private String idItem;
     private String idProduct;
+    private String idOrder;
+    private float price;
+    private Integer stock;
 }

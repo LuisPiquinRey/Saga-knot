@@ -1,10 +1,10 @@
-package com.luispiquinrey.Event;
+package com.luispiquinrey.product.Event;
 
 import java.util.ArrayList;
 
 import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 
-import com.luispiquinrey.Enums.Status;
+import com.luispiquinrey.Enums.StatusProduct;
 
 import lombok.Data;
 
@@ -16,7 +16,7 @@ public class ProductCreatedEvent {
 
     private String brand;
 
-    private Status status;
+    private StatusProduct status;
 
     private float price;
 

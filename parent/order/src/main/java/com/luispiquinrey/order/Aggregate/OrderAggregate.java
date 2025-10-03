@@ -9,19 +9,21 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
-import com.luispiquinrey.order.Command.CreateOrderCommand;
+import com.luispiquinrey.Command.CreateOrderCommand;
+import com.luispiquinrey.DTO.ItemCompact;
+import com.luispiquinrey.Enums.StatusOrder;
+import com.luispiquinrey.Event.ProductRequestedAddToOrderEvent;
 import com.luispiquinrey.order.Command.Event.OrderCreatedEvent;
 import com.luispiquinrey.order.Entities.Item;
-import com.luispiquinrey.order.Enums.Status;
 
 @Aggregate
 public class OrderAggregate {
     @AggregateIdentifier
     private String idOrder;
-    private Status status;
+    private StatusOrder status;
     private float total;
     private int quantity;
-    private ArrayList<Item> items;
+    private String idProduct;
     public OrderAggregate() {
     }
     @CommandHandler
@@ -32,10 +34,10 @@ public class OrderAggregate {
     }
     @EventSourcingHandler
     public void on(OrderCreatedEvent event) {
-        this.idOrder=event.getIdOrder();
-        this.status=event.getStatus();
-        this.total=event.getTotal();
-        this.quantity=event.getQuantity();
-        this.items=event.getItems();
+        idOrder=event.getIdOrder();
+        status=event.getStatus();
+        total+=event.getTotal();
+        quantity+=event.getQuantity();
+        idProduct=event.getIdProduct();
     }
 }

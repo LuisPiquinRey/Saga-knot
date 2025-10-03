@@ -8,7 +8,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Length;
 
 import com.luispiquinrey.Entities.AuditInfo;
-import com.luispiquinrey.Enums.Status;
+import com.luispiquinrey.Enums.StatusProduct;
 
 import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
@@ -45,7 +45,7 @@ public class Product implements Serializable {
     private String brand;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private StatusProduct status;
 
     @NotNull @PositiveOrZero
     private float price;
@@ -91,11 +91,11 @@ public class Product implements Serializable {
         this.brand = brand;
     }
 
-    public Status getStatus() {
+    public StatusProduct getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(StatusProduct status) {
         this.status = status;
     }
 

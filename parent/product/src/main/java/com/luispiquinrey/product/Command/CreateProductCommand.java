@@ -2,7 +2,7 @@ package com.luispiquinrey.product.Command;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-import com.luispiquinrey.Enums.Status;
+import com.luispiquinrey.Enums.StatusProduct;
 
 import lombok.Builder;
 import lombok.Data;
@@ -12,10 +12,9 @@ import lombok.Data;
 public class CreateProductCommand {
     @TargetAggregateIdentifier
     private String idProduct;
-    
     private String name;
     private String brand;
-    private Status status;
+    private StatusProduct status;
     private float price;
     private Integer stock;
 }

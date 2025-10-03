@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.luispiquinrey.Entities.AuditInfo;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -16,9 +18,7 @@ public class Item implements Serializable{
     @org.springframework.data.annotation.Id
     private String idItem;
     private String idProduct;
-
-    private Order order;
-
+    private AuditInfo auditInfo;
     public Item() {
     }
     public Item(String idItem, String idProduct) {

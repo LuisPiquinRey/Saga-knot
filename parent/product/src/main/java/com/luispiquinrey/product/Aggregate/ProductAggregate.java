@@ -9,9 +9,11 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
-import com.luispiquinrey.Enums.Status;
-import com.luispiquinrey.Event.ProductCreatedEvent;
+import com.luispiquinrey.Enums.StatusProduct;
+import com.luispiquinrey.Event.ProductRequestedAddToOrderEvent;
+import com.luispiquinrey.product.Command.RequestAddToOrderProductCommand;
 import com.luispiquinrey.product.Command.CreateProductCommand;
+import com.luispiquinrey.product.Event.ProductCreatedEvent;
 
 @Aggregate
 public class ProductAggregate {
@@ -23,7 +25,7 @@ public class ProductAggregate {
 
     private String brand;
 
-    private Status status;
+    private StatusProduct status;
 
     private float price;
 
@@ -37,6 +39,13 @@ public class ProductAggregate {
         ProductCreatedEvent productCreatedEvent = new ProductCreatedEvent();
         BeanUtils.copyProperties(createProductCommand, productCreatedEvent);
         AggregateLifecycle.apply(productCreatedEvent);
+    }
+
+    @CommandHandler
+    public ProductAggregate(RequestAddToOrderProductCommand addToOrderProductCommand) {
+        ProductRequestedAddToOrderEvent productAddedToOrderEvent = new ProductRequestedAddToOrderEvent();
+        BeanUtils.copyProperties(addToOrderProductCommand, productAddedToOrderEvent);
+        AggregateLifecycle.apply(productAddedToOrderEvent);
     }
 
     @EventSourcingHandler

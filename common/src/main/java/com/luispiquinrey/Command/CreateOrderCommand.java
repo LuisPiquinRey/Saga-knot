@@ -1,12 +1,11 @@
-package com.luispiquinrey.order.Command;
+package com.luispiquinrey.Command;
 
 import java.util.ArrayList;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-import com.luispiquinrey.order.Entities.Item;
-import com.luispiquinrey.order.Enums.Status;
-
+import com.luispiquinrey.DTO.ItemCompact;
+import com.luispiquinrey.Enums.StatusOrder;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,8 +14,8 @@ import lombok.Data;
 public class CreateOrderCommand {
     @TargetAggregateIdentifier
     private String idOrder;
-    private Status status;
+    private StatusOrder status;
     private float total;
     private int quantity;
-    private ArrayList<Item> items;
+    private String idProduct;
 }

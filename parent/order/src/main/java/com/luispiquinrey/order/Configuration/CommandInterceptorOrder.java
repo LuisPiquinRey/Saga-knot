@@ -8,7 +8,7 @@ import org.axonframework.messaging.MessageDispatchInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.luispiquinrey.order.Command.CreateOrderCommand;
+import com.luispiquinrey.Command.CreateOrderCommand;
 
 
 public class CommandInterceptorOrder implements MessageDispatchInterceptor<Message<?>>{
