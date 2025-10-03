@@ -42,7 +42,9 @@ public class ProductController {
             return ResponseEntity.badRequest().body(errors);
         } else {
             try {
+                Product product = new Product(productRequest.name(), productRequest.brand(), productRequest.price(), productRequest.stock());
                 CreateProductCommand createProductCommand = CreateProductCommand.builder()
+                        .idProduct(product.getIdProduct())
                         .brand(productRequest.brand())
                         .name(productRequest.name())
                         .status(StatusProduct.BOUGHT)
@@ -65,7 +67,7 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/addToOrder")
+    @PostMapping("/addToOrder/{idOrder}")
     public ResponseEntity<?> addToOrder(@RequestBody @Valid ProductRequest productRequest, BindingResult bindingResult, @PathVariable String idOrder) {
         if (bindingResult.hasFieldErrors()) {
             Map<String, String> errors = new HashMap<>();

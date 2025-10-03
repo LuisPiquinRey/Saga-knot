@@ -22,7 +22,7 @@ import com.luispiquinrey.order.Entities.Item;
 public class OrderAggregate {
     @AggregateIdentifier
     private String idOrder;
-    private StatusOrder status=StatusOrder.PENDING;
+    private StatusOrder status;
     private float total;
     private int quantity;
     public OrderAggregate() {

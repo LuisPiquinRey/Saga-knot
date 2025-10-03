@@ -22,17 +22,14 @@ import jakarta.validation.constraints.PositiveOrZero;
 public class Order implements Serializable{
 
     @Id
-    private String idOrder;
+    private String idOrder=UUID.randomUUID().toString();
 
-    private StatusOrder status;
+    private StatusOrder status=StatusOrder.PENDING;
 
     private AuditInfo auditInfo;
 
-    @PositiveOrZero
     private float total;
 
-    @PositiveOrZero
-    @Max(value = 1000)
     private int quantity;
 
     @Version
@@ -42,13 +39,10 @@ public class Order implements Serializable{
     private List<Item> items;
 
     public Order() {
-        this.idOrder = UUID.randomUUID().toString();
-        this.status = StatusOrder.PENDING; 
     }
 
     public Order(StatusOrder status, @PositiveOrZero float total, @PositiveOrZero @Max(1000) int quantity,
             List<Item> items) {
-        this.idOrder = UUID.randomUUID().toString();
         this.status = status;
         this.total = total;
         this.quantity = quantity;

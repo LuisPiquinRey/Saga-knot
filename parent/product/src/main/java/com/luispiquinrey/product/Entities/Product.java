@@ -33,21 +33,18 @@ import jakarta.validation.constraints.PositiveOrZero;
 public class Product implements Serializable {
 
     @Id
-    private String idProduct;
+    private String idProduct=UUID.randomUUID().toString();
 
-    @NotNull @NotBlank @Length(min=3 , max=20)
     private String name;
 
     @Embedded
     private AuditInfo auditInfo;
 
-    @NotNull @NotBlank @Length(min=3 , max=20)
     private String brand;
 
     @Enumerated(EnumType.STRING)
     private StatusProduct status;
 
-    @NotNull @PositiveOrZero
     private float price;
 
     @Version
@@ -57,11 +54,9 @@ public class Product implements Serializable {
     private Integer stock;
 
     public Product() {
-        this.idProduct=UUID.randomUUID().toString();
     }
 
     public Product(String name, String brand, Float price,Integer stock) {
-        this.idProduct=UUID.randomUUID().toString();
         this.name = name;
         this.brand = brand;
         this.price=price;
