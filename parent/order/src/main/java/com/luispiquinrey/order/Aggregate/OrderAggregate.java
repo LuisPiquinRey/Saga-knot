@@ -1,5 +1,7 @@
 package com.luispiquinrey.order.Aggregate;
 
+import java.util.ArrayList;
+
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -9,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 
 import com.luispiquinrey.order.Command.CreateOrderCommand;
 import com.luispiquinrey.order.Command.Event.OrderCreatedEvent;
+import com.luispiquinrey.order.Entities.Item;
 import com.luispiquinrey.order.Enums.Status;
 
 @Aggregate
@@ -18,6 +21,7 @@ public class OrderAggregate {
     private Status status;
     private float total;
     private int quantity;
+    private ArrayList<Item> items;
     public OrderAggregate() {
     }
     @CommandHandler
@@ -32,5 +36,6 @@ public class OrderAggregate {
         this.status=event.getStatus();
         this.total=event.getTotal();
         this.quantity=event.getQuantity();
+        this.items=event.getItems();
     }
 }
