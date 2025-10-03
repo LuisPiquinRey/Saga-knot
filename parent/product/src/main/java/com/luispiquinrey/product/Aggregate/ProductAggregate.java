@@ -9,9 +9,9 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
-import com.luispiquinrey.Command.CreateProductCommand;
 import com.luispiquinrey.Enums.Status;
-import com.luispiquinrey.product.Event.ProductCreatedEvent;
+import com.luispiquinrey.Event.ProductCreatedEvent;
+import com.luispiquinrey.product.Command.CreateProductCommand;
 
 @Aggregate
 public class ProductAggregate {

@@ -1,4 +1,4 @@
-package com.luispiquinrey.product.Event;
+package com.luispiquinrey.Event;
 
 import com.luispiquinrey.Enums.Status;
 
