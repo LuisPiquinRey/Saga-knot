@@ -7,12 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class AddProductToOrderCommand {
+public class DeleteProductCommand {
     @TargetAggregateIdentifier
-    private String idOrder;
-    private String idItem;
-    private float total;
-    private int quantity;
-    private String name;
-    private String brand;
+    private String idProduct;
 }

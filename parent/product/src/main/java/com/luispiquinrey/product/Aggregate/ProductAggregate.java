@@ -10,10 +10,10 @@ import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
 import com.luispiquinrey.Command.RequestAddToOrderProductCommand;
+import com.luispiquinrey.Command.UpdateProductCommand;
 import com.luispiquinrey.Enums.StatusProduct;
 import com.luispiquinrey.Event.ProductRequestedAddToOrderEvent;
 import com.luispiquinrey.product.Command.CreateProductCommand;
-import com.luispiquinrey.product.Command.UpdateProductCommand;
 import com.luispiquinrey.product.Event.ProductCreatedEvent;
 import com.luispiquinrey.product.Event.ProductUpdatedEvent;
 

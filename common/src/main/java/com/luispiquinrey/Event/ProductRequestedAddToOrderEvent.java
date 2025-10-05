@@ -8,4 +8,6 @@ public class ProductRequestedAddToOrderEvent {
     private String idItem;
     private float price;
     private Integer stock;
+    private String name;
+    private String brand;
 }

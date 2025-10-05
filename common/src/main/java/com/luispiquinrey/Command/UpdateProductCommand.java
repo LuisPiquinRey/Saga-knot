@@ -1,4 +1,4 @@
-package com.luispiquinrey.product.Command;
+package com.luispiquinrey.Command;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
