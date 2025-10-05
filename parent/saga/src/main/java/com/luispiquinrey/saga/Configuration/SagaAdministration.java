@@ -23,6 +23,15 @@ import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.luispiquinrey.Enums.StatusProduct;
+import com.luispiquinrey.Event.AddedProductToOrderEvent;
+
+import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.modelling.saga.SagaEventHandler;
+import org.axonframework.modelling.saga.StartSaga;
+import org.axonframework.spring.stereotype.Saga;
+import org.springframework.beans.factory.annotation.Autowired;
+
 @Saga
 public class SagaAdministration {
 
@@ -42,28 +51,17 @@ public class SagaAdministration {
                 .quantity(event.getStock())
                 .total(event.getPrice())
                 .build();
-        commandGateway.send(addProductToOrderCommand, new CommandCallback<AddProductToOrderCommand, Object>() {
-            @Override
-            public void onResult(CommandMessage<? extends AddProductToOrderCommand> commandMessage,
-                    CommandResultMessage<? extends Object> commandResultMessage) {
-                if (commandResultMessage.isExceptional()) {
-                    if (event.getStock() > 0) {
-                        UpdateProductCommand updateProductCommand = UpdateProductCommand.builder()
-                                .idProduct(event.getIdItem())
-                                .brand(event.getBrand())
-                                .name(event.getName())
-                                .price(event.getPrice())
-                                .stock(event.getStock() - 1)
-                                .build();
-                        commandGateway.send(updateProductCommand);
-                    } else {
-                        DeleteProductCommand deleteProductCommand = DeleteProductCommand.builder()
-                                .idProduct(event.getIdItem())
-                                .build();
-                        commandGateway.send(deleteProductCommand);
-                    }
-                }
-            }
-        });
+
+        commandGateway.send(addProductToOrderCommand);
+    }
+
+    @SagaEventHandler(associationProperty = "idProduct")
+    public void on(AddedProductToOrderEvent event) {
+        UpdateProductCommand updateProductCommand = UpdateProductCommand.builder()
+                .idProduct(event.getIdItem()) 
+                .status(StatusProduct.ADDED_TO_ORDER)
+                .build();
+
+        commandGateway.send(updateProductCommand);
     }
 }

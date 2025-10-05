@@ -12,9 +12,9 @@ import org.springframework.beans.BeanUtils;
 import com.luispiquinrey.Command.AddProductToOrderCommand;
 import com.luispiquinrey.DTO.ItemCompact;
 import com.luispiquinrey.Enums.StatusOrder;
+import com.luispiquinrey.Event.AddedProductToOrderEvent;
 import com.luispiquinrey.Event.ProductRequestedAddToOrderEvent;
 import com.luispiquinrey.order.Command.CreateOrderCommand;
-import com.luispiquinrey.order.Command.Event.AddedProductToOrderEvent;
 import com.luispiquinrey.order.Command.Event.CreatedOrderEvent;
 import com.luispiquinrey.order.Entities.Item;
 

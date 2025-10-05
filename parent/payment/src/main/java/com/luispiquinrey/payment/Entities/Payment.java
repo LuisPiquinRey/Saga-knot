@@ -1,15 +1,7 @@
 package com.luispiquinrey.payment.Entities;
 
 import java.time.LocalDate;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name="payment")
 public class Payment {
-    @Id
     private String idPayment;
     private String provider;
     private LocalDate expiryDate;

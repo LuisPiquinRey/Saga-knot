@@ -27,7 +27,7 @@ public class ProductAggregate {
 
     private String brand;
 
-    private StatusProduct status;
+    private StatusProduct status=StatusProduct.CREATED;
 
     private float price;
 
@@ -71,5 +71,6 @@ public class ProductAggregate {
         this.brand = event.getBrand();
         this.price = event.getPrice();
         this.stock = event.getStock();
+        this.status=event.getStatus();
     }
 }

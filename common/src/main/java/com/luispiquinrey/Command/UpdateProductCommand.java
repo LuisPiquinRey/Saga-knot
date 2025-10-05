@@ -2,6 +2,8 @@ package com.luispiquinrey.Command;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
+import com.luispiquinrey.Enums.StatusProduct;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,4 +17,5 @@ public class UpdateProductCommand {
     private String brand;
     private float price;
     private Integer stock;
+    private StatusProduct status;
 }

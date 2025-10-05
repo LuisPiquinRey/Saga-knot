@@ -1,11 +1,10 @@
-package com.luispiquinrey.order.Command.Event;
+package com.luispiquinrey.Event;
 import java.util.ArrayList;
 
 import org.axonframework.eventsourcing.EventSourcingHandler;
 
 import com.luispiquinrey.DTO.ItemCompact;
 import com.luispiquinrey.Enums.StatusOrder;
-import com.luispiquinrey.order.Entities.Item;
 
 import lombok.Data;
 

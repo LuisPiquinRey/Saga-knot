@@ -1,5 +1,7 @@
 package com.luispiquinrey.product.Event;
 
+import com.luispiquinrey.Enums.StatusProduct;
+
 import lombok.Data;
 
 @Data
@@ -9,4 +11,5 @@ public class ProductUpdatedEvent {
     private String brand;
     private float price;
     private Integer stock;
+    private StatusProduct status;
 }

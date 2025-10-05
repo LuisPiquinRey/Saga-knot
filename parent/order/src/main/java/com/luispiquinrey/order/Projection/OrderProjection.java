@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.luispiquinrey.Command.AddProductToOrderCommand;
 import com.luispiquinrey.Enums.StatusOrder;
-import com.luispiquinrey.order.Command.Event.AddedProductToOrderEvent;
+import com.luispiquinrey.Event.AddedProductToOrderEvent;
 import com.luispiquinrey.order.Command.Event.CreatedOrderEvent;
 import com.luispiquinrey.order.Entities.Item;
 import com.luispiquinrey.order.Entities.Order;

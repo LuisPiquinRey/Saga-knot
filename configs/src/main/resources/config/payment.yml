@@ -1,9 +1,3 @@
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3308/payment
-    username: root
-    password: LuisPiquinRey
-    driver-class-name: com.mysql.cj.jdbc.Driver
 eureka:
   instance:
     preferIpAddress: true
