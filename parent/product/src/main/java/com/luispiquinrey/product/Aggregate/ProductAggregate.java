@@ -9,10 +9,10 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
-import com.luispiquinrey.Command.RequestAddToOrderProductCommand;
+import com.luispiquinrey.Command.RequestAddToCartProductCommand;
 import com.luispiquinrey.Command.UpdateProductCommand;
 import com.luispiquinrey.Enums.StatusProduct;
-import com.luispiquinrey.Event.ProductRequestedAddToOrderEvent;
+import com.luispiquinrey.Event.ProductRequestedAddToCartEvent;
 import com.luispiquinrey.product.Command.CreateProductCommand;
 import com.luispiquinrey.product.Event.ProductCreatedEvent;
 import com.luispiquinrey.product.Event.ProductUpdatedEvent;
@@ -21,7 +21,7 @@ import com.luispiquinrey.product.Event.ProductUpdatedEvent;
 public class ProductAggregate {
 
     @AggregateIdentifier
-    private String productId;
+    private String idProduct;
 
     private String name;
 
@@ -44,8 +44,8 @@ public class ProductAggregate {
     }
 
     @CommandHandler
-    public ProductAggregate(RequestAddToOrderProductCommand addToOrderProductCommand) {
-        ProductRequestedAddToOrderEvent productAddedToOrderEvent = new ProductRequestedAddToOrderEvent();
+    public ProductAggregate(RequestAddToCartProductCommand addToOrderProductCommand) {
+        ProductRequestedAddToCartEvent productAddedToOrderEvent = new ProductRequestedAddToCartEvent();
         BeanUtils.copyProperties(addToOrderProductCommand, productAddedToOrderEvent);
         AggregateLifecycle.apply(productAddedToOrderEvent);
     }
@@ -58,7 +58,7 @@ public class ProductAggregate {
 
     @EventSourcingHandler
     public void on(ProductCreatedEvent event) {
-        this.productId = event.getIdProduct();
+        this.idProduct = event.getIdProduct();
         this.name = event.getName();
         this.brand = event.getBrand();
         this.price = event.getPrice();
@@ -66,7 +66,7 @@ public class ProductAggregate {
     }
         @EventSourcingHandler
     public void on(ProductUpdatedEvent event) {
-        this.productId = event.getIdProduct();
+        this.idProduct = event.getIdProduct();
         this.name = event.getName();
         this.brand = event.getBrand();
         this.price = event.getPrice();

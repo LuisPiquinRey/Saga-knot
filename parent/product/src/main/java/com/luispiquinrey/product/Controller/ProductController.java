@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.luispiquinrey.Command.RequestAddToOrderProductCommand;
+import com.luispiquinrey.Command.RequestAddToCartProductCommand;
 import com.luispiquinrey.product.Command.CreateProductCommand;
 import com.luispiquinrey.product.DTO.ProductRequest;
 import com.luispiquinrey.product.Entities.Product;
@@ -76,8 +76,8 @@ public class ProductController {
         } else {
             try {
                 Product product = new Product(productRequest.name(), productRequest.brand(), productRequest.price(), productRequest.stock());
-                RequestAddToOrderProductCommand requestAddToOrderProductCommand = RequestAddToOrderProductCommand.builder()
-                        .idOrder(idOrder)
+                RequestAddToCartProductCommand requestAddToOrderProductCommand = RequestAddToCartProductCommand.builder()
+                        .idCart(idOrder)
                         .idProduct(product.getIdProduct())
                         .price(product.getPrice())
                         .stock(product.getStock())

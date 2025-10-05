@@ -9,10 +9,8 @@ import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.luispiquinrey.Command.AddProductToOrderCommand;
 import com.luispiquinrey.Command.DeleteProductCommand;
 import com.luispiquinrey.Command.UpdateProductCommand;
-import com.luispiquinrey.Event.ProductRequestedAddToOrderEvent;
 
 import org.axonframework.commandhandling.CommandCallback;
 import org.axonframework.commandhandling.CommandMessage;
@@ -24,13 +22,17 @@ import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.luispiquinrey.Enums.StatusProduct;
-import com.luispiquinrey.Event.AddedProductToOrderEvent;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.modelling.saga.SagaEventHandler;
 import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.luispiquinrey.Command.AddProductToCartCommand;
+import com.luispiquinrey.Command.AddProductToCartCommand;
+import com.luispiquinrey.Event.AddedProductToCartEvent;
+import com.luispiquinrey.Event.ProductRequestedAddToCartEvent;
 
 @Saga
 public class SagaAdministration {
@@ -44,10 +46,10 @@ public class SagaAdministration {
 
     @StartSaga
     @SagaEventHandler(associationProperty = "idProduct")
-    public void on(ProductRequestedAddToOrderEvent event) {
-        AddProductToOrderCommand addProductToOrderCommand = AddProductToOrderCommand.builder()
+    public void on(ProductRequestedAddToCartEvent event) {
+        AddProductToCartCommand addProductToOrderCommand = AddProductToCartCommand.builder()
                 .idItem(event.getIdItem())
-                .idOrder(event.getIdOrder())
+                .idCart(event.getIdCart())
                 .quantity(event.getStock())
                 .total(event.getPrice())
                 .build();
@@ -56,7 +58,7 @@ public class SagaAdministration {
     }
 
     @SagaEventHandler(associationProperty = "idProduct")
-    public void on(AddedProductToOrderEvent event) {
+    public void on(AddedProductToCartEvent event) {
         UpdateProductCommand updateProductCommand = UpdateProductCommand.builder()
                 .idProduct(event.getIdItem()) 
                 .status(StatusProduct.ADDED_TO_ORDER)
