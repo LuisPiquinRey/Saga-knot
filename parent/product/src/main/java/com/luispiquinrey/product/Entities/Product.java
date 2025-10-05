@@ -8,6 +8,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Length;
 
 import com.luispiquinrey.Entities.AuditInfo;
+import com.luispiquinrey.Entities.Target;
 import com.luispiquinrey.Enums.StatusProduct;
 
 import jakarta.persistence.Cacheable;
@@ -30,7 +31,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 @Table(name = "product",
         uniqueConstraints = {
             @UniqueConstraint(columnNames = {"name"})})
-public class Product implements Serializable {
+public class Product extends Target<String> implements Serializable {
 
     @Id
     private String idProduct=UUID.randomUUID().toString();
