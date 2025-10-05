@@ -42,7 +42,6 @@ public class SagaAdministration {
                 .quantity(event.getStock())
                 .total(event.getPrice())
                 .build();
-
         commandGateway.send(addProductToOrderCommand, new CommandCallback<AddProductToOrderCommand, Object>() {
             @Override
             public void onResult(CommandMessage<? extends AddProductToOrderCommand> commandMessage,
