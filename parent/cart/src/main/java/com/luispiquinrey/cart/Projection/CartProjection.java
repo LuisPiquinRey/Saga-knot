@@ -7,10 +7,6 @@ import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.luispiquinrey.Command.AddProductToCartCommand;
-import com.luispiquinrey.Enums.StatusCart;
-import com.luispiquinrey.Event.AddedProductToCartEvent;
 import com.luispiquinrey.cart.Command.Event.CreatedCartEvent;
 import com.luispiquinrey.cart.Entities.Item;
 import com.luispiquinrey.cart.Entities.Cart;
@@ -33,15 +29,6 @@ public class CartProjection {
     public void on(CreatedCartEvent createdOrderEvent){
         Cart order=new Cart();
         BeanUtils.copyProperties(createdOrderEvent,order);
-        repositoryOrder.save(order);
-    }
-    @EventHandler
-    public void on(AddProductToCartCommand addProductToOrderCommand){
-        String idItem=addProductToOrderCommand.getIdItem();
-        String idCart=addProductToOrderCommand.getIdCart();
-        Item item=new Item(idItem);
-        repositoryItem.save(item);
-        Cart order=new Cart(StatusCart.SHIPPED,addProductToOrderCommand.getTotal(),addProductToOrderCommand.getQuantity(),List.of(item));
         repositoryOrder.save(order);
     }
 }

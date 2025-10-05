@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.luispiquinrey.Entities.AuditInfo;
-import com.luispiquinrey.Enums.StatusCart;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
@@ -23,8 +22,6 @@ public class Cart implements Serializable{
 
     @Id
     private String idCart=UUID.randomUUID().toString();
-
-    private StatusCart status=StatusCart.PENDING;
 
     private AuditInfo auditInfo;
 
@@ -41,9 +38,8 @@ public class Cart implements Serializable{
     public Cart() {
     }
 
-    public Cart(StatusCart status, @PositiveOrZero float total, @PositiveOrZero @Max(1000) int quantity,
+    public Cart(@PositiveOrZero float total, @PositiveOrZero @Max(1000) int quantity,
             List<Item> items) {
-        this.status = status;
         this.total = total;
         this.quantity = quantity;
         this.items = items;
@@ -56,14 +52,6 @@ public class Cart implements Serializable{
 
     public void setIdCart(String idCart) {
         this.idCart = idCart;
-    }
-
-    public StatusCart getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusCart status) {
-        this.status = status;
     }
 
     public float getTotal() {

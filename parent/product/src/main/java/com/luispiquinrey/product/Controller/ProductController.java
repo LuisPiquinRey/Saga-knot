@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.luispiquinrey.Command.RequestAddToCartProductCommand;
 import com.luispiquinrey.product.Command.CreateProductCommand;
 import com.luispiquinrey.product.DTO.ProductRequest;
 import com.luispiquinrey.product.Entities.Product;
@@ -65,34 +63,4 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/addToOrder/{idOrder}")
-    public ResponseEntity<?> addToOrder(@RequestBody @Valid ProductRequest productRequest, BindingResult bindingResult, @PathVariable String idOrder) {
-        if (bindingResult.hasFieldErrors()) {
-            Map<String, String> errors = new HashMap<>();
-            bindingResult.getFieldErrors().forEach(err -> {
-                errors.put(err.getField(), err.getDefaultMessage());
-            });
-            return ResponseEntity.badRequest().body(errors);
-        } else {
-            try {
-                Product product = new Product(productRequest.name(), productRequest.brand(), productRequest.price(), productRequest.stock());
-                RequestAddToCartProductCommand requestAddToOrderProductCommand = RequestAddToCartProductCommand.builder()
-                        .idCart(idOrder)
-                        .idProduct(product.getIdProduct())
-                        .price(product.getPrice())
-                        .stock(product.getStock())
-                        .build();
-
-                commandGateway.sendAndWait(requestAddToOrderProductCommand);
-
-                return ResponseEntity.ok()
-                        .body(Map.of(
-                                "message", "Product created successfully"
-                        ));
-            } catch (Exception e) {
-                return ResponseEntity.internalServerError()
-                        .body(Map.of("error", "Failed to create product: " + e.getMessage()));
-            }
-        }
-    }
 }

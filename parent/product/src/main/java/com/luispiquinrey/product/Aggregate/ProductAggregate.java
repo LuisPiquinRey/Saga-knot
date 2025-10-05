@@ -8,12 +8,9 @@ import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
-
-import com.luispiquinrey.Command.RequestAddToCartProductCommand;
-import com.luispiquinrey.Command.UpdateProductCommand;
 import com.luispiquinrey.Enums.StatusProduct;
-import com.luispiquinrey.Event.ProductRequestedAddToCartEvent;
 import com.luispiquinrey.product.Command.CreateProductCommand;
+import com.luispiquinrey.product.Command.UpdateProductCommand;
 import com.luispiquinrey.product.Event.ProductCreatedEvent;
 import com.luispiquinrey.product.Event.ProductUpdatedEvent;
 
@@ -41,13 +38,6 @@ public class ProductAggregate {
         ProductCreatedEvent productCreatedEvent = new ProductCreatedEvent();
         BeanUtils.copyProperties(createProductCommand, productCreatedEvent);
         AggregateLifecycle.apply(productCreatedEvent);
-    }
-
-    @CommandHandler
-    public ProductAggregate(RequestAddToCartProductCommand addToOrderProductCommand) {
-        ProductRequestedAddToCartEvent productAddedToOrderEvent = new ProductRequestedAddToCartEvent();
-        BeanUtils.copyProperties(addToOrderProductCommand, productAddedToOrderEvent);
-        AggregateLifecycle.apply(productAddedToOrderEvent);
     }
     @CommandHandler
     public ProductAggregate(UpdateProductCommand updateProductCommand){

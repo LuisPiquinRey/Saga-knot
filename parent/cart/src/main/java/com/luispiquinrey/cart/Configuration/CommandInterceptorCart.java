@@ -8,8 +8,6 @@ import org.axonframework.messaging.MessageDispatchInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.luispiquinrey.Command.AddProductToCartCommand;
 import com.luispiquinrey.cart.Command.CreateCartCommand;
 import com.luispiquinrey.cart.Repository.RepositoryItem;
 import com.luispiquinrey.cart.Repository.RepositoryCart;
@@ -34,13 +32,6 @@ public class CommandInterceptorCart implements MessageDispatchInterceptor<Messag
                 CreateCartCommand createOrderCommand=(CreateCartCommand)command.getPayload();
                 if(createOrderCommand.getIdCart()==null)throw new IllegalArgumentException("Order id cannot be null");
                 if(repositoryOrder.existsById(createOrderCommand.getIdCart()))throw new IllegalArgumentException("Order already exists");
-            }else if(AddProductToCartCommand.class.equals(command.getPayloadType())){
-                AddProductToCartCommand addProductToOrderCommand=AddProductToCartCommand.builder().build();
-                if(addProductToOrderCommand.getIdCart()==null || addProductToOrderCommand.getIdItem()==null)throw new IllegalArgumentException("Id must not be null");
-                if(!repositoryOrder.existsById(addProductToOrderCommand.getIdCart()))throw new IllegalArgumentException("You cannot add a product to a order that doesnt exist");
-                if(addProductToOrderCommand.getTotal()<0)throw new IllegalArgumentException("Total must be positive");
-                if(addProductToOrderCommand.getQuantity()<0 || addProductToOrderCommand.getQuantity()>1000)throw new IllegalArgumentException("Quantity must be positive or less than 1000");
-                
             }
             return command;
         };

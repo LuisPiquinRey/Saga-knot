@@ -29,10 +29,6 @@ import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.luispiquinrey.Command.AddProductToCartCommand;
-import com.luispiquinrey.Command.AddProductToCartCommand;
-import com.luispiquinrey.Event.AddedProductToCartEvent;
-import com.luispiquinrey.Event.ProductRequestedAddToCartEvent;
 
 @Saga
 public class SagaAdministration {
@@ -42,28 +38,5 @@ public class SagaAdministration {
     @Autowired
     public SagaAdministration(CommandGateway commandGateway) {
         this.commandGateway = commandGateway;
-    }
-
-    @StartSaga
-    @SagaEventHandler(associationProperty = "idProduct")
-    public void on(ProductRequestedAddToCartEvent event) {
-        AddProductToCartCommand addProductToOrderCommand = AddProductToCartCommand.builder()
-                .idItem(event.getIdItem())
-                .idCart(event.getIdCart())
-                .quantity(event.getStock())
-                .total(event.getPrice())
-                .build();
-
-        commandGateway.send(addProductToOrderCommand);
-    }
-
-    @SagaEventHandler(associationProperty = "idProduct")
-    public void on(AddedProductToCartEvent event) {
-        UpdateProductCommand updateProductCommand = UpdateProductCommand.builder()
-                .idProduct(event.getIdItem()) 
-                .status(StatusProduct.ADDED_TO_ORDER)
-                .build();
-
-        commandGateway.send(updateProductCommand);
     }
 }
