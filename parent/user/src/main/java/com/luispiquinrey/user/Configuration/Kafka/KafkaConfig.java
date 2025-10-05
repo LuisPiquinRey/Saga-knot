@@ -1,4 +1,4 @@
-package com.luispiquinrey.product.Configuration.Kafka;
+package com.luispiquinrey.User.Configuration.Kafka;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;
