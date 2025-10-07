@@ -1,4 +1,4 @@
-package com.luispiquinrey.User.Error;
+package com.luispiquinrey.user.Error;
 
 import java.time.Instant;
 import java.time.ZoneOffset;

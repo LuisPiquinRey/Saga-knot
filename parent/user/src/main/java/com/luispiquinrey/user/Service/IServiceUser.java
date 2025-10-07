@@ -1,4 +1,4 @@
-package com.luispiquinrey.User.Service;
+package com.luispiquinrey.user.Service;
 
 import java.util.Optional;
 
@@ -8,10 +8,12 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.luispiquinrey.User.Entities.Contact;
-import com.luispiquinrey.User.Error.DeleteException;
-import com.luispiquinrey.User.Error.SearchException;
-import com.luispiquinrey.User.Error.UpdateException;
+import com.luispiquinrey.user.Entities.Contact;
+import com.luispiquinrey.user.Error.DeleteException;
+import com.luispiquinrey.user.Error.SearchException;
+import com.luispiquinrey.user.Error.UpdateException;
+
+
 
 public interface IServiceUser {
 

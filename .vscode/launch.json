@@ -54,11 +54,11 @@
         },
         {
             "type": "java",
-            "name": "Spring Boot-OrderApplication<order>",
+            "name": "Spring Boot-CartApplication<cart>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "com.luispiquinrey.order.OrderApplication",
-            "projectName": "order",
+            "mainClass": "com.luispiquinrey.cart.CartApplication",
+            "projectName": "cart",
             "args": "",
             "envFile": "${workspaceFolder}/.env",
             "env": {
@@ -66,5 +66,4 @@
                 "URI_MONGODB": "${env:URI_MONGODB}"
             }
         }
-    ]
 }

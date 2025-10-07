@@ -1,4 +1,4 @@
-package com.luispiquinrey.User.Repository;
+package com.luispiquinrey.user.Repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.luispiquinrey.User.Entities.Contact;
+import com.luispiquinrey.user.Entities.Contact;
 
 import jakarta.persistence.QueryHint;
 

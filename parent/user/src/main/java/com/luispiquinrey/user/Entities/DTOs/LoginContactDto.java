@@ -1,4 +1,4 @@
-package com.luispiquinrey.User.Entities.DTOs;
+package com.luispiquinrey.user.Entities.DTOs;
 
 import io.micrometer.common.lang.NonNull;
 import jakarta.validation.constraints.Email;
