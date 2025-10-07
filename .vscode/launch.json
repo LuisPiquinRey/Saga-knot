@@ -66,4 +66,5 @@
                 "URI_MONGODB": "${env:URI_MONGODB}"
             }
         }
+    ]
 }

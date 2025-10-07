@@ -9,25 +9,6 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://localhost:9030/realms/SagaDev/protocol/openid-connect/certs
-          issuer-uri: http://localhost:9030/realms/SagaDev
-      client:
-        registration:
-          keycloak:
-            provider: keycloak
-            client-id: user-knot
-            client-secret: Qb9cyxG1cNDPNiM5jwDBWWuoDzMJ7Vtt
-            authorization-grant-type: authorization_code
-            scope:
-              - openid
-              - profile
-        provider:
-          keycloak:
-            issuer-uri: http://localhost:9030/realms/SagaDev
 eureka:
   instance:
     preferIpAddress: true

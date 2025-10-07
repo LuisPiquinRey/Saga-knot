@@ -1,4 +1,4 @@
-package com.luispiquinrey.Event;
+package com.luispiquinrey.cart.Event;
 
 import jakarta.validation.constraints.NotBlank;
 

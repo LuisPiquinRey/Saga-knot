@@ -114,6 +114,7 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<mainClass>com.luispiquinrey.cart.CartApplication</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

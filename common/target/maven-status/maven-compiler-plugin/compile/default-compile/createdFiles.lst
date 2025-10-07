@@ -1,1 +1,11 @@
+com\luispiquinrey\DTO\ItemCompact.class
 com\luispiquinrey\Entities\AuditInfo.class
+com\luispiquinrey\Error\UpdateException.class
+com\luispiquinrey\Error\DeleteException.class
+com\luispiquinrey\Event\UserCreatedOwnCartEvent.class
+com\luispiquinrey\Service\GenericCrudService.class
+com\luispiquinrey\Entities\Target.class
+com\luispiquinrey\Error\SearchException.class
+com\luispiquinrey\Service\ICrudInterface.class
+com\luispiquinrey\Enums\StatusProduct.class
+com\luispiquinrey\Error\CreationException.class
