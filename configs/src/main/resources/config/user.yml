@@ -1,4 +1,4 @@
-spring: 
+
 eureka:
   instance:
     preferIpAddress: true
@@ -13,6 +13,8 @@ eureka:
         exposure:
           include: "*"
     endpoint:
+      prometheus:
+        enabled: true
       health:
         show-details: ALWAYS
 axon:
@@ -23,3 +25,5 @@ axoniq:
     application-name: Shopping-axion
     credentials: ${CREDENTIALS_AXION}
     dlq-mode: FULL
+server: 
+  port: 9098
