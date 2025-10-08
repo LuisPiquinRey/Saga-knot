@@ -6,13 +6,6 @@ spring:
     mongodb:
       uri: ${URI_MONGODB}
       database: cart
-  kafka:
-    bootstrap-servers: localhost:29092,localhost:39092,localhost:49092
-    consumer:
-      group-id: user-service
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 eureka:
   instance:

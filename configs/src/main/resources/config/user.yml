@@ -1,14 +1,4 @@
 spring: 
-  kafka:
-    bootstrap-servers: localhost:29092,localhost:39092,localhost:49092
-    consumer:
-      group-id: user-service
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 eureka:
   instance:
     preferIpAddress: true
