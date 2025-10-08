@@ -8,6 +8,14 @@ eureka:
     serviceUrl:
       defaultZone: "http://localhost:8761/eureka"
   management:
+    health:
+      readiness-state:
+        enabled: true
+      liveness-state:
+        enabled: true
+    tracing:
+      sampling:
+        probability: 1.0
     endpoints:
       web:
         exposure:

@@ -10,6 +10,11 @@ spring:
                     search-locations: "classpath:/config"
                 encrypt:
                     enabled: true
+    rabbitmq:
+        host: localhost
+        port: 5672
+        username: guest
+        password: guest
 encrypt:
     key: myS1c_retKey123456
 
