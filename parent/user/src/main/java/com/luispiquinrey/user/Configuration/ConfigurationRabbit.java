@@ -1,5 +1,7 @@
 package com.luispiquinrey.user.Configuration;
 
+import java.util.logging.Logger;
+
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory.CacheMode;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory.ConfirmType;
@@ -12,6 +14,8 @@ import org.springframework.retry.support.RetryTemplate;
 @Configuration
 public class ConfigurationRabbit {
 
+    private static final Logger LOGGER = Logger.getLogger(ConfigurationRabbit.class.getName());
+
     @Bean
     public CachingConnectionFactory cachingConnectionFactory() {
 
@@ -21,6 +25,7 @@ public class ConfigurationRabbit {
         connectionFactory.setChannelCacheSize(50);
         connectionFactory.setPublisherConfirmType(ConfirmType.CORRELATED);
         connectionFactory.setCacheMode(CacheMode.CONNECTION);
+        connectionFactory.setConnectionNameStrategy(connectionNameStrategy -> "CONNECTION_KNOT_ORDER_USER");
 
         return connectionFactory;
     }
@@ -35,6 +40,16 @@ public class ConfigurationRabbit {
         backOffPolicy.setMaxInterval(10000);
         retryTemplate.setBackOffPolicy(backOffPolicy);
         template.setRetryTemplate(retryTemplate);
+        template.setExchange("exchange-order-user");
+        template.setRoutingKey("routing-key-order-user");
+        template.setConfirmCallback((correlationData, ack, cause) -> {
+            if (ack) {
+                LOGGER.info("Message confirmed: " + correlationData.getId());
+            } else {
+                LOGGER.info("Message not confirmed: " + cause);
+            }
+        });
+
         return template;
     }
 }
