@@ -1,0 +1,41 @@
+server:
+    port: 8072
+spring:
+  data:
+    mongodb:
+      uri: ${URI_MONGODB}
+      database: order
+  logging:
+    file:
+      name: logs/order.log
+    logback:
+      rollingpolicy:
+        clean-history-on-start: true
+        max-file-size: 100MB
+    charset:
+      console: UTF-8
+      file: UTF-8
+eureka:
+  instance:
+    preferIpAddress: true
+  client: 
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: "http://localhost:8761/eureka"
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+    endpoint:
+      health:
+        show-details: ALWAYS
+axon:
+  axonserver:
+    servers: localhost:8124
+axoniq:
+  console:
+    application-name: Shopping-axion
+    credentials: ${CREDENTIALS_AXION}
+    dlq-mode: FULL
