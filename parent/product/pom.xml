@@ -112,6 +112,10 @@
                     <artifactId>liquibase-core</artifactId>
                     <scope>runtime</scope>
                 </dependency>
+                <dependency>
+                    <groupId>org.springframework.shell</groupId>
+                    <artifactId>spring-shell-starter</artifactId>
+                </dependency>
             </dependencies>
         </profile>
     </profiles>
