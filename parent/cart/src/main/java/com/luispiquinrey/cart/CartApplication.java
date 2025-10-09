@@ -2,6 +2,7 @@ package com.luispiquinrey.cart;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication(exclude = {
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
     org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration.class
 })
 @EnableMongoRepositories
+@ComponentScan(basePackages = "com.luispiquinrey.Error.Handler")
 public class CartApplication {
 
 	public static void main(String[] args) {

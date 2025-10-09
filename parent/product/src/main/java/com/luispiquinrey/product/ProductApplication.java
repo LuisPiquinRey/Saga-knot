@@ -7,12 +7,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 import com.luispiquinrey.product.Configuration.CommandInterceptorProduct;
 import com.luispiquinrey.product.Configuration.EventErrorHandler;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+@ComponentScan(basePackages = "com.luispiquinrey.Error.Handler")
 public class ProductApplication {
 
 	public static void main(String[] args) {
