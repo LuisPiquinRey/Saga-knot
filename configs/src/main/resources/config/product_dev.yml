@@ -2,3 +2,5 @@ spring:
   config:
     activate:
       on-profile: "dev"
+  liquibase:
+    change-log: classpath:database/liquibase-changelog.xml
