@@ -65,9 +65,6 @@ public class Contact implements Serializable{
     @Column(name = "profile_image")
     private String profileImage;
 
-    @Column(name="number_groups")
-    private Long numberOfGroups=0l;
-
     @CreationTimestamp
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -143,13 +140,6 @@ public class Contact implements Serializable{
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
     }
-    public Long getNumberOfGroups() {
-        return numberOfGroups;
-    }
-
-    public void setNumberOfGroups(Long numberOfGroups) {
-        this.numberOfGroups = numberOfGroups;
-    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -197,7 +187,6 @@ public class Contact implements Serializable{
         private String password;
         private String phoneNumber;
         private String profileImage;
-        private Long numberOfGroups;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
         private Integer version;
