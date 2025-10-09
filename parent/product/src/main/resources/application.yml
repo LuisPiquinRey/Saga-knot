@@ -4,4 +4,4 @@ spring:
     config:
         import: configserver:http://localhost:8090/
     profiles:
-        active: dev
+        active: prod

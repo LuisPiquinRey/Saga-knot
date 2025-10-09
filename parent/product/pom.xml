@@ -95,11 +95,21 @@
             </dependencies>
         </profile>
         <profile>
-            <id>dev</id>
+            <id>prod</id>
             <dependencies>
                 <dependency>
                     <groupId>ccom.mysql</groupId>
                     <artifactId>mysql-connector-j</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.liquibase</groupId>
+                    <artifactId>liquibase-core</artifactId>
                     <scope>runtime</scope>
                 </dependency>
             </dependencies>
