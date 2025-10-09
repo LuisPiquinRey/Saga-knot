@@ -11,7 +11,8 @@ root {
   height: 100vh;
   width: 100vw;
   position: relative;
-  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .header {
@@ -41,7 +42,7 @@ root {
 }
 
 img {
-  margin: 2px;
+  margin: 20px;
 }
 
 h1,
