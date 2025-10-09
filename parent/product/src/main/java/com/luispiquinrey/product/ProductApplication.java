@@ -14,7 +14,7 @@ import com.luispiquinrey.product.Configuration.EventErrorHandler;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@ComponentScan(basePackages = "com.luispiquinrey.Error.Handler")
+@ComponentScan(basePackages = {"com.luispiquinrey.Error.Handler", "com.luispiquinrey.product.*"})
 public class ProductApplication {
 
 	public static void main(String[] args) {

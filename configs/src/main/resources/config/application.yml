@@ -2,4 +2,6 @@ spring:
     output:
         ansi:
             enabled: always
+    lifecycle:
+        timeout-per-shutdown-phase: 20s
     
