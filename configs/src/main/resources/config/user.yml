@@ -9,6 +9,16 @@ spring:
     charset:
       console: UTF-8
       file: UTF-8
+  datasource:
+    url: jdbc:mysql://localhost:3308/user_master
+    username: root
+    password: LuisPiquinRey
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQLDialect
 eureka:
   instance:
     preferIpAddress: true
