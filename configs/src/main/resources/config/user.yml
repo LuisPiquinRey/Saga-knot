@@ -1,8 +1,18 @@
-
+spring:
+  logging:
+    file:
+      name: logs/user.log
+    logback:
+      rollingpolicy:
+        clean-history-on-start: true
+        max-file-size: 100MB
+    charset:
+      console: UTF-8
+      file: UTF-8
 eureka:
   instance:
     preferIpAddress: true
-  client: 
+  client:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
@@ -33,5 +43,5 @@ axoniq:
     application-name: Shopping-axion
     credentials: ${CREDENTIALS_AXION}
     dlq-mode: FULL
-server: 
+server:
   port: 9098

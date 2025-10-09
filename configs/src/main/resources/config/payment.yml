@@ -1,3 +1,14 @@
+spring:
+  logging:
+    file:
+      name: logs/payment.log
+    logback:
+      rollingpolicy:
+        clean-history-on-start: true
+        max-file-size: 100MB
+    charset:
+      console: UTF-8
+      file: UTF-8
 eureka:
   instance:
     preferIpAddress: true

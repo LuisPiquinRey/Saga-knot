@@ -1,9 +1,11 @@
+${AnsiColor.CYAN}${AnsiStyle.BOLD}
 .______      ___   ____    ____ .___  ___.  _______ .__   __. .___________.
 |   _  \    /   \  \   \  /   / |   \/   | |   ____||  \ |  | |           |
 |  |_)  |  /  ^  \  \   \/   /  |  \  /  | |  |__   |   \|  | `---|  |----`
 |   ___/  /  /_\  \  \_    _/   |  |\/|  | |   __|  |  . `  |     |  |     
 |  |     /  _____  \   |  |     |  |  |  | |  |____ |  |\   |     |  |     
 | _|    /__/     \__\  |__|     |__|  |__| |_______||__| \__|     |__|     
-                                                                           
-${application.title} ${application.version}
-Powered by Spring Boot ${spring-boot.version}
+${AnsiColor.RESET}
+
+${AnsiColor.YELLOW}${application.title} ${application.version}${AnsiColor.RESET}
+${AnsiColor.GREEN}Powered by Spring Boot ${spring-boot.version}${AnsiColor.RESET}
