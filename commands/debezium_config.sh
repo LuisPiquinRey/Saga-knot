@@ -61,7 +61,7 @@ curl -s localhost:8083/connectors/product-connector-sink/status | jq
 echo -e "\n=== Kafka Topics ==="
 docker exec kafka1 kafka-topics --bootstrap-server localhost:19092 --list
 
-echo -e "\n=== Messages (primeros 5) ==="
+echo -e "\n=== Messages ==="
 docker exec kafka1 kafka-console-consumer \
   --bootstrap-server localhost:19092 \
   --topic dbserver1.product_master.product \
