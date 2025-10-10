@@ -13,9 +13,4 @@ public interface ICrudInterface<T,V> {
     T createTarget(T target) throws CreationException;;
     T updateTarget(T target) throws UpdateException;
     Optional<T> findTarget(V idTarget) throws SearchException;
-    List<T> findAllTargets() throws UpdateException;
-
-    default int sizeTargets() throws UnsupportedOperationException{
-        return findAllTargets().size();
-    }
 }

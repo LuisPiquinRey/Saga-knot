@@ -1,7 +1,6 @@
 package com.luispiquinrey.cart.Entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,15 +9,14 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.luispiquinrey.Entities.AuditInfo;
+import com.luispiquinrey.Entities.Target;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.PositiveOrZero;
 
 @Document("order")
-public class Cart implements Serializable{
+public class Cart extends Target<String> implements Serializable{
 
     @Id
     private String idCart=UUID.randomUUID().toString();

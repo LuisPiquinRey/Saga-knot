@@ -1,12 +1,11 @@
 package com.luispiquinrey.Service;
 
 
-import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import com.luispiquinrey.Entities.Target;
 import com.luispiquinrey.Error.CreationException;
@@ -17,10 +16,10 @@ import com.luispiquinrey.Error.UpdateException;
 public class GenericCrudService<T extends Target<V>, V> implements ICrudInterface<T, V> {
 
     private static final Logger logger = LoggerFactory.getLogger(GenericCrudService.class);
-    protected final JpaRepository<T, V> repositoryGeneric;
+    protected final CrudRepository<T, V> repositoryGeneric;
     private final String nameClass;
 
-    public GenericCrudService(JpaRepository<T, V> repositoryGeneric){
+    public GenericCrudService(CrudRepository<T, V> repositoryGeneric){
         this.repositoryGeneric = repositoryGeneric;
         this.nameClass = repositoryGeneric.getClass().getSimpleName();
     }
@@ -93,19 +92,6 @@ public class GenericCrudService<T extends Target<V>, V> implements ICrudInterfac
         } catch (Exception e) {
             logger.error("❌ Error searching {} with ID: {}", nameClass, idTarget, e);
             throw new SearchException("Error searching " + nameClass + " with ID: " + idTarget);
-        }
-    }
-
-    @Override
-    public List<T> findAllTargets() throws SearchException {
-        logger.info("📋 Listing all {}", nameClass);
-        try {
-            List<T> targets = repositoryGeneric.findAll();
-            logger.info("✅ Retrieved {} {}", targets.size(), nameClass);
-            return targets;
-        } catch (Exception e) {
-            logger.error("❌ Error retrieving {}", nameClass, e);
-            throw new SearchException("Error retrieving " + nameClass);
         }
     }
 }
