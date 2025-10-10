@@ -2,7 +2,6 @@
   font-family: Roboto;
   src: url("/fonts/Roboto/static/Roboto-Regular.ttf") format("truetype");
 }
-
 body,
 root {
   background-color: white;
@@ -16,33 +15,29 @@ root {
 }
 
 .header {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-between; /* Esto distribuye el contenido */
+  align-items: center;
   margin: 0;
   position: relative;
   top: 0;
   background-color: transparent;
   height: 50px;
   width: 100%;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  row-gap: 1px;
-  -webkit-box-flex: 2px;
-      -ms-flex-positive: 2px;
-          flex-grow: 2px;
+  flex-direction: row;
+  row-gap: 0.5px;
+  flex-grow: 1.5px;
+  flex-wrap: wrap;
+}
+
+.header .right-items {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 img {
-  margin: 20px;
+  flex-basis: auto;
 }
 
 h1,
@@ -51,3 +46,8 @@ h3,
 h4 {
   font-family: Roboto;
 }
+
+.carousel {
+  height: 500px;
+  width: 100%;
+}/*# sourceMappingURL=Header.css.map */
