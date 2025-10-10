@@ -1,0 +1,16 @@
+# Create a namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev-namespace
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: dev-namespace
+  name: pod-manager
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "create", "delete"]

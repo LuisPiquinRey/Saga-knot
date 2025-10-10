@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: axoniq
+  namespace: dev-namespace
+  labels:
+    release: testing
+spec:
+  containers:
+    - name: axoniq
+      image: 'axoniq/axonserver:2024.2.15-jdk-17-nonroot'
+      ports:
+        - containerPort: 8024
+        - containerPort: 8224
+        - containerPort: 8124
+      env:
+        - name: AXON_SERVER_GRPC_PORT
+          value: '8124'
+        - name: AXON_SERVER_HTTP_PORT
+          value: '8024'
+        - name: AXON_SERVER_PORT
+          value: '8024'
+        - name: AXON_SERVER_VERSION
+          value: '2024.2.15-jdk-17-nonroot'
+        - name: AXONIQ_AXONSERVER_STANDALONE
+          value: 'true'
+        - name: AXONIQ_AXONSERVER_DEVMODE_ENABLED
+          value: 'true'
+        - name: AXONIQ_AXONSERVER_HOSTNAME
+          value: localhost
+        - name: AXONIQ_AXONSERVER_NAME
+          value: axon-server-dev
