@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.luispiquinrey.product.Configuration.CommandInterceptorProduct;
 import com.luispiquinrey.product.Configuration.EventErrorHandler;
@@ -15,6 +16,7 @@ import com.luispiquinrey.product.Configuration.EventErrorHandler;
 @SpringBootApplication
 @EnableDiscoveryClient
 @ComponentScan(basePackages = {"com.luispiquinrey.Error.Handler", "com.luispiquinrey.product.*"})
+@EnableJpaAuditing
 public class ProductApplication {
 
 	public static void main(String[] args) {

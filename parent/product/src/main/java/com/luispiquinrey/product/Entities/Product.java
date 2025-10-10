@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.validator.constraints.Length;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.luispiquinrey.Entities.AuditInfo;
 import com.luispiquinrey.Entities.Target;
@@ -15,15 +15,13 @@ import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Version;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @Cacheable
@@ -31,6 +29,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 @Table(name = "product",
         uniqueConstraints = {
             @UniqueConstraint(columnNames = {"name"})})
+@EntityListeners(AuditingEntityListener.class)
 public class Product extends Target<String> implements Serializable {
 
     @Id

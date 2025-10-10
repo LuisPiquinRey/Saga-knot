@@ -7,7 +7,9 @@ import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
 import com.luispiquinrey.cart.Command.CreateCartCommand;
+import com.luispiquinrey.cart.Command.UpdateCartCommand;
 import com.luispiquinrey.cart.Event.CreatedCartEvent;
+import com.luispiquinrey.cart.Event.UpdatedCartEvent;
 
 @Aggregate
 public class CartAggregate {
@@ -22,8 +24,19 @@ public class CartAggregate {
         CreatedCartEvent createdOrderEvent=new CreatedCartEvent();
         BeanUtils.copyProperties(createOrderCommand, createdOrderEvent);
     }
+    @CommandHandler
+    public CartAggregate(UpdateCartCommand updateCartCommand){
+        UpdatedCartEvent updatedCartEvent=new UpdatedCartEvent();
+        BeanUtils.copyProperties(updateCartCommand, updatedCartEvent);
+    }
     @EventSourcingHandler
     public void on(CreatedCartEvent event){
         this.idCart=event.getIdCart();
+    }
+    @EventSourcingHandler
+    public void on(UpdatedCartEvent event){
+        this.idCart=event.getIdCart();
+        this.total=event.getTotal();
+        this.quantity=event.getQuantity();
     }
 }

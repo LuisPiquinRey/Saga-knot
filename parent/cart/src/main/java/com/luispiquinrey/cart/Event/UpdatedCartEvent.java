@@ -1,5 +1,9 @@
 package com.luispiquinrey.cart.Event;
 
+import java.util.List;
+
+import com.luispiquinrey.cart.Entities.Item;
+
 import lombok.Data;
 
 @Data
