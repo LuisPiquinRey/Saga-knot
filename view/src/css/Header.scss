@@ -16,7 +16,7 @@ root {
 }
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between;  /* Esto distribuye el contenido */
   align-items: center;
   margin: 0;
   position: relative;
@@ -25,12 +25,22 @@ root {
   height: 50px;
   width: 100%;
   flex-direction: row;
-  row-gap: 1px;
-  flex-grow: 2px;
+  row-gap: 0.5px;
+  flex-grow: 1.5px;
+  flex-wrap: wrap;
 }
+
+.header .right-items {  
+  display: flex;  
+  justify-content: flex-end;  
+  gap: 10px; 
+}
+
 img {
-  margin: 20px;
+  margin: 10px;
+  flex-basis: auto;
 }
+
 h1,
 h2,
 h3,
