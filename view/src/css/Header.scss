@@ -2,10 +2,13 @@
   font-family: Roboto;
   src: url("/fonts/Roboto/static/Roboto-Regular.ttf") format("truetype");
 }
-
+@font-face {
+  font-family: Roboto-bold;
+  src: url("/fonts/Roboto/static/Roboto-Bold.ttf") format("truetype");
+}
 body,
 root {
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   margin: 0px;
   padding: 0px;
   height: 100vh;
@@ -16,18 +19,18 @@ root {
 }
 .header {
   display: flex;
-  justify-content: space-between;  /* Esto distribuye el contenido */
+  justify-content: space-between;  
   align-items: center;
   margin: 0;
   position: relative;
   top: 0;
-  background-color: transparent;
+  background-color: #ffffff;
   height: 50px;
   width: 100%;
   flex-direction: row;
   row-gap: 0.5px;
   flex-grow: 1.5px;
-  flex-wrap: wrap;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .header .right-items {  
@@ -39,6 +42,9 @@ root {
 img {
   flex-basis: auto;
 }
+span:hover{
+  transform: scale(1.2);
+}
 
 h1,
 h2,
@@ -49,4 +55,23 @@ h4 {
 .carousel{
   height: 500px;
   width: 100%;
+}
+.material-symbols-outlined {
+  font-size: 36px; 
+  color: #bec0c3;  
+  opacity: 0.6;
+}
+#title{
+  opacity: 0.8;
+  color: #8f8f8f;
+  font-family: Roboto-bold;
+}
+.search{
+  height: 70%;
+  background-color: rgb(255, 255, 255);
+  position: relative;
+  width: 600px;
+  border-radius: 20px;
+  border: none;
+  outline: 2px solid rgb(208, 208, 208);
 }

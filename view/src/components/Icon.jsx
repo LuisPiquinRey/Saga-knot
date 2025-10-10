@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Header = () => {
+const Icon = () => {
     return (
         <header className="header">
             <img src="menu.svg" alt="menu" />
@@ -18,4 +18,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default Icon;
