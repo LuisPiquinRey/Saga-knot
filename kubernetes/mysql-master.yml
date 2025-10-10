@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-master-lib-pvc
+  namespace: dev-namespace
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: mysql-master-lib-pv
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-init-sql
+  namespace: dev-namespace
+data:
+  init.sql: |
+    GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'root'@'%';
+    GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'root'@'%';
+    FLUSH PRIVILEGES;
+---
+apiVersion: apps/v1  
+kind: Deployment
+metadata:
+  name: mysql-master-deployment  
+  namespace: dev-namespace
+  labels:
+    release: testing
+spec:
+  replicas: 1  
+  selector:    
+    matchLabels:
+      app: mysql-master
+      release: testing
+  strategy:
+    type: Recreate 
+  template:
+    metadata:
+      labels:
+        app: mysql-master  
+        release: testing
+    spec:
+      volumes:
+        - name: mysql-storage-lib
+          persistentVolumeClaim:
+            claimName: mysql-master-lib-pvc  
+        - name: init-sql
+          configMap:
+            name: mysql-init-sql  
+      containers:
+        - name: mysql-master
+          image: 'mysql:oraclelinux9'
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_DATABASE
+              value: product_master
+            - name: MYSQL_ROOT_PASSWORD
+              value: LuisPiquinRey
+          args: 
+            - --server-id=1
+            - --log-bin=mysql-bin
+            - --binlog-row-image=FULL
+            - --binlog-expire-logs-seconds=864000
+            - --gtid-mode=ON
+            - --enforce-gtid-consistency=ON
+          volumeMounts:  
+            - name: mysql-storage-lib
+              mountPath: /var/lib/mysql
+            - name: init-sql
+              mountPath: /docker-entrypoint-initdb.d  
