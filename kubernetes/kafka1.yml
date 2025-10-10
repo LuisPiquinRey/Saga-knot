@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: kafka1
+  labels:
+    release: testing
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        release: testing
+    spec:
+      dnsPolicy: None
+      containers:
+        - name: kafka1
+          image: 'confluentinc/cp-kafka:8.0.0'
+          ports:
+            - containerPort: 9099
+            - containerPort: 9999
+            - containerPort: 29092
+            - containerPort: 9092
+          env:
+            - name: KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND
+              value: '"true"'
+            - name: KAFKA_AUTHORIZER_CLASS_NAME
+              value: org.apache.kafka.metadata.authorizer.StandardAuthorizer
+            - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
+              value: '1'
+            - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
+              value: '1'
+            - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: '1'
+            - name: KAFKA_LOG4J_LOGGERS
+              value: >-
+                "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+            - name: KAFKA_INTER_BROKER_LISTENER_NAME
+              value: INTERNAL
+            - name: KAFKA_CONTROLLER_LISTENER_NAMES
+              value: CONTROLLER
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: >-
+                INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT,CONTROLLER:PLAINTEXT
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: >-
+                INTERNAL://kafka1:19092,EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092,DOCKER://host.docker.internal:29092
+            - name: KAFKA_LISTENERS
+              value: >-
+                INTERNAL://0.0.0.0:19092,EXTERNAL://0.0.0.0:9092,DOCKER://0.0.0.0:29092,CONTROLLER://0.0.0.0:9099
+            - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+              value: '"1@kafka1:9099"'
+            - name: KAFKA_PROCESS_ROLES
+              value: 'broker,controller'
+            - name: KAFKA_NODE_ID
+              value: '1'
+            - name: CLUSTER_ID
+              value: MkU3OEVBNTcwNTJENDM2Qk
