@@ -54,7 +54,7 @@ public class ProductAggregate {
         this.price = event.getPrice();
         this.stock = event.getStock();
     }
-        @EventSourcingHandler
+    @EventSourcingHandler
     public void on(ProductUpdatedEvent event) {
         this.idProduct = event.getIdProduct();
         this.name = event.getName();
