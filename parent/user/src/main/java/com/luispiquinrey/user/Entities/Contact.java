@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.luispiquinrey.Entities.BaseEntity;
+
 import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
@@ -27,7 +29,7 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "contact",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "email"})})
-public class Contact implements Serializable{
+public class Contact extends BaseEntity<Long> implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -99,6 +101,16 @@ public class Contact implements Serializable{
 
     public void setIdContact(Long idContact) {
         this.idContact = idContact;
+    }
+    
+    @Override
+    public Long getId() {
+        return idContact;
+    }
+
+    @Override
+    public void setId(Long id) {
+        idContact=id;
     }
 
     public String getUsername() {

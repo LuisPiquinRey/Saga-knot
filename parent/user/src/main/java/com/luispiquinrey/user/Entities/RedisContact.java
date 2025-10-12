@@ -6,19 +6,34 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
-@RedisHash("Contact") 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+@RedisHash(value = "contact", timeToLive = 3600)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
 public class RedisContact implements Serializable {
 
     @Id
+    @ToString.Include
+    @EqualsAndHashCode.Include
     private String idContact; 
 
-    @Indexed 
+    @ToString.Include
+    @Indexed
     private String username;
 
+    @ToString.Include
+    @Indexed
     private String email;
+
     private String password;
+
+    @ToString.Include
     private String phoneNumber;
+    
     private String profileImage;
+
 
     public RedisContact(String idContact, String username, String email, String password, String phoneNumber, String profileImage) {
         this.idContact = idContact;
@@ -27,6 +42,9 @@ public class RedisContact implements Serializable {
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.profileImage = profileImage;
+    }
+
+    public RedisContact() {
     }
 
     public String getIdContact() {

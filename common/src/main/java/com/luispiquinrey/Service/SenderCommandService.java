@@ -5,7 +5,7 @@ import java.util.concurrent.CompletableFuture;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class BaseCommandService {
+public abstract class SenderCommandService {
     
     @Autowired
     protected CommandGateway commandGateway;
