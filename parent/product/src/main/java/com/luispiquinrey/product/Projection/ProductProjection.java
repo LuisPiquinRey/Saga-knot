@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.luispiquinrey.product.Entities.Product;
 import com.luispiquinrey.product.Event.ProductCreatedEvent;
+import com.luispiquinrey.product.Event.ProductDeletedEvent;
 import com.luispiquinrey.product.Repository.RepositoryProduct;
 
 @Component
@@ -27,6 +28,10 @@ public class ProductProjection {
         Product product=new Product();
         BeanUtils.copyProperties(productCreatedEvent,product);
         repositoryProduct.save(product);
+    }
+    @EventHandler
+    public void on(ProductDeletedEvent productDeletedEvent){
+        repositoryProduct.deleteById(productDeletedEvent.getIdProduct());
     }
     @ExceptionHandler(resultType=Exception.class)
     public void handle(Exception exception){

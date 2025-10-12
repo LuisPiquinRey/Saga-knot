@@ -8,7 +8,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.luispiquinrey.Entities.AuditInfo;
-import com.luispiquinrey.Entities.Target;
 import com.luispiquinrey.Enums.StatusProduct;
 
 import jakarta.persistence.Cacheable;
@@ -30,7 +29,7 @@ import jakarta.persistence.Version;
         uniqueConstraints = {
             @UniqueConstraint(columnNames = {"name"})})
 @EntityListeners(AuditingEntityListener.class)
-public class Product extends Target<String> implements Serializable {
+public class Product implements Serializable {
 
     @Id
     private String idProduct=UUID.randomUUID().toString();

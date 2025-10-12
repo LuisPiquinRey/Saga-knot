@@ -112,6 +112,32 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
 
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    depends_on:
+      - postgresql
+    environment:
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgresql
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=conduktor-console
+      - DB_POSTGRESDB_USER=conduktor
+      - DB_POSTGRESDB_PASSWORD=LuisPiquinRey
+      - DB_POSTGRESDB_SCHEMA=public
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=LuisPiquinRey
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - GENERIC_TIMEZONE=Europe/Madrid
+    volumes:
+      - n8n_data:/home/node/.n8n
+
   conduktor-console:
     image: conduktor/conduktor-console:1.38.0
     container_name: conduktor-console
@@ -274,12 +300,14 @@ services:
     networks:
       - mysql-network
 
+  
 volumes:
   pg_data: {}
   conduktor_data: {}
   redis-data: {}
   mysql_master_data: {}
   mysql_slave_data: {}
+  n8n_data: {}
 
 networks:
   mysql-network:
