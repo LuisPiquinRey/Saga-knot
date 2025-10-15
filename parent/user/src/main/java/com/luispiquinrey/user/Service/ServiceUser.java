@@ -1,12 +1,9 @@
 package com.luispiquinrey.user.Service;
 
 
-import java.security.MessageDigest;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +14,7 @@ import com.luispiquinrey.Error.UpdateException;
 import com.luispiquinrey.Service.CrudService;
 import com.luispiquinrey.user.Entities.Contact;
 import com.luispiquinrey.user.Repository.ContactRepository;
+import com.password4j.Password;
 
 @Service
 public class ServiceUser extends CrudService<Contact, Long> {
@@ -41,6 +39,7 @@ public class ServiceUser extends CrudService<Contact, Long> {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Contact createTarget(Contact target) throws CreationException {
+        target.setPassword(Password.hash(target.getPassword()).addRandomSalt(12).withScrypt().getResult());
         return super.createTarget(target);
     }
 
