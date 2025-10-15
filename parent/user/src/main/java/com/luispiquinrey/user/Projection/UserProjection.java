@@ -10,19 +10,24 @@ import com.luispiquinrey.Service.FacadeServiceWithRedis;
 import com.luispiquinrey.user.Entities.Contact;
 import com.luispiquinrey.user.Event.UserCreatedEvent;
 import com.luispiquinrey.user.Service.ServiceUser;
+
 @Component
 public class UserProjection {
-    private FacadeServiceWithRedis facadeServiceWithRedis;
+
+    private final ServiceUser serviceUser;
+    private final FacadeServiceWithRedis<Contact, Long> contactFacadeService;
 
     @Autowired
-    public UserProjection(FacadeServiceWithRedis facadeServiceWithRedis){
-        this.facadeServiceWithRedis=facadeServiceWithRedis;
+    public UserProjection(ServiceUser serviceUser,
+            FacadeServiceWithRedis<Contact, Long> contactFacadeService) {
+        this.serviceUser = serviceUser;
+        this.contactFacadeService = contactFacadeService;
     }
 
     @EventHandler
-    public void on(UserCreatedEvent userCreatedEvent){
-        Contact contact=new Contact();
+    public void on(UserCreatedEvent userCreatedEvent) {
+        Contact contact = new Contact();
         BeanUtils.copyProperties(userCreatedEvent, contact);
-        facadeServiceWithRedis.createTarget(contact);
+        contactFacadeService.createTarget(contact);
     }
 }

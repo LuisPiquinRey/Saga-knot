@@ -8,6 +8,7 @@ C:\Users\WIN\Desktop\Saga-knot\common\src\main\java\com\luispiquinrey\Error\Hand
 C:\Users\WIN\Desktop\Saga-knot\common\src\main\java\com\luispiquinrey\Error\SearchException.java
 C:\Users\WIN\Desktop\Saga-knot\common\src\main\java\com\luispiquinrey\Error\UpdateException.java
 C:\Users\WIN\Desktop\Saga-knot\common\src\main\java\com\luispiquinrey\Service\CrudService.java
+C:\Users\WIN\Desktop\Saga-knot\common\src\main\java\com\luispiquinrey\Service\FacadeServiceWithRedis.java
 C:\Users\WIN\Desktop\Saga-knot\common\src\main\java\com\luispiquinrey\Service\ICrudService.java
 C:\Users\WIN\Desktop\Saga-knot\common\src\main\java\com\luispiquinrey\Service\ISenderCommandService.java
 C:\Users\WIN\Desktop\Saga-knot\common\src\main\java\com\luispiquinrey\Service\SenderCommandService.java

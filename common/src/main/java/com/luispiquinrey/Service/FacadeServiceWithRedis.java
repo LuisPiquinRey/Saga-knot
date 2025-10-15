@@ -13,7 +13,6 @@ import com.luispiquinrey.Error.DeleteException;
 import com.luispiquinrey.Error.SearchException;
 import com.luispiquinrey.Error.UpdateException;
 
-@Service
 public class FacadeServiceWithRedis<T extends BaseEntity<ID>, ID> extends CrudService<T, ID> {
 
     private final RedisTemplate<String,T> redisTemplate;

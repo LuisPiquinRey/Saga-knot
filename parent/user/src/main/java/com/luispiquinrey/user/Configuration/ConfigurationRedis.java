@@ -15,6 +15,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import com.luispiquinrey.user.Entities.Contact;
+
 import static io.lettuce.core.ReadFrom.REPLICA_PREFERRED;
 
 @Configuration
@@ -38,8 +40,8 @@ public class ConfigurationRedis {
     }
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, Contact> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, Contact> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
@@ -56,4 +58,5 @@ public class ConfigurationRedis {
                 .cacheDefaults(defaults)
                 .build();
     }
+    
 }

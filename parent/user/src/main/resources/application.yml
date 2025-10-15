@@ -1,4 +1,5 @@
 spring:
     application:
         name: user
-    import: configserver:http://localhost:8090/
+    config:
+        import: configserver:http://localhost:8090/

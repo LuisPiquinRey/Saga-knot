@@ -6,8 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.luispiquinrey.*")
-@EnableRedisRepositories
+@ComponentScan(basePackages = {"com.luispiquinrey"})
 public class UserApplication {
 
 	public static void main(String[] args) {

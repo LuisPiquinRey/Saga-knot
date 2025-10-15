@@ -1,6 +1,5 @@
 package com.luispiquinrey.user.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -53,16 +52,5 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
     @Query("DELETE FROM Contact c WHERE c.email = :email")
     void deleteByEmail(@Param("email") String email);
 
-    @Query("SELECT c FROM Contact c WHERE c.authorization = 'ADMIN'")
-    @QueryHints({
-        @QueryHint(name = "jakarta.persistence.cache.retrieveMode", value = "USE")
-    })
-    List<Contact> findAllAdmins();
-
-    @Query("SELECT COUNT(c) FROM Contact c WHERE c.authorization = 'ADMIN'")
-    @QueryHints({
-        @QueryHint(name = "jakarta.persistence.cache.retrieveMode", value = "USE")
-    })
-    long countAdmins();
 
 }
