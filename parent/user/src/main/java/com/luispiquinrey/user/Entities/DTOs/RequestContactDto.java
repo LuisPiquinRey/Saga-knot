@@ -11,7 +11,6 @@ public record RequestContactDto(
         @NotBlank
         @NonNull
         String username,
-        Long idContact,
         @Email(message = "Email format is invalid")
         @NotBlank(message = "Email is required")
         @NonNull

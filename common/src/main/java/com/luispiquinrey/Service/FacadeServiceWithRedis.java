@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Service;
 
 import com.luispiquinrey.Entities.BaseEntity;
 import com.luispiquinrey.Error.CreationException;
@@ -12,6 +13,7 @@ import com.luispiquinrey.Error.DeleteException;
 import com.luispiquinrey.Error.SearchException;
 import com.luispiquinrey.Error.UpdateException;
 
+@Service
 public class FacadeServiceWithRedis<T extends BaseEntity<ID>, ID> extends CrudService<T, ID> {
 
     private final RedisTemplate<String,T> redisTemplate;

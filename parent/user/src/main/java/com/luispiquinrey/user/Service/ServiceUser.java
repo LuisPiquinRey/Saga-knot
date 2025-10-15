@@ -15,20 +15,15 @@ import com.luispiquinrey.Error.SearchException;
 import com.luispiquinrey.Error.UpdateException;
 import com.luispiquinrey.Service.CrudService;
 import com.luispiquinrey.user.Entities.Contact;
-import com.luispiquinrey.user.Entities.RedisContact;
 import com.luispiquinrey.user.Repository.ContactRepository;
-import com.luispiquinrey.user.Repository.RedisRepository;
-
 
 @Service
 public class ServiceUser extends CrudService<Contact, Long> {
 
-    private final RedisRepository redisRepository;
 
     @Autowired
-    public ServiceUser(ContactRepository contactRepository,RedisRepository redisRepository) {
+    public ServiceUser(ContactRepository contactRepository) {
         super(contactRepository, Contact.class);
-        this.redisRepository=redisRepository;
     }
 
     @Override
