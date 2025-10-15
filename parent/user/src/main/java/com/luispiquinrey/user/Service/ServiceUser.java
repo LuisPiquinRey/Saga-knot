@@ -45,15 +45,7 @@ public class ServiceUser extends CrudService<Contact, Long> {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Contact createTarget(Contact target) throws CreationException {
-        Contact contact=super.createTarget(target);
-        RedisContact redisContact=RedisContact.builder()
-            .idContact(String.valueOf(contact.getId()))
-            .email(contact.getEmail())
-            .phoneNumber(contact.getPhoneNumber())
-            .username(contact.getUsername())
-            .build();
-        redisRepository.save(redisContact);
-        return contact;
+        return super.createTarget(target);
     }
 
     @Override
