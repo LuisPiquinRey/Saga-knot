@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.luispiquinrey.Service.SenderCommandService;
 import com.luispiquinrey.user.Command.CreateUserCommand;
 import com.luispiquinrey.user.Entities.Contact;
-import com.luispiquinrey.user.Entities.DTOs.RequestContactDto;
+import com.luispiquinrey.user.DTOs.RequestContactDto;
 
 import jakarta.validation.Valid;
 

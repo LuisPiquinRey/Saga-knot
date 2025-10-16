@@ -41,6 +41,9 @@ spring:
       ddl-auto: create
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQLDialect
+  shell:
+    interactive:
+      enabled: true
 eureka:
   instance:
     preferIpAddress: true
