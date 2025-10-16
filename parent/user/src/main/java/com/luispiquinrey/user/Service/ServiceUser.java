@@ -1,11 +1,16 @@
 package com.luispiquinrey.user.Service;
 
+import java.io.PrintWriter;
 import java.util.Optional;
 
+import org.jline.terminal.Terminal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.command.annotation.Command;
 import org.springframework.shell.command.annotation.CommandScan;
 import org.springframework.shell.command.annotation.EnableCommand;
+import org.springframework.shell.command.annotation.ExceptionResolver;
+import org.springframework.shell.command.annotation.ExitCode;
+import org.springframework.shell.command.annotation.Option;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,13 +33,13 @@ public class ServiceUser extends CrudService<Contact, Long> {
     }
 
     @Override
-    public Optional<Contact> findTargetById(Long idTarget) throws SearchException {
+    @Command(command = "find-target")
+    public Optional<Contact> findTargetById(@Option(longNames = "target") Long idTarget) throws SearchException {
         return super.findTargetById(idTarget);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @Command(command = "update-contact")
     public Contact updateTarget(Contact target) throws UpdateException {
         if (target.getPassword() != null && !target.getPassword().isEmpty()) {
             target.setPassword(Password.hash(target.getPassword())
@@ -45,17 +50,86 @@ public class ServiceUser extends CrudService<Contact, Long> {
         return super.updateTarget(target);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    @Command(command = "update-contact-simple")
+    public Contact updateContactSimple(
+            @Option(longNames = "email") String email,
+            @Option(longNames = "password") String password,
+            @Option(longNames = "phone") String phoneNumber,
+            @Option(longNames = "profile") String profileImage) throws UpdateException {
+
+        if (email == null || email.isEmpty()) {
+            throw new UpdateException("Email is required to identify the contact");
+        }
+        Contact existingContact = ((ContactRepository) repositoryGeneric)
+                .findByEmail(email)
+                .orElseThrow(() -> new UpdateException("Contact not found with email: " + email));
+
+        if (password != null && !password.isEmpty()) {
+            existingContact.setPassword(Password.hash(password)
+                    .addRandomSalt(12)
+                    .withScrypt()
+                    .getResult());
+        }
+
+        if (phoneNumber != null && !phoneNumber.isEmpty()) {
+            existingContact.setPhoneNumber(phoneNumber);
+        }
+
+        if (profileImage != null && !profileImage.isEmpty()) {
+            existingContact.setProfileImage(profileImage);
+        }
+
+        return super.updateTarget(existingContact);
+    }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @Command(command = "create-target")
     public Contact createTarget(Contact target) throws CreationException {
         target.setPassword(Password.hash(target.getPassword()).addRandomSalt(12).withScrypt().getResult());
         return super.createTarget(target);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    @Command(command = "create-contact-simple")
+    public Contact createContactSimple(
+            @Option(longNames = "email") String email,
+            @Option(longNames = "password") String password,
+            @Option(longNames = "phone") String phoneNumber)
+            throws CreationException {
+
+        if (email == null || email.isEmpty()) {
+            throw new CreationException("Email is required");
+        }
+
+        if (password == null || password.isEmpty()) {
+            throw new CreationException("Password is required");
+        }
+
+        Contact contact = new Contact();
+        contact.setEmail(email);
+        contact.setPhoneNumber(phoneNumber);
+        contact.setPassword(Password.hash(password)
+                .addRandomSalt(12)
+                .withScrypt()
+                .getResult());
+
+        return super.createTarget(contact);
+    }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteTarget(Long idTarget) throws DeleteException {
+    @Command(command = "delete-target")
+    public void deleteTarget(@Option(longNames = "target") Long idTarget) throws DeleteException {
         super.deleteTarget(idTarget);
+    }
+
+    @ExceptionResolver
+    @ExitCode(code = 5)
+    public void errorHandler(Exception e, Terminal terminal) {
+        PrintWriter writer = terminal.writer();
+        writer.println("❌ Error handled: " + e.getMessage());
+        writer.println("👉 Please check your command or input.");
+        writer.flush();
     }
 }
