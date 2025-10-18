@@ -1,5 +1,7 @@
 package com.luispiquinrey.user.Repository;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
@@ -21,14 +23,16 @@ import com.luispiquinrey.user.Entities.Contact;
 @DataJpaTest
 @Import(MysqlTestContainer.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class ContactRepositoryTest {
+class ContactRepositoryTest {
+
     @Autowired
     private ContactRepository contactRepository;
+
     private List<Contact> contacts;
 
     @BeforeEach
-    void setUpData(){
-                contacts = new ArrayList<>();
+    void setUpData() {
+        contacts = new ArrayList<>();
 
         Contact contact1 = new Contact.Builder()
                 .username("juan123")
@@ -48,7 +52,7 @@ public class ContactRepositoryTest {
                 .username("pedro789")
                 .email("pedro@example.com")
                 .password("Password3#")
-                .build(); 
+                .build();
 
         contacts.add(contact1);
         contacts.add(contact2);
@@ -58,7 +62,59 @@ public class ContactRepositoryTest {
     }
 
     @Test
-    void findByUsername(String username){
-        assertTrue(contactRepository.findByUsername("juan123").isPresent());
+    void testFindByUsername() {
+        Optional<Contact> contact = contactRepository.findByUsername("juan123");
+
+        assertTrue(contact.isPresent());
+        assertEquals("juan@example.com", contact.get().getEmail());
+    }
+
+    @Test
+    void testFindByEmail() {
+        Optional<Contact> contact = contactRepository.findByEmail("maria@example.com");
+
+        assertTrue(contact.isPresent());
+        assertEquals("maria456", contact.get().getUsername());
+    }
+
+    @Test
+    void testFindByUsernameOrEmail() {
+        Optional<Contact> contact1 = contactRepository.findByUsernameOrEmail("pedro789", "noexiste@example.com");
+        Optional<Contact> contact2 = contactRepository.findByUsernameOrEmail("noexiste", "juan@example.com");
+
+        assertTrue(contact1.isPresent());
+        assertTrue(contact2.isPresent());
+        assertEquals("pedro789", contact1.get().getUsername());
+        assertEquals("juan123", contact2.get().getUsername());
+    }
+
+    @Test
+    void testExistsByUsername() {
+        assertTrue(contactRepository.existsByUsername("maria456"));
+        assertFalse(contactRepository.existsByUsername("noexiste"));
+    }
+
+    @Test
+    void testExistsByEmail() {
+        assertTrue(contactRepository.existsByEmail("juan@example.com"));
+        assertFalse(contactRepository.existsByEmail("falso@example.com"));
+    }
+
+    @Test
+    void testDeleteByUsername() {
+        contactRepository.deleteByUsername("pedro789");
+
+        Optional<Contact> deleted = contactRepository.findByUsername("pedro789");
+        assertFalse(deleted.isPresent());
+        assertEquals(2, contactRepository.count());
+    }
+
+    @Test
+    void testDeleteByEmail() {
+        contactRepository.deleteByEmail("maria@example.com");
+
+        Optional<Contact> deleted = contactRepository.findByEmail("maria@example.com");
+        assertFalse(deleted.isPresent());
+        assertEquals(2, contactRepository.count());
     }
 }
