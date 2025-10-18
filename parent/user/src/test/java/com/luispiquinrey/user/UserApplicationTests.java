@@ -1,3 +1,4 @@
+
 package com.luispiquinrey.user;
 
 import org.junit.jupiter.api.Test;
