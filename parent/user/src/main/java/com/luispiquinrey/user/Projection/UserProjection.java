@@ -14,13 +14,10 @@ import com.luispiquinrey.user.Service.ServiceUser;
 @Component
 public class UserProjection {
 
-    private final ServiceUser serviceUser;
     private final FacadeServiceWithRedis<Contact, Long> contactFacadeService;
 
     @Autowired
-    public UserProjection(ServiceUser serviceUser,
-            FacadeServiceWithRedis<Contact, Long> contactFacadeService) {
-        this.serviceUser = serviceUser;
+    public UserProjection(FacadeServiceWithRedis<Contact, Long> contactFacadeService) {
         this.contactFacadeService = contactFacadeService;
     }
 
