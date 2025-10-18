@@ -29,7 +29,7 @@ public class UserAggregate {
     }
     @CommandHandler
     public UserAggregate(CreateUserCommand createUserCommand){
-        UserCreatedEvent userCreatedEvent=new UserCreatedEvent();
+        UserCreatedEvent userCreatedEvent=UserCreatedEvent.builder().build();
         BeanUtils.copyProperties(createUserCommand, userCreatedEvent);
         AggregateLifecycle.apply(userCreatedEvent);
     }
