@@ -18,7 +18,7 @@ import com.luispiquinrey.user.DTOs.RequestContactDto;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/command")
 public class UserController {
 
     @PostMapping("/create")

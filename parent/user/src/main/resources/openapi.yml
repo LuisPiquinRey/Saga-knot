@@ -1,0 +1,93 @@
+openapi: 3.1.0
+servers:
+  - url: "http://localhost:8080"
+info:
+  title: Simple User API
+  version: "1.0.0"
+  description: API for managing user creation commands
+  contact:
+    email: piquin.rey@gmail.com
+
+tags:
+  - name: users
+    description: Operations available to handle user creation and management
+
+paths:
+  /user/command/create:
+    post:
+      tags:
+        - users
+      summary: Create a new user
+      operationId: createUser
+      description: |
+        This endpoint creates a new user in the system. 
+        The request must include valid user information. 
+        If validation fails, a map of field errors will be returned. 
+        On success, it returns a success message. 
+        If any exception occurs during the command dispatch process, 
+        an internal server error message is returned.
+      requestBody:
+        required: true
+        description: User data required to create a new contact
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestContactDto'
+      responses:
+        "200":
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User created successfully
+        "400":
+          description: Validation errors in the submitted fields
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+                  example: "email: must be a well-formed email address"
+        "500":
+          description: Internal server error during user creation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Failed to create product: Unexpected error"
+
+components:
+  schemas:
+    RequestContactDto:
+      type: object
+      required:
+        - username
+        - email
+        - password
+      properties:
+        username:
+          type: string
+          example: johndoe
+        email:
+          type: string
+          format: email
+          example: johndoe@example.com
+        password:
+          type: string
+          format: password
+          example: StrongP@ssw0rd
+        phoneNumber:
+          type: string
+          example: "+1234567890"
+        profileImage:
+          type: string
+          format: uri
+          example: https://example.com/profile.jpg

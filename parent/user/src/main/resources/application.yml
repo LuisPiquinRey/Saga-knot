@@ -3,3 +3,9 @@ spring:
         name: user
     config:
         import: configserver:http://localhost:8090/
+springdoc:
+    swagger-ui:
+        url: /openapi.yaml  
+        path: /swagger-ui.html
+    api-docs:
+        enabled: false    
