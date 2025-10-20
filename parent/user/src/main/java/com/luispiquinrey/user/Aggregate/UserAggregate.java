@@ -9,7 +9,7 @@ import org.springframework.beans.BeanUtils;
 
 import com.luispiquinrey.user.Command.CreateUserCommand;
 import com.luispiquinrey.user.Event.UserCreatedEvent;
-
+import com.luispiquinrey.user.Event.UserUpdatedEvent;
 @Aggregate
 public class UserAggregate {
     @AggregateIdentifier
@@ -41,5 +41,14 @@ public class UserAggregate {
         this.password=userCreatedEvent.getPassword();
         this.phoneNumber=userCreatedEvent.getPhoneNumber();
         this.profileImage=userCreatedEvent.getProfileImage();
+    }
+    @EventSourcingHandler
+    public void on(UserUpdatedEvent userUpdatedEvent){
+        this.idContact=userUpdatedEvent.getIdContact();
+        this.username=userUpdatedEvent.getUsername();
+        this.email=userUpdatedEvent.getEmail();
+        this.password=userUpdatedEvent.getPassword();
+        this.phoneNumber=userUpdatedEvent.getPhoneNumber();
+        this.profileImage=userUpdatedEvent.getProfileImage();
     }
 }
