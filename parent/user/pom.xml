@@ -131,6 +131,11 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.8.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.axonframework</groupId>
 			<artifactId>axon-test</artifactId>
 			<version>4.9.3</version>
