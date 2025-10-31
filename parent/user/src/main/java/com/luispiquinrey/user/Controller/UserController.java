@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,7 +56,7 @@ public class UserController {
                     .phoneNumber(contact.getPhoneNumber())
                     .profileImage(contact.getProfileImage())
                     .build();
-            return handleCommand(createUserCommand);
+            return handleCommand(createUserCommand, "User created sucessfully");
         }
     }
     @DeleteMapping("/delete/{id}")
@@ -63,9 +64,9 @@ public class UserController {
         DeleteUserCommand deleteUserCommand=DeleteUserCommand.builder()
                 .idContact(id)
                 .build();
-        return handleCommand(deleteUserCommand);
+        return handleCommand(deleteUserCommand, "User deleted sucessfully");
     }
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<?> update(@Valid @RequestBody RequestContactDto requestContactDto, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
             Map<String, String> errors = new HashMap<>();
@@ -89,13 +90,13 @@ public class UserController {
                     .profileImage(contact.getProfileImage())
                     .build();
 
-                return handleCommand(updateUserCommand);
+                return handleCommand(updateUserCommand, "User updated sucessfully");
         }
     }
-    private ResponseEntity<?> handleCommand(Object command) {
+    private ResponseEntity<?> handleCommand(Object command,String message) {
     try {
         senderCommandService.send(command);
-        return ResponseEntity.ok(Map.of("message", "Operation executed successfully"));
+        return ResponseEntity.ok(Map.of("message", message));
     } catch (Exception e) {
         return ResponseEntity.internalServerError()
             .body(Map.of("error", "Operation failed: " + e.getMessage()));

@@ -4,6 +4,7 @@ import java.util.concurrent.CompletableFuture;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class SenderCommandService {
