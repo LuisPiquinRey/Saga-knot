@@ -13,6 +13,10 @@ public class Order implements Serializable {
     @Id
     private String idOrder = UUID.randomUUID().toString();
 
+    private String idUser;
+
+    private String idAddress;
+
     private LocalDateTime orderDate = LocalDateTime.now();
 
     @PositiveOrZero
@@ -39,6 +43,20 @@ public class Order implements Serializable {
 
     public Order(LocalDateTime orderDate, float subtotal, float tax, float shippingCost,
             float total, StatusOrder status, String notes) {
+        this.orderDate = orderDate;
+        this.subtotal = subtotal;
+        this.tax = tax;
+        this.shippingCost = shippingCost;
+        this.total = total;
+        this.status = status;
+        this.notes = notes;
+    }
+
+    public Order(String idUser, String idAddress, LocalDateTime orderDate, @PositiveOrZero float subtotal,
+            @PositiveOrZero float tax, @PositiveOrZero float shippingCost, @PositiveOrZero float total,
+            StatusOrder status, String notes) {
+        this.idUser = idUser;
+        this.idAddress = idAddress;
         this.orderDate = orderDate;
         this.subtotal = subtotal;
         this.tax = tax;
@@ -126,6 +144,22 @@ public class Order implements Serializable {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
+    }
+
+    public String getIdAddress() {
+        return idAddress;
+    }
+
+    public void setIdAddress(String idAddress) {
+        this.idAddress = idAddress;
     }
 
     @Override
