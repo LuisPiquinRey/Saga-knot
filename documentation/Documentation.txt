@@ -1,0 +1,62 @@
+Hey, user!
+
+As you’ve read in the document, we’ll talk a bit about how I’ve divided and fragmented my software, since it’s composed of microservices. Some important points before we start: a microservice must have a single responsibility
+,this is the SRP (Single Responsibility Principle). If you were wondering why we break things into smaller parts, it’s because we aim to scale each one independently and even use different technology stacks.
+
+We will identify the business domains of our e-commerce system. Each domain should have a clear purpose and scope, and ideally be aligned with the organizational structure and business goals.
+DDD (Domain-Driven Design) is a key approach for this.
+
+                    Y
+                    |
+                    |
+                    |
+          C---------+-------D
+         /|         |      /|
+        / |         |     / |
+       /  |         |    /  |
+      A---+---------|---B   |
+      |   |         |   |   |
+      |   G---------+---|---H
+      |  /         /    |  /
+      | /         /     | /
+      |/         /      |/
+      E---------F-------+----------> X
+               /
+              /
+             /
+            Z
+
+
+We’ll define services based on DDD practices. Unlike business capabilities, which divide the system according to business functionalities, DDD divides it based on business domains and subdomains.
+The bounded contexts define our boundaries.
+In my case, I’ve divided it into the following contexts: user, product, cart, order, and payment.
+
+To define the domains of our e-commerce, we start by writing a sequence of user stories, for example:
+
+“As a user, I want to list products.”
+Based on these stories, the domains we were looking for begin to emerge naturally.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+I chose the service-per-database pattern (the payment service being stateless), allowing each microservice to manage its own data independently. Most services use MySQL but I realized that the cart is probably the service with
+the highest write frequency in my e-commerce platform. Every time a user adds a product, changes quantity, or removes something, I'm performing writes. During traffic peaks, I could have thousands of operations per second. Redis,
+being in-memory, can handle hundreds of thousands of operations per second with millisecond latencies. MongoDB also handles this write-heavy pattern well without the overhead of ACID transactions that I don't need here. Unlike 
+finalized orders, the cart doesn't require strict ACID guarantees in my system. If a user loses an item from their cart due to a momentary failure, they can simply add it again. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
