@@ -3,27 +3,26 @@ package com.luispiquinrey.user.Controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.luispiquinrey.Service.SenderCommandService;
 import com.luispiquinrey.user.Command.CreateUserCommand;
 import com.luispiquinrey.user.Command.DeleteUserCommand;
 import com.luispiquinrey.user.Command.UpdateUserCommand;
 import com.luispiquinrey.user.Command.UploadImageUserCommand;
 import com.luispiquinrey.user.DTOs.RequestContactDto;
 import com.luispiquinrey.user.DTOs.UpdateContactDto;
-import com.luispiquinrey.user.Service.S3CloudService;
 
 import jakarta.validation.Valid;
 
@@ -31,11 +30,11 @@ import jakarta.validation.Valid;
 @RequestMapping("/user/command")
 public class UserController {
 
-    private final SenderCommandService senderCommandService;
+    private final CommandGateway commandGateway;
 
     @Autowired
-    public UserController(SenderCommandService senderCommandService) {
-        this.senderCommandService = senderCommandService;
+    public UserController(CommandGateway commandGateway) {
+        this.commandGateway = commandGateway;
     }
 
     @PostMapping("/create")
@@ -46,15 +45,16 @@ public class UserController {
                 errors.put(err.getField(), err.getDefaultMessage());
             });
             return ResponseEntity.badRequest().body(errors);
-        } else {
-            CreateUserCommand createUserCommand = CreateUserCommand.builder()
-                    .username(requestContactDto.username())
-                    .email(requestContactDto.email())
-                    .password(requestContactDto.password())
-                    .phoneNumber(requestContactDto.phoneNumber())
-                    .build();
-            return handleCommand(createUserCommand, "User created sucessfully");
         }
+        
+        CreateUserCommand createUserCommand = CreateUserCommand.builder()
+                .username(requestContactDto.username())
+                .email(requestContactDto.email())
+                .password(requestContactDto.password())
+                .phoneNumber(requestContactDto.phoneNumber())
+                .build();
+        
+        return handleCommand(createUserCommand, "User created successfully");
     }
 
     @DeleteMapping("/delete/{id}")
@@ -62,7 +62,7 @@ public class UserController {
         DeleteUserCommand deleteUserCommand = DeleteUserCommand.builder()
                 .idContact(id)
                 .build();
-        return handleCommand(deleteUserCommand, "User deleted sucessfully");
+        return handleCommand(deleteUserCommand, "User deleted successfully");
     }
 
     @PutMapping("/update")
@@ -73,32 +73,33 @@ public class UserController {
                 errors.put(err.getField(), err.getDefaultMessage());
             });
             return ResponseEntity.badRequest().body(errors);
-        } else {
-            UpdateUserCommand updateUserCommand = UpdateUserCommand.builder()
-                    .email(updateContactDto.email())
-                    .password(updateContactDto.password())
-                    .phoneNumber(updateContactDto.phoneNumber())
-                    .build();
-
-            return handleCommand(updateUserCommand, "User updated sucessfully");
         }
+        
+        UpdateUserCommand updateUserCommand = UpdateUserCommand.builder()
+                .email(updateContactDto.email())
+                .password(updateContactDto.password())
+                .phoneNumber(updateContactDto.phoneNumber())
+                .build();
+
+        return handleCommand(updateUserCommand, "User updated successfully");
     }
 
     @PostMapping("/image/{username}")
-    public ResponseEntity<?> image(@PathVariable String username,
-            MultipartFile image) {
-        UploadImageUserCommand uploadImageUserCommand=UploadImageUserCommand.builder()
+    public ResponseEntity<?> image(@PathVariable String username, @RequestParam("image") MultipartFile image) {
+        UploadImageUserCommand uploadImageUserCommand = UploadImageUserCommand.builder()
                 .image(image)
                 .username(username)
                 .build();
-        return handleCommand(uploadImageUserCommand, "User image updated sucessfully");
+        return handleCommand(uploadImageUserCommand, "User image updated successfully");
     }
-    
 
     private ResponseEntity<?> handleCommand(Object command, String message) {
         try {
-            senderCommandService.send(command);
-            return ResponseEntity.ok(Map.of("message", message));
+            Object result = commandGateway.sendAndWait(command);
+            return ResponseEntity.ok(Map.of(
+                "message", message,
+                "result", result
+            ));
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
                     .body(Map.of("error", "Operation failed: " + e.getMessage()));
