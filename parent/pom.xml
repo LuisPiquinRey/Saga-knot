@@ -10,6 +10,10 @@
     <modules>
         <module>product</module>
         <module>order</module>
+        <module>cart</module>
+        <module>payment</module>
+        <module>saga</module>
+        <module>user</module>
     </modules>
 
     <parent>
