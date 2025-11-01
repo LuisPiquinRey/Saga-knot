@@ -19,10 +19,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Version;
@@ -38,14 +40,12 @@ public class Product implements Serializable {
 
     @Id
     @Column(name = "id_product", updatable = false, nullable = false)
-    private String idProduct=UUID.randomUUID().toString();
+    private String idProduct = UUID.randomUUID().toString();
 
     private String name;
 
     @Embedded
     private AuditInfo auditInfo;
-
-    private String brand;
 
     @Enumerated(EnumType.STRING)
     private StatusProduct status;
@@ -56,31 +56,51 @@ public class Product implements Serializable {
     @Column(name = "OPTLOCK")
     private Integer version;
 
-    private Integer stock;
+    private Integer stock=0;
 
     @ManyToMany(
-        targetEntity=Category.class,
-        cascade={CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name="product_category",
-        joinColumns= @JoinColumn(name="id_product",referencedColumnName="id_product"),
-        inverseJoinColumns= @JoinColumn(name="id_category",referencedColumnName="id_category"))
+            targetEntity = Category.class,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "product_category",
+            joinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id_product"),
+            inverseJoinColumns = @JoinColumn(name = "id_category", referencedColumnName = "id_category"))
     private List<Category> categories;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_gender")
+    private Gender gender;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_brand")
+    private Brand brand;
 
     public Product() {
     }
 
-    public Product(String name, String brand, Float price,Integer stock) {
+    public Product(String name, StatusProduct status, float price, Integer stock) {
         this.name = name;
+        this.status = status;
+        this.price = price;
+        this.stock = stock;
+    }
+
+    public Product(String name, StatusProduct status, float price, Integer stock, List<Category> categories,
+            Gender gender, Brand brand) {
+        this.name = name;
+        this.status = status;
+        this.price = price;
+        this.stock = stock;
+        this.categories = categories;
+        this.gender = gender;
         this.brand = brand;
-        this.price=price;
-        this.stock=stock;
     }
 
     public String getIdProduct() {
         return idProduct;
     }
-    public void setIdProduct(String idProduct){
-        this.idProduct=idProduct;
+
+    public void setIdProduct(String idProduct) {
+        this.idProduct = idProduct;
     }
 
     public String getName() {
@@ -91,11 +111,11 @@ public class Product implements Serializable {
         this.name = name;
     }
 
-    public String getBrand() {
+    public Brand getBrand() {
         return brand;
     }
 
-    public void setBrand(String brand) {
+    public void setBrand(Brand brand) {
         this.brand = brand;
     }
 
@@ -146,6 +166,14 @@ public class Product implements Serializable {
     public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
     
-    
+
 }

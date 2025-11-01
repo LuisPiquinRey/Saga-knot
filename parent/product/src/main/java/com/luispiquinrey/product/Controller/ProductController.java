@@ -28,7 +28,7 @@ public class ProductController {
 
     @Autowired
     private QueryGateway queryGateway;
-
+/*
     @PostMapping("/create")
     public ResponseEntity<?> createProduct(@RequestBody @Valid ProductRequest productRequest, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
@@ -62,4 +62,5 @@ public class ProductController {
             }
         }
     }
+ */
 }
