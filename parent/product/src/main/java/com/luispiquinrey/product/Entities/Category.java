@@ -1,5 +1,6 @@
 package com.luispiquinrey.product.Entities;
 
+import java.util.List;
 import java.util.UUID;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -24,6 +25,13 @@ public class Category {
 
     @Size(max = 255, message = "Image URL cannot exceed 255 characters")
     private String image;
+
+    @ManyToMany(
+        cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+        mappedBy = "categories",
+        targetEntity = Product.class
+    )
+    private List<Product> products;
 
     public Category() {}
 
@@ -64,6 +72,13 @@ public class Category {
 
     public void setImage(String image) {
         this.image = image;
+    }
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     @Override

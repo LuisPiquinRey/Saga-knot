@@ -1,6 +1,7 @@
 package com.luispiquinrey.product.Entities;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.Cache;
@@ -11,6 +12,7 @@ import com.luispiquinrey.Entities.AuditInfo;
 import com.luispiquinrey.Enums.StatusProduct;
 
 import jakarta.persistence.Cacheable;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -18,6 +20,9 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Version;
@@ -32,6 +37,7 @@ import jakarta.persistence.Version;
 public class Product implements Serializable {
 
     @Id
+    @Column(name = "id_product", updatable = false, nullable = false)
     private String idProduct=UUID.randomUUID().toString();
 
     private String name;
@@ -51,6 +57,14 @@ public class Product implements Serializable {
     private Integer version;
 
     private Integer stock;
+
+    @ManyToMany(
+        targetEntity=Category.class,
+        cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name="product_category",
+        joinColumns= @JoinColumn(name="id_product",referencedColumnName="id_product"),
+        inverseJoinColumns= @JoinColumn(name="id_category",referencedColumnName="id_category"))
+    private List<Category> categories;
 
     public Product() {
     }
@@ -124,5 +138,14 @@ public class Product implements Serializable {
     public void setStock(Integer stock) {
         this.stock = stock;
     }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+    
     
 }
