@@ -1,12 +1,15 @@
 package com.luispiquinrey.user.DTOs;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import io.micrometer.common.lang.NonNull;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record LoginContactDto(
+
+public record UpdateContactDto(
         @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
         @NotBlank
         @NonNull
@@ -19,7 +22,11 @@ public record LoginContactDto(
         @NonNull
         @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$",
                 message = "Password must be at least 8 characters with uppercase, lowercase, digit and special character")
-        String password
+        String password,
+        @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$",
+                message = "Phone number must be a valid international format")
+        String phoneNumber,
+        String image
         ) {
 
 }

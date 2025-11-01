@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.luispiquinrey.Entities.BaseEntity;
 import com.luispiquinrey.Error.CreationException;
@@ -40,7 +41,7 @@ public class CrudService<T extends BaseEntity<ID>, ID> implements ICrudService<T
             throw new SearchException("Error searching " + nameClass + " with ID: " + idTarget);
         }
     }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteTarget(ID idTarget) throws DeleteException {
         logger.info("🗑️ Deleting {} with id={}", nameClass, idTarget);
@@ -58,7 +59,7 @@ public class CrudService<T extends BaseEntity<ID>, ID> implements ICrudService<T
             throw new DeleteException("Error deleting " + nameClass + " with ID: " + idTarget);
         }
     }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public T createTarget(T target) throws CreationException {
         logger.info("🆕 Creating new {}", nameClass);
@@ -74,7 +75,7 @@ public class CrudService<T extends BaseEntity<ID>, ID> implements ICrudService<T
             throw new CreationException("Error creating " + nameClass);
         }
     }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public T updateTarget(T target) throws UpdateException {
         logger.info("📝 Updating {}: {}", nameClass, target != null ? target.getId() : "null");

@@ -1,4 +1,5 @@
 services:
+  # ===== Axon Server =====
   axoniq:
     image: "axoniq/axonserver:2024.2.15-jdk-17-nonroot"
     container_name: axon-server
@@ -9,12 +10,22 @@ services:
       - "8224:8224"
     environment:
       AXONIQ_AXONSERVER_NAME: axon-server-dev
-      AXONIQ_AXONSERVER_HOSTNAME: localhost
+      AXONIQ_AXONSERVER_HOSTNAME: axon-server
       AXONIQ_AXONSERVER_DEVMODE_ENABLED: "true"
       AXONIQ_AXONSERVER_STANDALONE: "true"
-    env_file:
-      - .env
+    volumes:
+      - axon_data:/axonserver/data
+      - axon_events:/axonserver/events
+      - axon_config:/axonserver/config
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8024/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - default
 
+  # ===== RabbitMQ =====
   rabbitmq:
     image: rabbitmq:3.11-management
     container_name: amqp
@@ -26,140 +37,116 @@ services:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
       RABBITMQ_DEFAULT_VHOST: /
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s     
+      timeout: 10s     
+      retries: 5
+      start_period: 60s  
+    networks:
+      - default
 
-  kconnect:
-    image: debezium/connect:3.0.0.Final
-    container_name: kconnect
+  # ===== Config Server =====
+  configs:
+    image: "luispiquinrey/configs:s4"
+    container_name: configs
     restart: always
     ports:
-      - "8083:8083"
-    environment:
-      CONFIG_STORAGE_TOPIC: my_connect_configs
-      OFFSET_STORAGE_TOPIC: my_connect_offsets
-      STATUS_STORAGE_TOPIC: my_connect_statuses
-      BOOTSTRAP_SERVERS: kafka1:19092
-    links:
-      - mysql_master
-      - kafka1
-    networks:
-      - mysql-network
-      - default
+      - "8090:8090"
     depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS: "classpath:/config"
+      SPRING_CLOUD_BUS_ENABLED: false
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://configs:8090/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - default
+
+  # ===== Discovery Service =====
+  discovery:
+    image: "luispiquinrey/discovery:s4"
+    container_name: discovery
+    restart: on-failure
+    ports:
+      - "8761:8761"
+    environment:
+      SPRING_APPLICATION_NAME: "discovery"
+      SPRING_CONFIG_IMPORT: "configserver:http://configs:8090"
+      SPRING_CLOUD_CONFIG_URI: "configserver:http://configs:8090"
+    command: >
+      sh -c "
+      until curl -sf http://configs:8090/actuator/health | grep UP;
+      do echo 'Waiting for config server...'; sleep 5; done;
+      java -jar app.jar"
+    depends_on:
+      configs:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - default
+  # ===== User Service =====
+  user:
+    image: "luispiquinrey/user:s4"
+    container_name: user
+    restart: always
+    ports:
+      - "9098:9098"
+    depends_on:
+      configs:
+        condition: service_healthy
+      discovery:
+        condition: service_healthy
       mysql_master:
+        condition: service_healthy
+      mysql_slave:
+        condition: service_healthy
+      axoniq:
         condition: service_healthy
       kafka1:
         condition: service_started
-
-  mysql_master:
-    image: mysql:oraclelinux9
-    container_name: mysql-master
-    restart: always
-    ports:
-      - "3308:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: LuisPiquinRey
-      MYSQL_DATABASE: product_master
-    command:
-      - --server-id=1
-      - --log-bin=mysql-bin
-      - --binlog-row-image=FULL
-      - --binlog-expire-logs-seconds=864000
-      - --gtid-mode=ON
-      - --enforce-gtid-consistency=ON
-    volumes:
-      - ./init-master.sql:/docker-entrypoint-initdb.d/init.sql
-      - mysql_master_data:/var/lib/mysql
-    networks:
-      - mysql-network
+      kconnect:
+        condition: service_started
+      postgresql:
+        condition: service_healthy
+      n8n:
+        condition: service_started
+      conduktor-console:
+        condition: service_started
+      redis-master:
+        condition: service_healthy
+      sentinel-1:
+        condition: service_healthy
+      sentinel-2:
+        condition: service_healthy
+      sentinel-3:
+        condition: service_healthy
+      keycloak:
+        condition: service_started
+      localstack:
+        condition: service_started
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pLuisPiquinRey"]
+      test: ["CMD", "curl", "-f", "http://user:9098/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 5
-
-  mysql_slave:
-    image: mysql:oraclelinux9
-    container_name: mysql-slave
-    restart: always
-    ports:
-      - "3309:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: LuisPiquinRey
-      MYSQL_DATABASE: product_slave
-    volumes:
-      - mysql_slave_data:/var/lib/mysql
-      - ./init-slave.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      - mysql-network
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pLuisPiquinRey"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - default
+      - redis-network
 
-  postgresql:
-    image: postgres:14
-    container_name: postgresql
-    hostname: postgresql
-    restart: always
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_DB: "conduktor-console"
-      POSTGRES_USER: "conduktor"
-      POSTGRES_PASSWORD: "LuisPiquinRey"
-      POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
-    volumes:
-      - pg_data:/var/lib/postgresql/data
-
-  n8n:
-    image: docker.n8n.io/n8nio/n8n
-    container_name: n8n
-    restart: always
-    ports:
-      - "5678:5678"
-    depends_on:
-      - postgresql
-    environment:
-      - DB_TYPE=postgresdb
-      - DB_POSTGRESDB_HOST=postgresql
-      - DB_POSTGRESDB_PORT=5432
-      - DB_POSTGRESDB_DATABASE=conduktor-console
-      - DB_POSTGRESDB_USER=conduktor
-      - DB_POSTGRESDB_PASSWORD=LuisPiquinRey
-      - DB_POSTGRESDB_SCHEMA=public
-      - N8N_BASIC_AUTH_ACTIVE=true
-      - N8N_BASIC_AUTH_USER=admin
-      - N8N_BASIC_AUTH_PASSWORD=LuisPiquinRey
-      - N8N_HOST=localhost
-      - N8N_PORT=5678
-      - N8N_PROTOCOL=http
-      - GENERIC_TIMEZONE=Europe/Madrid
-    volumes:
-      - n8n_data:/home/node/.n8n
-
-  conduktor-console:
-    image: conduktor/conduktor-console:1.38.0
-    container_name: conduktor-console
-    restart: always
-    ports:
-      - "8080:8080"
-    volumes:
-      - conduktor_data:/var/conduktor
-    environment:
-      CDK_DATABASE_URL: "postgresql://conduktor:LuisPiquinRey@postgresql:5432/conduktor-console"
-      CDK_CLUSTERS_0_ID: "default"
-      CDK_CLUSTERS_0_NAME: "Debezium cluster"
-      CDK_CLUSTERS_0_COLOR: "#0013E7"
-      CDK_CLUSTERS_0_BOOTSTRAPSERVERS: "PLAINTEXT://kafka1:19092"
-      CDK_CONNECT_0_ID: "debezium-connect"
-      CDK_CONNECT_0_NAME: "Debezium Connect"
-      CDK_CONNECT_0_BOOTSTRAP: "http://kconnect:8083"
-    depends_on:
-      - postgresql
-      - kafka1
-      - kconnect
-
+  # ===== Kafka =====
   kafka1:
     image: confluentinc/cp-kafka:8.0.0
     hostname: kafka1
@@ -176,105 +163,351 @@ services:
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka1:9099"
       KAFKA_LISTENERS: INTERNAL://0.0.0.0:19092,EXTERNAL://0.0.0.0:9092,DOCKER://0.0.0.0:29092,CONTROLLER://0.0.0.0:9099
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka1:19092,EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092,DOCKER://host.docker.internal:29092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka1:19092,EXTERNAL://kafka1:9092,DOCKER://kafka1:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT,CONTROLLER:PLAINTEXT
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
-      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_AUTHORIZER_CLASS_NAME: org.apache.kafka.metadata.authorizer.StandardAuthorizer
       KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "kafka-broker-api-versions",
+          "--bootstrap-server",
+          "localhost:9092",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - default
 
+  # ===== Kafka Connect =====
+  kconnect:
+    image: debezium/connect:3.0.0.Final
+    container_name: kconnect
+    restart: always
+    ports:
+      - "8083:8083"
+    environment:
+      CONFIG_STORAGE_TOPIC: my_connect_configs
+      OFFSET_STORAGE_TOPIC: my_connect_offsets
+      STATUS_STORAGE_TOPIC: my_connect_statuses
+      BOOTSTRAP_SERVERS: kafka1:19092
+    depends_on:
+      mysql_master:
+        condition: service_healthy
+      kafka1:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://kconnect:8083/"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - default
+      - mysql-network
+
+  # ===== MySQL Master =====
+  mysql_master:
+    image: mysql:oraclelinux9
+    container_name: mysql-master
+    restart: always
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: LuisPiquinRey
+      MYSQL_DATABASE: product_master
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: LuisPiquinRey
+    command:
+      - --server-id=1
+      - --log-bin=mysql-bin
+      - --binlog-row-image=FULL
+      - --binlog-expire-logs-seconds=864000
+      - --gtid-mode=ON
+      - --enforce-gtid-consistency=ON
+    volumes:
+      - mysql_master_data:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-uroot",
+          "-pLuisPiquinRey",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mysql-network
+
+  # ===== MySQL Slave =====
+  mysql_slave:
+    image: mysql:oraclelinux9
+    container_name: mysql-slave
+    restart: always
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: LuisPiquinRey
+      MYSQL_DATABASE: product_slave
+    depends_on:
+      mysql_master:
+        condition: service_healthy
+    volumes:
+      - mysql_slave_data:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-uroot",
+          "-pLuisPiquinRey",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mysql-network
+
+  # ===== PostgreSQL =====
+  postgresql:
+    image: postgres:14
+    container_name: postgresql
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "conduktor-console"
+      POSTGRES_USER: "conduktor"
+      POSTGRES_PASSWORD: "LuisPiquinRey"
+      POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U conduktor -d conduktor-console"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - default
+
+  # ===== n8n =====
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    environment:
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: postgresql
+      DB_POSTGRESDB_PORT: 5432
+      DB_POSTGRESDB_DATABASE: conduktor-console
+      DB_POSTGRESDB_USER: conduktor
+      DB_POSTGRESDB_PASSWORD: LuisPiquinRey
+      DB_POSTGRESDB_SCHEMA: public
+      N8N_BASIC_AUTH_ACTIVE: true
+      N8N_BASIC_AUTH_USER: admin
+      N8N_BASIC_AUTH_PASSWORD: LuisPiquinRey
+      N8N_HOST: n8n
+      N8N_PORT: 5678
+      N8N_PROTOCOL: http
+      GENERIC_TIMEZONE: Europe/Madrid
+    volumes:
+      - n8n_data:/home/node/.n8n
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://n8n:5678/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - default
+
+  # ===== Conduktor Console =====
+  conduktor-console:
+    image: conduktor/conduktor-console:1.38.0
+    container_name: conduktor-console
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      kafka1:
+        condition: service_started
+      kconnect:
+        condition: service_started
+    environment:
+      CDK_DATABASE_URL: "postgresql://conduktor:LuisPiquinRey@postgresql:5432/conduktor-console"
+      CDK_CLUSTERS_0_ID: "default"
+      CDK_CLUSTERS_0_NAME: "Debezium cluster"
+      CDK_CLUSTERS_0_COLOR: "#0013E7"
+      CDK_CLUSTERS_0_BOOTSTRAPSERVERS: "PLAINTEXT://kafka1:19092"
+      CDK_CONNECT_0_ID: "debezium-connect"
+      CDK_CONNECT_0_NAME: "Debezium Connect"
+      CDK_CONNECT_0_BOOTSTRAP: "http://kconnect:8083"
+    volumes:
+      - conduktor_data:/var/conduktor
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://conduktor-console:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - default
+
+  # ===== Redis Master/Slaves/Sentinels =====
   redis-master:
     image: redis:latest
-    # Optionally mount volumes for Redis so data is persisted when containers shut down or restart
-    #    volumes:
-    #      - .docker/redis/redis-master:/data
+    container_name: redis-master
     command: ["redis-server", "--appendonly", "yes", "--protected-mode", "no"]
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "PING"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - redis-network
 
   redis-slave-1:
     image: redis:latest
-    depends_on:
-      - redis-master
-    # Optionally mount volumes for Redis so data is persisted when containers shut down or restart
-    #    volumes:
-    #      - .docker/redis/redis-slave-1:/data
+    container_name: redis-slave-1
     command: ["redis-server", "--replicaof", "redis-master", "6379", "--protected-mode", "no"]
+    depends_on:
+      redis-master:
+        condition: service_healthy
+    networks:
+      - redis-network
 
   redis-slave-2:
     image: redis:latest
-    depends_on:
-      - redis-master
-    # Optionally mount volumes for Redis so data is persisted when containers shut down or restart
-    #    volumes:
-    #      - .docker/redis/redis-slave-2:/data
+    container_name: redis-slave-2
     command: ["redis-server", "--replicaof", "redis-master", "6379", "--protected-mode", "no"]
+    depends_on:
+      redis-master:
+        condition: service_healthy
+    networks:
+      - redis-network
 
   redis-slave-3:
     image: redis:latest
-    depends_on:
-      - redis-master
-    # Optionally mount volumes for Redis so data is persisted when containers shut down or restart
-    #    volumes:
-    #      - .docker/redis/redis-slave-3:/data
+    container_name: redis-slave-3
     command: ["redis-server", "--replicaof", "redis-master", "6379", "--protected-mode", "no"]
+    depends_on:
+      redis-master:
+        condition: service_healthy
+    networks:
+      - redis-network
 
   sentinel-1:
     image: redis:latest
-    depends_on:
-      - redis-master
-      - redis-slave-1
-      - redis-slave-2
-      - redis-slave-3
-    # Sentinel configuration is created dynamically and mounted by volume because Sentinel itself will modify the configuration
-    # once it is running. If master changes this will be reflected in all configurations and some additional things are added which are
-    # meant only for runtime use and not something that should be commited as base configuration.
+    container_name: sentinel-1
+    ports:
+      - "26379:26379"
     command: >
-      sh -c 'echo "sentinel resolve-hostnames yes" > /etc/sentinel.conf &&
-            echo "sentinel monitor mymaster redis-master 6379 2" >> /etc/sentinel.conf &&
-            echo "sentinel down-after-milliseconds mymaster 1000" >> /etc/sentinel.conf &&
-            echo "sentinel failover-timeout mymaster 5000" >> /etc/sentinel.conf &&
-            echo "sentinel parallel-syncs mymaster 1" >> /etc/sentinel.conf &&
-            redis-server /etc/sentinel.conf --sentinel'
+      sh -c 'echo "port 26379" > /etc/sentinel.conf &&
+             echo "sentinel resolve-hostnames yes" >> /etc/sentinel.conf &&
+             echo "sentinel monitor mymaster redis-master 6379 2" >> /etc/sentinel.conf &&
+             echo "sentinel down-after-milliseconds mymaster 1000" >> /etc/sentinel.conf &&
+             echo "sentinel failover-timeout mymaster 5000" >> /etc/sentinel.conf &&
+             echo "sentinel parallel-syncs mymaster 1" >> /etc/sentinel.conf &&
+             redis-server /etc/sentinel.conf --sentinel'
+    depends_on:
+      redis-master:
+        condition: service_healthy
+      redis-slave-1:
+        condition: service_started
+      redis-slave-2:
+        condition: service_started
+      redis-slave-3:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "redis-cli", "-p", "26379", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - redis-network
 
   sentinel-2:
     image: redis:latest
-    depends_on:
-      - redis-master
-      - redis-slave-1
-      - redis-slave-2
-      - redis-slave-3
-    # Sentinel configuration is created dynamically and mounted by volume because Sentinel itself will modify the configuration
-    # once it is running. If master changes this will be reflected in all configurations and some additional things are added which are
-    # meant only for runtime use and not something that should be commited as base configuration.
+    container_name: sentinel-2
+    ports:
+      - "26380:26379"
     command: >
-      sh -c 'echo "sentinel resolve-hostnames yes" > /etc/sentinel.conf &&
-            echo "sentinel monitor mymaster redis-master 6379 2" >> /etc/sentinel.conf &&
-            echo "sentinel down-after-milliseconds mymaster 1000" >> /etc/sentinel.conf &&
-            echo "sentinel failover-timeout mymaster 5000" >> /etc/sentinel.conf &&
-            echo "sentinel parallel-syncs mymaster 1" >> /etc/sentinel.conf &&
-            redis-server /etc/sentinel.conf --sentinel'
+      sh -c 'echo "port 26379" > /etc/sentinel.conf &&
+             echo "sentinel resolve-hostnames yes" >> /etc/sentinel.conf &&
+             echo "sentinel monitor mymaster redis-master 6379 2" >> /etc/sentinel.conf &&
+             echo "sentinel down-after-milliseconds mymaster 1000" >> /etc/sentinel.conf &&
+             echo "sentinel failover-timeout mymaster 5000" >> /etc/sentinel.conf &&
+             echo "sentinel parallel-syncs mymaster 1" >> /etc/sentinel.conf &&
+             redis-server /etc/sentinel.conf --sentinel'
+    depends_on:
+      redis-master:
+        condition: service_healthy
+      redis-slave-1:
+        condition: service_started
+      redis-slave-2:
+        condition: service_started
+      redis-slave-3:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "redis-cli", "-p", "26379", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - redis-network
 
   sentinel-3:
     image: redis:latest
-    depends_on:
-      - redis-master
-      - redis-slave-1
-      - redis-slave-2
-      - redis-slave-3
-    # Sentinel configuration is created dynamically and mounted by volume because Sentinel itself will modify the configuration
-    # once it is running. If master changes this will be reflected in all configurations and some additional things are added which are
-    # meant only for runtime use and not something that should be commited as base configuration.
+    container_name: sentinel-3
+    ports:
+      - "26381:26379"
     command: >
-      sh -c 'echo "sentinel resolve-hostnames yes" > /etc/sentinel.conf &&
-            echo "sentinel monitor mymaster redis-master 6379 2" >> /etc/sentinel.conf &&
-            echo "sentinel down-after-milliseconds mymaster 1000" >> /etc/sentinel.conf &&
-            echo "sentinel failover-timeout mymaster 5000" >> /etc/sentinel.conf &&
-            echo "sentinel parallel-syncs mymaster 1" >> /etc/sentinel.conf &&
-            redis-server /etc/sentinel.conf --sentinel'
+      sh -c 'echo "port 26379" > /etc/sentinel.conf &&
+             echo "sentinel resolve-hostnames yes" >> /etc/sentinel.conf &&
+             echo "sentinel monitor mymaster redis-master 6379 2" >> /etc/sentinel.conf &&
+             echo "sentinel down-after-milliseconds mymaster 1000" >> /etc/sentinel.conf &&
+             echo "sentinel failover-timeout mymaster 5000" >> /etc/sentinel.conf &&
+             echo "sentinel parallel-syncs mymaster 1" >> /etc/sentinel.conf &&
+             redis-server /etc/sentinel.conf --sentinel'
+    depends_on:
+      redis-master:
+        condition: service_healthy
+      redis-slave-1:
+        condition: service_started
+      redis-slave-2:
+        condition: service_started
+      redis-slave-3:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "redis-cli", "-p", "26379", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - redis-network
 
+  # ===== Keycloak =====
   keycloak:
     image: quay.io/keycloak/keycloak:26.4.0
     container_name: keycloak
@@ -296,11 +529,28 @@ services:
       KC_HOSTNAME_STRICT_HTTPS: "false"
     command: start-dev
     depends_on:
-      - mysql_master
+      mysql_master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://keycloak:8080/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - mysql-network
 
-  
+  # ===== Localstack =====
+  localstack:
+    container_name: "${LOCALSTACK_DOCKER_NAME:-localstack-main}"
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+      - "4510-4559:4510-4559"
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - default
 volumes:
   pg_data: {}
   conduktor_data: {}
@@ -308,7 +558,14 @@ volumes:
   mysql_master_data: {}
   mysql_slave_data: {}
   n8n_data: {}
+  axon_data: {}
+  axon_events: {}
+  axon_config: {}
 
 networks:
+  default:
+    driver: bridge
   mysql-network:
+    driver: bridge
+  redis-network:
     driver: bridge

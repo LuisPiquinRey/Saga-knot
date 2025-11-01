@@ -1,25 +1,20 @@
 package com.luispiquinrey.user.Service;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.contains;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.io.PrintWriter;
-import java.util.Optional;
-
-import org.jline.terminal.Terminal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.Import;
@@ -41,7 +36,7 @@ public class ServiceUserTest {
     private ContactRepository contactRepository;
 
     @InjectMocks
-    private ServiceUser serviceUser;
+    private ContactService serviceUser;
 
     private Contact contact;
 
@@ -74,19 +69,6 @@ public class ServiceUserTest {
         serviceUser.deleteTarget(1L);
 
         verify(contactRepository, times(1)).deleteById(1L);
-    }
-
-    @Test
-    void testErrorHandler() {
-        Terminal terminal = mock(Terminal.class);
-        PrintWriter writer = mock(PrintWriter.class);
-        when(terminal.writer()).thenReturn(writer);
-
-        Exception ex = new RuntimeException("Test error");
-        serviceUser.errorHandler(ex, terminal);
-
-        verify(writer).println(contains("❌ Error handled"));
-        verify(writer).flush();
     }
 
     @Test

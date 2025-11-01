@@ -1,5 +1,6 @@
 {
     "configurations": [
+        
         {
             "type": "java",
             "name": "Spring Boot-ConfigsApplication<configs>",
@@ -64,7 +65,62 @@
             "env": {
                 "CREDENTIALS_AXION": "${env:CREDENTIALS_AXION}",
                 "URI_MONGODB": "${env:URI_MONGODB}"
-            }
+            },
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=60466 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=administration"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-UserApplication<user>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.luispiquinrey.user.UserApplication",
+            "projectName": "user",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-SagaApplication<saga>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.luispiquinrey.saga.SagaApplication",
+            "projectName": "saga",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=60466 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=administration"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PaymentApplication<payment>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.luispiquinrey.payment.PaymentApplication",
+            "projectName": "payment",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=60466 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=administration"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-OrderApplication<order>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.luispiquinrey.order.OrderApplication",
+            "projectName": "order",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=60466 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=administration"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-GatewayApplication<gateway>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.luispiquinrey.gateway.GatewayApplication",
+            "projectName": "gateway",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=60466 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=administration"
         }
-    ]
+    ],
 }

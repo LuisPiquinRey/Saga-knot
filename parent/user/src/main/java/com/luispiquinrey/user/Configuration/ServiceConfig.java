@@ -4,7 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.luispiquinrey.Service.FacadeServiceWithRedis;
+
+import com.luispiquinrey.Service.WrapperCrudServiceRedis;
 import com.luispiquinrey.user.Entities.Contact;
 import com.luispiquinrey.user.Repository.ContactRepository;
 
@@ -19,9 +20,9 @@ public class ServiceConfig {
     }
 
     @Bean
-    public FacadeServiceWithRedis<Contact, Long> contactFacadeService(
+    public WrapperCrudServiceRedis<Contact, Long> contactFacadeService(
             RedisTemplate redisTemplate,
             ContactRepository contactRepository) {
-        return new FacadeServiceWithRedis<>(redisTemplate, contactRepository, Contact.class);
+        return new WrapperCrudServiceRedis<>(redisTemplate, contactRepository, Contact.class);
     }
 }

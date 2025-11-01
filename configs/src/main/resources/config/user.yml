@@ -15,7 +15,16 @@ spring:
           min-idle: 0
           max-wait: -1ms
         shutdown-timeout: 100ms
-
+  cloud:
+    aws:
+      credentials:
+        access-key: test
+        secret-key: test
+      region:
+        static: us-east-1
+      s3:
+        endpoint: http://localhost:4566
+        path-style-access-enabled: true  
   cache:
     type: redis
     redis:
@@ -80,3 +89,5 @@ axoniq:
     dlq-mode: FULL
 server:
   port: 9098
+aws:
+  bucket-name: local-bucket-saga

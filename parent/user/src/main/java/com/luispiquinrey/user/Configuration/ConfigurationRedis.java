@@ -8,11 +8,10 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisSentinelConfiguration;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.luispiquinrey.user.Entities.Contact;
@@ -26,13 +25,13 @@ public class ConfigurationRedis {
     public RedisConnectionFactory redisConnectionFactory() {
         RedisSentinelConfiguration sentinelConfig = new RedisSentinelConfiguration()
                 .master("mymaster")
-                .sentinel("redis-sentinel-1", 26379)
-                .sentinel("redis-sentinel-2", 26379)
-                .sentinel("redis-sentinel-3", 26379);
+                .sentinel("sentinel-1", 26379) 
+                .sentinel("sentinel-2", 26379)
+                .sentinel("sentinel-3", 26379);
 
         LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
-                .commandTimeout(Duration.ofMillis(2000))
-                .shutdownTimeout(Duration.ofMillis(100))
+                .commandTimeout(Duration.ofSeconds(5))
+                .shutdownTimeout(Duration.ofMillis(500))
                 .readFrom(REPLICA_PREFERRED)
                 .build();
 
@@ -40,11 +39,28 @@ public class ConfigurationRedis {
     }
 
     @Bean
-    public RedisTemplate<String, Contact> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+    public RedisSerializer<Object> redisSerializer() {
+        org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer<Object> serializer
+                = new org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer<>(Object.class);
+
+        com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        objectMapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
+        objectMapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        serializer.setObjectMapper(objectMapper);
+
+        return serializer;
+    }
+
+    @Bean
+    public RedisTemplate<String, Contact> redisTemplate(RedisConnectionFactory redisConnectionFactory, RedisSerializer<Object> redisSerializer) {
         RedisTemplate<String, Contact> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        redisTemplate.setValueSerializer(redisSerializer);
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(redisSerializer);
+        redisTemplate.setEnableDefaultSerializer(false);
+        redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
 
@@ -58,5 +74,5 @@ public class ConfigurationRedis {
                 .cacheDefaults(defaults)
                 .build();
     }
-    
+
 }

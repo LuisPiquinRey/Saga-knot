@@ -5,10 +5,11 @@ com\luispiquinrey\Error\DeleteException.class
 com\luispiquinrey\Error\Handler\MyControllerAdvice.class
 com\luispiquinrey\Service\CrudService.class
 com\luispiquinrey\Entities\BaseEntity.class
+com\luispiquinrey\Service\WrapperCrudServiceRedis.class
 com\luispiquinrey\Error\CreationException.class
 com\luispiquinrey\DTO\ItemCompact.class
-com\luispiquinrey\Service\FacadeServiceWithRedis.class
 com\luispiquinrey\Service\SenderCommandService.class
 com\luispiquinrey\Error\SearchException.class
+com\luispiquinrey\ConfigsApplication.class
 com\luispiquinrey\Enums\StatusProduct.class
 com\luispiquinrey\Service\ICrudService.class

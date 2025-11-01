@@ -9,10 +9,8 @@ import lombok.Data;
 @Builder
 public class UpdateUserCommand {
     @TargetAggregateIdentifier
-    private Long idContact;
     private String username;
     private String email;
     private String password;
     private String phoneNumber;
-    private String profileImage;
 }
