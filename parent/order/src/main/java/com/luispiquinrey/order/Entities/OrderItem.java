@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name="item")
-public class Item {
+public class OrderItem {
     @Id
     @Column(name = "id_order_item", updatable = false, nullable = false)
     private String idOrderItem;
@@ -31,10 +31,10 @@ public class Item {
     @Column(name = "discount", precision = 10, scale = 2)
     private BigDecimal discount;
 
-    public Item() {
+    public OrderItem() {
     }
 
-    public Item(@NotNull String idProduct, @Positive Integer quantity, @NotNull BigDecimal subtotal,
+    public OrderItem(@NotNull String idProduct, @Positive Integer quantity, @NotNull BigDecimal subtotal,
             BigDecimal discount) {
         this.idProduct = idProduct;
         this.quantity = quantity;
@@ -42,7 +42,7 @@ public class Item {
         this.discount = discount;
     }
 
-    public Item(@Positive Integer quantity, @NotNull BigDecimal subtotal, BigDecimal discount) {
+    public OrderItem(@Positive Integer quantity, @NotNull BigDecimal subtotal, BigDecimal discount) {
         this.quantity = quantity;
         this.subtotal = subtotal;
         this.discount = discount;
