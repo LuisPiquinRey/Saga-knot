@@ -3,6 +3,7 @@ package com.luispiquinrey.user.Projection;
 import java.io.IOException;
 import java.util.Optional;
 
+import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import com.luispiquinrey.user.Service.ContactService;
 import com.luispiquinrey.user.Service.S3CloudService;
 
 @Component
+@ProcessingGroup("user-group")
 public class UserProjection {
 
     private final ContactService contactService;
