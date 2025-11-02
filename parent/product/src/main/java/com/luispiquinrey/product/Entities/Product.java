@@ -9,6 +9,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.luispiquinrey.Entities.AuditInfo;
+import com.luispiquinrey.Entities.BaseEntity;
 import com.luispiquinrey.Enums.StatusProduct;
 
 import jakarta.persistence.Cacheable;
@@ -36,7 +37,7 @@ import jakarta.persistence.Version;
         uniqueConstraints = {
             @UniqueConstraint(columnNames = {"name"})})
 @EntityListeners(AuditingEntityListener.class)
-public class Product implements Serializable {
+public class Product extends BaseEntity<String> implements Serializable {
 
     @Id
     @Column(name = "id_product", updatable = false, nullable = false)
@@ -66,8 +67,7 @@ public class Product implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "id_category", referencedColumnName = "id_category"))
     private List<Category> categories;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_gender")
+    @Embedded
     private Gender gender;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -93,14 +93,6 @@ public class Product implements Serializable {
         this.categories = categories;
         this.gender = gender;
         this.brand = brand;
-    }
-
-    public String getIdProduct() {
-        return idProduct;
-    }
-
-    public void setIdProduct(String idProduct) {
-        this.idProduct = idProduct;
     }
 
     public String getName() {
@@ -174,6 +166,14 @@ public class Product implements Serializable {
     public void setGender(Gender gender) {
         this.gender = gender;
     }
-    
 
+    @Override
+    public String getId() {
+        return idProduct;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.idProduct=id;
+    }
 }

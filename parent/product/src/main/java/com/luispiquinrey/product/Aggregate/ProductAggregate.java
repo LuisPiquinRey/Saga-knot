@@ -35,13 +35,13 @@ public class ProductAggregate {
 
     @CommandHandler
     public ProductAggregate(CreateProductCommand createProductCommand) {
-        ProductCreatedEvent productCreatedEvent = new ProductCreatedEvent();
+        ProductCreatedEvent productCreatedEvent = ProductCreatedEvent.builder().build();
         BeanUtils.copyProperties(createProductCommand, productCreatedEvent);
         AggregateLifecycle.apply(productCreatedEvent);
     }
     @CommandHandler
     public ProductAggregate(UpdateProductCommand updateProductCommand){
-        ProductUpdatedEvent productUpdatedEvent=new ProductUpdatedEvent();
+        ProductUpdatedEvent productUpdatedEvent=ProductUpdatedEvent.builder().build();
         BeanUtils.copyProperties(updateProductCommand,productUpdatedEvent);
         AggregateLifecycle.apply(productUpdatedEvent);
     }
