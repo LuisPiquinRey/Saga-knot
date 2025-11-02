@@ -1,35 +1,50 @@
 package com.luispiquinrey.user.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import java.io.Serializable;
+import java.util.UUID;
 
+import com.luispiquinrey.Entities.BaseEntity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "address")
-public class Address {
+public class Address extends BaseEntity<String> implements Serializable {
 
     @Id
-    @Column(name = "id_address")
-    private String idAddress;
+    @Column(name = "id_address", nullable = false, updatable = false, length = 36)
+    private String idAddress = UUID.randomUUID().toString();
 
+    @NotBlank(message = "Street cannot be blank")
+    @Size(max = 100, message = "Street must not exceed 100 characters")
     @Column(name = "street", nullable = false, length = 100)
     private String street;
 
+    @Size(max = 10, message = "Postal code must not exceed 10 characters")
+    @Pattern(regexp = "^[A-Za-z0-9\\- ]*$", message = "Postal code can only contain letters, numbers, and hyphens")
     @Column(name = "postal_code", length = 10)
     private String postalCode;
 
+    @NotBlank(message = "City cannot be blank")
+    @Size(max = 50, message = "City must not exceed 50 characters")
     @Column(name = "city", nullable = false, length = 50)
     private String city;
 
+    @Size(max = 50, message = "State must not exceed 50 characters")
     @Column(name = "state", length = 50)
     private String state;
 
+    @NotBlank(message = "Country cannot be blank")
+    @Size(max = 50, message = "Country must not exceed 50 characters")
     @Column(name = "country", nullable = false, length = 50)
     private String country;
-
-    private String idUser;
 
     public Address() {
     }
@@ -42,13 +57,14 @@ public class Address {
         this.country = country;
     }
 
-    public Address(String street, String postalCode, String city, String state, String country, String idUser) {
-        this.street = street;
-        this.postalCode = postalCode;
-        this.city = city;
-        this.state = state;
-        this.country = country;
-        this.idUser = idUser;
+    @Override
+    public String getId() {
+        return idAddress;
+    }
+
+    @Override
+    public void setId(String id) {
+        this.idAddress = id;
     }
 
     public String getIdAddress() {
@@ -97,13 +113,5 @@ public class Address {
 
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public String getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(String idUser) {
-        this.idUser = idUser;
     }
 }

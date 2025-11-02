@@ -78,17 +78,6 @@ class ContactRepositoryTest {
     }
 
     @Test
-    void testFindByUsernameOrEmail() {
-        Optional<Contact> contact1 = contactRepository.findByUsernameOrEmail("pedro789", "noexiste@example.com");
-        Optional<Contact> contact2 = contactRepository.findByUsernameOrEmail("noexiste", "juan@example.com");
-
-        assertTrue(contact1.isPresent());
-        assertTrue(contact2.isPresent());
-        assertEquals("pedro789", contact1.get().getUsername());
-        assertEquals("juan123", contact2.get().getUsername());
-    }
-
-    @Test
     void testExistsByUsername() {
         assertTrue(contactRepository.existsByUsername("maria456"));
         assertFalse(contactRepository.existsByUsername("noexiste"));

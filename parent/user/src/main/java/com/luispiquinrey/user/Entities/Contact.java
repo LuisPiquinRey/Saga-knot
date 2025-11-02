@@ -2,6 +2,8 @@ package com.luispiquinrey.user.Entities;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -10,11 +12,15 @@ import com.luispiquinrey.Entities.BaseEntity;
 
 import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -25,11 +31,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-
 @Entity
 @Table(name = "contact",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "email"})})
-public class Contact extends BaseEntity<Long> implements Serializable{
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"username", "email"})})
+public class Contact extends BaseEntity<Long> implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -77,11 +83,16 @@ public class Contact extends BaseEntity<Long> implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user", referencedColumnName = "id_user")
+    private List<Address> addresses;
+
     @Version
     @Column(name = "OPTLOCK")
     private Integer version;
 
-    public Contact() {}
+    public Contact() {
+    }
 
     private Contact(Builder builder) {
         this.idContact = builder.idContact;
@@ -102,7 +113,7 @@ public class Contact extends BaseEntity<Long> implements Serializable{
     public void setIdContact(Long idContact) {
         this.idContact = idContact;
     }
-    
+
     @Override
     public Long getId() {
         return idContact;
@@ -110,7 +121,7 @@ public class Contact extends BaseEntity<Long> implements Serializable{
 
     @Override
     public void setId(Long id) {
-        idContact=id;
+        idContact = id;
     }
 
     public String getUsername() {
@@ -177,8 +188,23 @@ public class Contact extends BaseEntity<Long> implements Serializable{
         this.version = version;
     }
 
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
     public boolean hasProfileImage() {
         return this.profileImage != null && !this.profileImage.isEmpty();
+    }
+
+    public void addAddress(Address address) {
+        if (this.addresses == null) {
+            this.addresses = new ArrayList<>();
+        }
+        this.addresses.add(address);
     }
 
     @Override
@@ -193,6 +219,7 @@ public class Contact extends BaseEntity<Long> implements Serializable{
     }
 
     public static class Builder {
+
         private Long idContact;
         private String username;
         private String email;
@@ -202,6 +229,7 @@ public class Contact extends BaseEntity<Long> implements Serializable{
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
         private Integer version;
+        private List<Address> addresses = new ArrayList<>();
 
         public Builder id(Long idContact) {
             this.idContact = idContact;
@@ -248,6 +276,11 @@ public class Contact extends BaseEntity<Long> implements Serializable{
             return this;
         }
 
+        public Builder addresses(List<Address> addresses) {
+            this.addresses = addresses;
+            return this;
+        }
+
         public Contact build() {
             validateRequired();
             return new Contact(this);
@@ -266,5 +299,3 @@ public class Contact extends BaseEntity<Long> implements Serializable{
         }
     }
 }
-
-

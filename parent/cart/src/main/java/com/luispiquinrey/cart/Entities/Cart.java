@@ -22,6 +22,8 @@ public class Cart extends Target<String> implements Serializable {
     @Id
     private String idCart = UUID.randomUUID().toString();
 
+    private String idUser;
+
     private AuditInfo auditInfo;
 
     @PositiveOrZero
@@ -52,6 +54,13 @@ public class Cart extends Target<String> implements Serializable {
         this.total = total;
         this.quantity = quantity;
         this.items = items;
+    }
+
+    public Cart(String idUser, List<CartItem> items, int quantity, BigDecimal total) {
+        this.idUser = idUser;
+        this.items = items;
+        this.quantity = quantity;
+        this.total = total;
     }
 
     public String getIdCart() {
@@ -93,7 +102,14 @@ public class Cart extends Target<String> implements Serializable {
     public void setItems(List<CartItem> items) {
         this.items = items;
     }
+    public String getIdUser() {
+        return idUser;
+    }
 
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
+    }
+    
     @Override
     public String toString() {
         return "Cart{" +

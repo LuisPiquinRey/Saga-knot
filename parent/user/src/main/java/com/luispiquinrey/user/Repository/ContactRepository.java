@@ -32,15 +32,7 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
     Optional<Contact> findByEmail(String email);
 
     boolean existsByEmail(String email);
-
     boolean existsByUsername(String username);
-
-    @Query("SELECT c FROM Contact c WHERE c.username = :username OR c.email = :email")
-    @QueryHints({
-        @QueryHint(name = "jakarta.persistence.cache.retrieveMode", value = "USE")
-    })
-    Optional<Contact> findByUsernameOrEmail(@Param("username") String username,
-            @Param("email") String email);
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
@@ -51,6 +43,5 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
     @Query("DELETE FROM Contact c WHERE c.email = :email")
     void deleteByEmail(@Param("email") String email);
-
 
 }

@@ -16,6 +16,8 @@ public class CartItem implements Serializable {
     private int quantity;
     private BigDecimal total;
     private AuditInfo auditInfo;
+    private String idCart;
+    private String idProduct;
 
     public CartItem() {
     }
@@ -29,6 +31,13 @@ public class CartItem implements Serializable {
         this.quantity = quantity;
         this.total = total;
         this.auditInfo = auditInfo;
+    }
+
+    public CartItem(String idCart, String idProduct, int quantity, BigDecimal total) {
+        this.idCart = idCart;
+        this.idProduct = idProduct;
+        this.quantity = quantity;
+        this.total = total;
     }
 
     public String getIdItem() {
@@ -62,6 +71,7 @@ public class CartItem implements Serializable {
     public void setAuditInfo(AuditInfo auditInfo) {
         this.auditInfo = auditInfo;
     }
+    
 
     @Override
     public String toString() {

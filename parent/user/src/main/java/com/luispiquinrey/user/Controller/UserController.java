@@ -21,7 +21,7 @@ import com.luispiquinrey.user.Command.CreateUserCommand;
 import com.luispiquinrey.user.Command.DeleteUserCommand;
 import com.luispiquinrey.user.Command.UpdateUserCommand;
 import com.luispiquinrey.user.Command.UploadImageUserCommand;
-import com.luispiquinrey.user.DTOs.RequestContactDto;
+import com.luispiquinrey.user.DTOs.ContactDto;
 import com.luispiquinrey.user.DTOs.UpdateContactDto;
 
 import jakarta.validation.Valid;
@@ -38,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@Valid @RequestBody RequestContactDto requestContactDto, BindingResult bindingResult) {
+    public ResponseEntity<?> create(@Valid @RequestBody ContactDto requestContactDto, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
             Map<String, String> errors = new HashMap<>();
             bindingResult.getFieldErrors().forEach(err -> {
