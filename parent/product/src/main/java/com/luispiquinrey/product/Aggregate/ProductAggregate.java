@@ -12,6 +12,7 @@ import com.luispiquinrey.Enums.StatusProduct;
 import com.luispiquinrey.product.Command.CreateProductCommand;
 import com.luispiquinrey.product.Command.UpdateProductCommand;
 import com.luispiquinrey.product.Event.ProductCreatedEvent;
+import com.luispiquinrey.product.Event.ProductDeletedEvent;
 import com.luispiquinrey.product.Event.ProductUpdatedEvent;
 
 @Aggregate
@@ -62,5 +63,9 @@ public class ProductAggregate {
         this.price = event.getPrice();
         this.stock = event.getStock();
         this.status=event.getStatus();
+    }
+    @EventSourcingHandler
+    public void on(ProductDeletedEvent event){
+        AggregateLifecycle.markDeleted();
     }
 }

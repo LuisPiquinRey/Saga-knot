@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
+import com.luispiquinrey.Entities.BaseEntity;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -12,7 +14,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "categories")
-public class Category implements Serializable{
+public class Category extends BaseEntity<String> implements Serializable{
 
     @Id
     @Column(name = "id_category", updatable = false, nullable = false)
@@ -45,12 +47,14 @@ public class Category implements Serializable{
         this.image = image;
     }
 
-    public String getIdCategory() {
+    @Override
+    public String getId() {
         return idCategory;
     }
 
-    public void setIdCategory(String idCategory) {
-        this.idCategory = idCategory;
+    @Override
+    public void setId(String id) {
+        this.idCategory=id;
     }
 
     public String getName() {

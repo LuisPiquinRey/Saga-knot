@@ -3,14 +3,19 @@ package com.luispiquinrey.product.Entities;
 import java.io.Serializable;
 import java.util.UUID;
 
-import jakarta.persistence.*;
+import com.luispiquinrey.Entities.BaseEntity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 
 @Entity
 @Table(name = "brands")
-public class Brand implements Serializable{
+public class Brand extends BaseEntity<String> implements Serializable{
 
     @Id
     @Column(name = "id_brand", updatable = false, nullable = false)
@@ -32,12 +37,14 @@ public class Brand implements Serializable{
         this.description = description;
     }
 
-    public String getIdBrand() {
+    @Override
+    public String getId() {
         return idBrand;
     }
 
-    public void setIdBrand(String idBrand) {
-        this.idBrand = idBrand;
+    @Override
+    public void setId(String id) {
+        this.idBrand=id;
     }
 
     public String getName() {

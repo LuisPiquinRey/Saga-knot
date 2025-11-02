@@ -11,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import com.luispiquinrey.product.Command.CreateBrandCommand;
 import com.luispiquinrey.product.Command.UpdateBrandCommand;
 import com.luispiquinrey.product.Event.BrandCreatedEvent;
+import com.luispiquinrey.product.Event.BrandDeletedEvent;
 import com.luispiquinrey.product.Event.BrandUpdatedEvent;
 
 
@@ -53,5 +54,9 @@ public class BrandAggregate {
         this.idBrand = event.getIdBrand();
         this.name = event.getName();
         this.description = event.getDescription();
+    }
+    @EventSourcingHandler
+    public void on(BrandDeletedEvent event){
+        AggregateLifecycle.markDeleted();
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import com.luispiquinrey.product.Command.CreateCategoryCommand;
 import com.luispiquinrey.product.Command.UpdateCategoryCommand;
 import com.luispiquinrey.product.Event.CategoryCreatedEvent;
+import com.luispiquinrey.product.Event.CategoryDeletedEvent;
 import com.luispiquinrey.product.Event.CategoryUpdatedEvent;
 
 @Aggregate
@@ -55,5 +56,9 @@ public class CategoryAggregate {
         this.name = event.getName();
         this.description = event.getDescription();
         this.image = event.getImage();
+    }
+    @EventSourcingHandler
+    public void on(CategoryDeletedEvent event){
+        AggregateLifecycle.markDeleted();
     }
 }
