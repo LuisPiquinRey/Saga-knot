@@ -6,7 +6,7 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name="productLookUp")
+@Table(name="product_lookup")
 public class ProductLookup {
     @Id
     private String idProduct;
