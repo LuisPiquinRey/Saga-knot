@@ -58,9 +58,9 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable String username) {
         DeleteUserCommand deleteUserCommand = DeleteUserCommand.builder()
-                .idContact(id)
+                .username(username)
                 .build();
         return handleCommand(deleteUserCommand, "User deleted successfully");
     }

@@ -5,13 +5,7 @@ import java.util.UUID;
 
 import com.luispiquinrey.Entities.BaseEntity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import jakarta.persistence.*;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.*;
 
 @Entity
@@ -46,6 +40,9 @@ public class Address extends BaseEntity<String> implements Serializable {
     @Column(name = "country", nullable = false, length = 50)
     private String country;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Contact contact;
+
     public Address() {
     }
 
@@ -55,6 +52,21 @@ public class Address extends BaseEntity<String> implements Serializable {
         this.city = city;
         this.state = state;
         this.country = country;
+    }
+
+    public Address(
+            @NotBlank(message = "Street cannot be blank") @Size(max = 100, message = "Street must not exceed 100 characters") String street,
+            @Size(max = 10, message = "Postal code must not exceed 10 characters") @Pattern(regexp = "^[A-Za-z0-9\\- ]*$", message = "Postal code can only contain letters, numbers, and hyphens") String postalCode,
+            @NotBlank(message = "City cannot be blank") @Size(max = 50, message = "City must not exceed 50 characters") String city,
+            @Size(max = 50, message = "State must not exceed 50 characters") String state,
+            @NotBlank(message = "Country cannot be blank") @Size(max = 50, message = "Country must not exceed 50 characters") String country,
+            Contact contact) {
+        this.street = street;
+        this.postalCode = postalCode;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.contact = contact;
     }
 
     @Override
@@ -114,4 +126,13 @@ public class Address extends BaseEntity<String> implements Serializable {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
+    }
+    
 }

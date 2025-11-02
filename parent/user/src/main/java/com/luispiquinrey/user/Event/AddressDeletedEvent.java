@@ -7,4 +7,5 @@ import lombok.Data;
 @Builder
 public class AddressDeletedEvent {
     private String idAddress;
+    private Long idContact;
 }

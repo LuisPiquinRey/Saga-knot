@@ -1,13 +1,15 @@
 package com.luispiquinrey.product.Entities;
 
+import java.io.Serializable;
 import java.util.UUID;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "genders")
-public class Gender {
+public class Gender implements Serializable{
 
     @Id
     @Column(name = "id_gender", updatable = false, nullable = false)

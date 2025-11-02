@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 @Builder
 public class UserDeletedEvent {
-    private Long idContact;
+    private String username;
 }

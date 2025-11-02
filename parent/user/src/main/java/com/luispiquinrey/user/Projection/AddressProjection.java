@@ -14,33 +14,34 @@ import com.luispiquinrey.user.Event.AddressDeletedEvent;
 import com.luispiquinrey.user.Event.AddressUpdatedEvent;
 import com.luispiquinrey.user.Event.UserUpdatedEvent;
 import com.luispiquinrey.user.Service.AddressService;
+import com.luispiquinrey.user.Service.ContactService;
 
 @Component
 public class AddressProjection {
+
     private final AddressService addressService;
+    private final ContactService contactService;
 
     @Autowired
-    AddressProjection(AddressService addressService){
-        this.addressService=addressService;
+    public AddressProjection(AddressService addressService, ContactService contactService) {
+        this.addressService = addressService;
+        this.contactService = contactService;
     }
+
     @EventHandler
-    public void on(AddressCreatedEvent addressCreatedEvent){
-        Address address=new Address();
-        BeanUtils.copyProperties(addressCreatedEvent, address);
-        addressService.createTarget(address);
+    public void on(AddressCreatedEvent event) throws Exception {
+        Address address = new Address();
+        BeanUtils.copyProperties(event, address);
+        contactService.addAddressToUser(event.getIdContact(), address);
     }
+
     @EventHandler
-    public void on(AddressUpdatedEvent addressUpdatedEvent){
-        Optional<Address> addressOpt = addressService.findTargetById(addressUpdatedEvent.getIdAddress());
-        if (!addressOpt.isPresent()) {
-            throw new IllegalStateException("No address found with: " + addressUpdatedEvent.getIdAddress());
-        }
-        Address address = addressOpt.get();
-        BeanUtils.copyProperties(addressUpdatedEvent, address);
-        addressService.updateTarget(address);
+    public void on(AddressUpdatedEvent event) throws Exception {
+        contactService.updateAddressOfUser(event.getIdContact(), event);
     }
+
     @EventHandler
-    public void on(AddressDeletedEvent addressDeletedEvent){
-        addressService.deleteTarget(addressDeletedEvent.getIdAddress());
+    public void on(AddressDeletedEvent event) throws Exception {
+        contactService.removeAddressFromUser(event.getIdContact(), event.getIdAddress());
     }
 }

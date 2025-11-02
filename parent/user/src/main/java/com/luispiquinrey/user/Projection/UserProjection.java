@@ -42,7 +42,7 @@ public class UserProjection {
 
     @EventHandler
     public void on(UserDeletedEvent userDeletedEvent) {
-        contactService.deleteTarget(userDeletedEvent.getIdContact());
+        contactService.deleteByUsername(userDeletedEvent.getUsername());
     }
 
     @EventHandler

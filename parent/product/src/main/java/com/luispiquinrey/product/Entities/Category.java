@@ -1,15 +1,18 @@
 package com.luispiquinrey.product.Entities;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
 import java.util.UUID;
 
 @Entity
 @Table(name = "categories")
-public class Category {
+public class Category implements Serializable{
 
     @Id
     @Column(name = "id_category", updatable = false, nullable = false)

@@ -207,6 +207,13 @@ public class Contact extends BaseEntity<Long> implements Serializable {
         this.addresses.add(address);
     }
 
+    public boolean removeAddress(Address address) {
+        if (addresses == null || addresses.isEmpty()) {
+            return false;
+        }
+        return addresses.removeIf(a -> a.getIdAddress().equals(address.getIdAddress()));
+    }
+
     @Override
     public String toString() {
         return "\u001B[36m📇 Contact Info:\u001B[0m {\n" + "  \u001B[33m🆔 idUser:\u001B[0m "

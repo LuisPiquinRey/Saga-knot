@@ -5,20 +5,21 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="contact_lookup")
+@Table(name = "contact_lookup")
 public class ContactLookup {
+
     @Id
-    private Long idContact;
-    
-    public ContactLookup(){
+    private String username;
+
+    public ContactLookup() {
     }
-    public ContactLookup(Long idContact) {
-        this.idContact = idContact;
+    public ContactLookup(String username) {
+        this.username = username;
     }
-    public Long getIdContact() {
-        return idContact;
+    public String getUsername() {
+        return username;
     }
-    public void setIdContact(Long idContact) {
-        this.idContact = idContact;
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

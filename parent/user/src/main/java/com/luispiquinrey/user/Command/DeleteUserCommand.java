@@ -9,5 +9,5 @@ import lombok.Data;
 @Builder
 public class DeleteUserCommand {
     @TargetAggregateIdentifier
-    private Long idContact;
+    private String username;
 }

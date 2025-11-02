@@ -20,8 +20,6 @@ import com.luispiquinrey.user.Event.UserUploadedImageEvent;
 @Aggregate
 public class UserAggregate {
 
-    private Long idContact;
-
     @AggregateIdentifier
     private String username;
 
@@ -53,7 +51,7 @@ public class UserAggregate {
     @CommandHandler
     public UserAggregate(DeleteUserCommand deleteUserCommand) {
         AggregateLifecycle.apply(UserDeletedEvent.builder()
-                .idContact(deleteUserCommand.getIdContact())
+                .username(deleteUserCommand.getUsername())
                 .build());
     }
 

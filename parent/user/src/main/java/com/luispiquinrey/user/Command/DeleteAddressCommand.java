@@ -10,4 +10,5 @@ import lombok.Data;
 public class DeleteAddressCommand {
     @TargetAggregateIdentifier
     private String idAddress;
+    private Long idContact;
 }
