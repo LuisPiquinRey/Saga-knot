@@ -10,8 +10,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-import com.luispiquinrey.product.Configuration.CommandInterceptorProduct;
 import com.luispiquinrey.product.Configuration.EventErrorHandler;
+import com.luispiquinrey.product.Configuration.Interceptor.CommandInterceptorProduct;
 
 @SpringBootApplication
 @EnableDiscoveryClient

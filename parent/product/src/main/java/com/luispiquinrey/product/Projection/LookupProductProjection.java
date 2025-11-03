@@ -8,15 +8,15 @@ import org.springframework.stereotype.Component;
 
 import com.luispiquinrey.product.Entities.ProductLookup;
 import com.luispiquinrey.product.Event.ProductCreatedEvent;
-import com.luispiquinrey.product.Repository.RepositoryLookup;
+import com.luispiquinrey.product.Repository.RepositoryProductLookup;
 
 @Component
 @ProcessingGroup("product-collection")
 public class LookupProductProjection {
-    private final RepositoryLookup repositoryLookup;
+    private final RepositoryProductLookup repositoryLookup;
 
     @Autowired
-    public LookupProductProjection(RepositoryLookup repositoryLookup) {
+    public LookupProductProjection(RepositoryProductLookup repositoryLookup) {
         this.repositoryLookup = repositoryLookup;
     }
 
