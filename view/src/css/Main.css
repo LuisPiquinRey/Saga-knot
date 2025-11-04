@@ -1,14 +1,58 @@
+.main-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  flex-wrap: wrap;
+}
+
 .title {
   color: white;
-  text-align: center;
   font-size: 3em;
+  max-width: 500px;
+  line-height: 1.2;
+  text-align: center;
+  cursor: default;
 }
 
 .text-gradient {
-  font-weight: bold;
-  background-image: linear-gradient(rgb(214, 102, 214), rgb(206, 210, 114));
-  background-clip: text;
+  background-image: linear-gradient(270deg, #b76cf3, #ff6bcb, #ffe985, #b76cf3);
+  background-size: 400% 400%;
+  animation: gradient-move 6s ease infinite;
   -webkit-background-clip: text;
-  color: transparent;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.button, .button-transparent {
+  height: 40px;
+  width: 120px;
+  border-radius: 20px;
+  border: none;
+  margin: 5px;
+}
+
+.button-transparent {
+  border: 2px solid rgb(255, 255, 255);
+  background-color: transparent;
+  color: white;
+}
+
+.collection-buttons {
+  display: inline-block;
+}
+
+@keyframes gradient-move {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }/*# sourceMappingURL=Main.css.map */
