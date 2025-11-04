@@ -1,1 +1,14 @@
-/*# sourceMappingURL=Main.css.map */
+.title {
+  color: white;
+  text-align: center;
+  font-size: 3em;
+}
+
+.text-gradient {
+  font-weight: bold;
+  background-image: linear-gradient(rgb(214, 102, 214), rgb(206, 210, 114));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}/*# sourceMappingURL=Main.css.map */
