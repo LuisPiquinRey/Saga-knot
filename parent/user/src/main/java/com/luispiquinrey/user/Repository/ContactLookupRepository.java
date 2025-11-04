@@ -9,4 +9,6 @@ import com.luispiquinrey.user.Entities.ContactLookup;
 
 public interface ContactLookupRepository extends JpaRepository<ContactLookup, String>{
     Optional<ContactLookup> findByUsername(String username);
+
+    Optional<ContactLookup> findByEmail(String email);
 }

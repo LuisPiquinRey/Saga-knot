@@ -10,7 +10,7 @@ import com.luispiquinrey.product.Repository.RepositoryBrand;
 @Service
 public class BrandService extends CrudService<Brand,String>{
 
-    public BrandService(RepositoryBrand repositoryBrand, Class<Brand> entityClass) {
-        super(repositoryBrand, entityClass);
+    public BrandService(RepositoryBrand repositoryBrand) {
+        super(repositoryBrand, Brand.class);
     }
 }

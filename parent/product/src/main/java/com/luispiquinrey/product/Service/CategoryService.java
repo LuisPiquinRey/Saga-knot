@@ -10,7 +10,7 @@ import com.luispiquinrey.product.Repository.RepositoryCategory;
 @Service
 public class CategoryService extends CrudService<Category,String>{
 
-    public CategoryService(RepositoryCategory repositoryCategory, Class<Category> entityClass) {
-        super(repositoryCategory, entityClass);
+    public CategoryService(RepositoryCategory repositoryCategory) {
+        super(repositoryCategory, Category.class);
     }
 }

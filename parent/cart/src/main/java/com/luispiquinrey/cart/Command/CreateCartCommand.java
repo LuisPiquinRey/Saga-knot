@@ -10,4 +10,5 @@ import lombok.Data;
 public class CreateCartCommand {
     @TargetAggregateIdentifier
     private String idCart;
+    private String idUser;
 }

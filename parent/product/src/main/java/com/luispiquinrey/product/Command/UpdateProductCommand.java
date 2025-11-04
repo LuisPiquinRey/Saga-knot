@@ -14,7 +14,7 @@ public class UpdateProductCommand {
     @TargetAggregateIdentifier
     private String idProduct;
     private String name;
-    private String brand;
+    private String idBrand;
     private float price;
     private Integer stock;
     private StatusProduct status;

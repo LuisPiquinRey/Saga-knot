@@ -2,9 +2,11 @@ package com.luispiquinrey.user.Controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,21 +15,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
+import com.luispiquinrey.user.Command.AddAddressToUserCommand;
 import com.luispiquinrey.user.Command.CreateUserCommand;
 import com.luispiquinrey.user.Command.DeleteUserCommand;
+import com.luispiquinrey.user.Command.RemoveAddressFromUserCommand;
 import com.luispiquinrey.user.Command.UpdateUserCommand;
 import com.luispiquinrey.user.Command.UploadImageUserCommand;
+import com.luispiquinrey.user.DTOs.AddressDto;
 import com.luispiquinrey.user.DTOs.ContactDto;
 import com.luispiquinrey.user.DTOs.UpdateContactDto;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/user/command")
+@Slf4j
 public class UserController {
 
     private final CommandGateway commandGateway;
@@ -57,8 +62,9 @@ public class UserController {
         return handleCommand(createUserCommand, "User created successfully");
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{username}")
     public ResponseEntity<?> delete(@PathVariable String username) {
+        log.info("Deleting user with username: {}", username);
         DeleteUserCommand deleteUserCommand = DeleteUserCommand.builder()
                 .username(username)
                 .build();
@@ -74,8 +80,10 @@ public class UserController {
             });
             return ResponseEntity.badRequest().body(errors);
         }
-        
+
+        log.info("Updating user with username: {}", updateContactDto.username());
         UpdateUserCommand updateUserCommand = UpdateUserCommand.builder()
+                .username(updateContactDto.username())
                 .email(updateContactDto.email())
                 .password(updateContactDto.password())
                 .phoneNumber(updateContactDto.phoneNumber())
@@ -84,13 +92,65 @@ public class UserController {
         return handleCommand(updateUserCommand, "User updated successfully");
     }
 
-    @PostMapping("/image/{username}")
-    public ResponseEntity<?> image(@PathVariable String username, @RequestParam("image") MultipartFile image) {
+    @PutMapping("/image/{username}")
+    public ResponseEntity<?> uploadImage(
+            @PathVariable String username,
+            @RequestBody Map<String, String> imageData) {
+
+        String imageUrl = imageData.get("imageUrl");
+        String key = imageData.get("key");
+
+        if (imageUrl == null || imageUrl.isBlank()) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "imageUrl is required"));
+        }
+        if (key == null || key.isBlank()) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "key is required"));
+        }
+
+        log.info("Uploading image for user: {}", username);
         UploadImageUserCommand uploadImageUserCommand = UploadImageUserCommand.builder()
-                .image(image)
                 .username(username)
+                .imageUrl(imageUrl)
+                .key(key)
                 .build();
         return handleCommand(uploadImageUserCommand, "User image updated successfully");
+    }
+
+    @PostMapping("/address/{username}")
+    public ResponseEntity<?> addAddress(
+            @PathVariable String username,
+            @Valid @RequestBody AddressDto addressDto,
+            BindingResult bindingResult) {
+
+        if (bindingResult.hasFieldErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(err -> {
+                errors.put(err.getField(), err.getDefaultMessage());
+            });
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        AddAddressToUserCommand command = AddAddressToUserCommand.builder()
+                .username(username)
+                .street(addressDto.street())
+                .city(addressDto.city())
+                .state(addressDto.state())
+                .country(addressDto.country())
+                .postalCode(addressDto.postalCode())
+                .build();
+
+        return handleCommand(command, "Address added successfully");
+    }
+
+    @DeleteMapping("/address/{addressId}")
+    public ResponseEntity<?> removeAddress(@PathVariable String addressId) {
+        log.info("Removing address: {}", addressId);
+        RemoveAddressFromUserCommand command = RemoveAddressFromUserCommand.builder()
+                .idAddress(addressId)
+                .build();
+        return handleCommand(command, "Address removed successfully");
     }
 
     private ResponseEntity<?> handleCommand(Object command, String message) {
@@ -100,8 +160,13 @@ public class UserController {
                 "message", message,
                 "result", result
             ));
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            log.error("Validation error: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError()
+            log.error("Command execution failed", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Operation failed: " + e.getMessage()));
         }
     }

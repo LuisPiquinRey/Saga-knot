@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-import com.luispiquinrey.cart.Entities.Item;
+import com.luispiquinrey.cart.Entities.CartItem;
 
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +16,5 @@ public class UpdateCartCommand {
     private String idCart;
     private float total;
     private int quantity;
-    private List<Item> items;
+    private List<CartItem> items;
 }

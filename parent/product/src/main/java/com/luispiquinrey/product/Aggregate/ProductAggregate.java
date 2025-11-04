@@ -23,7 +23,7 @@ public class ProductAggregate {
 
     private String name;
 
-    private String brand;
+    private String idBrand;
 
     private StatusProduct status=StatusProduct.CREATED;
 
@@ -51,7 +51,7 @@ public class ProductAggregate {
     public void on(ProductCreatedEvent event) {
         this.idProduct = event.getIdProduct();
         this.name = event.getName();
-        this.brand = event.getBrand();
+        this.idBrand = event.getIdBrand();
         this.price = event.getPrice();
         this.stock = event.getStock();
     }
@@ -59,7 +59,7 @@ public class ProductAggregate {
     public void on(ProductUpdatedEvent event) {
         this.idProduct = event.getIdProduct();
         this.name = event.getName();
-        this.brand = event.getBrand();
+        this.idBrand = event.getIdBrand();
         this.price = event.getPrice();
         this.stock = event.getStock();
         this.status=event.getStatus();

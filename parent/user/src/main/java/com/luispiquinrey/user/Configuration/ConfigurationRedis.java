@@ -8,6 +8,7 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisSentinelConfiguration;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -16,6 +17,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.luispiquinrey.user.Entities.Contact;
 
+import io.lettuce.core.ReadFrom;
+
 import static io.lettuce.core.ReadFrom.REPLICA_PREFERRED;
 
 @Configuration
@@ -23,19 +26,14 @@ public class ConfigurationRedis {
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        RedisSentinelConfiguration sentinelConfig = new RedisSentinelConfiguration()
-                .master("mymaster")
-                .sentinel("sentinel-1", 26379) 
-                .sentinel("sentinel-2", 26379)
-                .sentinel("sentinel-3", 26379);
+        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration("localhost", 6379);
 
         LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
                 .commandTimeout(Duration.ofSeconds(5))
                 .shutdownTimeout(Duration.ofMillis(500))
-                .readFrom(REPLICA_PREFERRED)
                 .build();
 
-        return new LettuceConnectionFactory(sentinelConfig, clientConfig);
+        return new LettuceConnectionFactory(config, clientConfig);
     }
 
     @Bean

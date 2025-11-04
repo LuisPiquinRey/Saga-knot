@@ -12,7 +12,6 @@ import com.luispiquinrey.Service.WrapperCrudServiceRedis;
 import com.luispiquinrey.user.Entities.Address;
 import com.luispiquinrey.user.Entities.Contact;
 import com.luispiquinrey.user.Error.SearchException;
-import com.luispiquinrey.user.Event.AddressUpdatedEvent;
 import com.luispiquinrey.user.Repository.ContactRepository;
 
 @Service
@@ -117,38 +116,6 @@ public class ContactService extends WrapperCrudServiceRedis<Contact, Long> imple
         }
 
         existingContact.addAddress(address);
-        return updateTarget(existingContact);
-    }
-
-    public void removeAddressFromUser(Long idContact, String idAddress) throws Exception {
-        Contact existingContact = findTargetById(idContact)
-                .orElseThrow(() -> new SearchException("Contact not found"));
-
-        Address toRemove = existingContact.getAddresses().stream()
-                .filter(a -> a.getIdAddress().equals(idAddress))
-                .findFirst()
-                .orElseThrow(() -> new SearchException("Address not associated with user"));
-
-        existingContact.removeAddress(toRemove);
-        updateTarget(existingContact);
-    }
-
-    public Contact updateAddressOfUser(Long idContact, AddressUpdatedEvent event) throws Exception {
-
-        Contact existingContact = findTargetById(idContact)
-                .orElseThrow(() -> new SearchException("Contact not found"));
-
-        Address existingAddress = existingContact.getAddresses().stream()
-                .filter(a -> a.getIdAddress().equals(event.getIdAddress()))
-                .findFirst()
-                .orElseThrow(() -> new SearchException("Address not associated with user"));
-
-        existingAddress.setStreet(event.getStreet());
-        existingAddress.setPostalCode(event.getPostalCode());
-        existingAddress.setCity(event.getCity());
-        existingAddress.setState(event.getState());
-        existingAddress.setCountry(event.getCountry());
-
         return updateTarget(existingContact);
     }
 }

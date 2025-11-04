@@ -9,7 +9,7 @@ import com.luispiquinrey.product.Repository.RepositoryProduct;
 @Service
 public class ProductService extends CrudService<Product, String>{
 
-    public ProductService(RepositoryProduct repositoryProduct, Class<Product> entityClass) {
-        super(repositoryProduct, entityClass);
+    public ProductService(RepositoryProduct repositoryProduct) {
+        super(repositoryProduct, Product.class);
     }
 }

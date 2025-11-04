@@ -4,4 +4,7 @@ spring:
             enabled: always
     lifecycle:
         timeout-per-shutdown-phase: 20s
-    
+logging:
+    charset:
+        console: UTF-8
+        file: UTF-8

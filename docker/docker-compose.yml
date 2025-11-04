@@ -27,7 +27,7 @@ services:
 
   # ===== RabbitMQ =====
   rabbitmq:
-    image: rabbitmq:3.11-management
+    image: rabbitmq:3.13-management
     container_name: amqp
     restart: always
     ports:
@@ -45,106 +45,6 @@ services:
       start_period: 60s  
     networks:
       - default
-
-  # ===== Config Server =====
-  configs:
-    image: "luispiquinrey/configs:s4"
-    container_name: configs
-    restart: always
-    ports:
-      - "8090:8090"
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-    environment:
-      SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS: "classpath:/config"
-      SPRING_CLOUD_BUS_ENABLED: false
-      SPRING_RABBITMQ_HOST: rabbitmq
-      SPRING_RABBITMQ_PORT: 5672
-      SPRING_RABBITMQ_USERNAME: guest
-      SPRING_RABBITMQ_PASSWORD: guest
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://configs:8090/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - default
-
-  # ===== Discovery Service =====
-  discovery:
-    image: "luispiquinrey/discovery:s4"
-    container_name: discovery
-    restart: on-failure
-    ports:
-      - "8761:8761"
-    environment:
-      SPRING_APPLICATION_NAME: "discovery"
-      SPRING_CONFIG_IMPORT: "configserver:http://configs:8090"
-      SPRING_CLOUD_CONFIG_URI: "configserver:http://configs:8090"
-    command: >
-      sh -c "
-      until curl -sf http://configs:8090/actuator/health | grep UP;
-      do echo 'Waiting for config server...'; sleep 5; done;
-      java -jar app.jar"
-    depends_on:
-      configs:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - default
-  # ===== User Service =====
-  user:
-    image: "luispiquinrey/user:s4"
-    container_name: user
-    restart: always
-    ports:
-      - "9098:9098"
-    depends_on:
-      configs:
-        condition: service_healthy
-      discovery:
-        condition: service_healthy
-      mysql_master:
-        condition: service_healthy
-      mysql_slave:
-        condition: service_healthy
-      axoniq:
-        condition: service_healthy
-      kafka1:
-        condition: service_started
-      kconnect:
-        condition: service_started
-      postgresql:
-        condition: service_healthy
-      n8n:
-        condition: service_started
-      conduktor-console:
-        condition: service_started
-      redis-master:
-        condition: service_healthy
-      sentinel-1:
-        condition: service_healthy
-      sentinel-2:
-        condition: service_healthy
-      sentinel-3:
-        condition: service_healthy
-      keycloak:
-        condition: service_started
-      localstack:
-        condition: service_started
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://user:9098/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - default
-      - redis-network
 
   # ===== Kafka =====
   kafka1:
@@ -233,6 +133,7 @@ services:
       - --enforce-gtid-consistency=ON
     volumes:
       - mysql_master_data:/var/lib/mysql
+      - ./init-master.sql:/docker-entrypoint-initdb.d/init-master.sql
     healthcheck:
       test:
         [
@@ -265,6 +166,7 @@ services:
         condition: service_healthy
     volumes:
       - mysql_slave_data:/var/lib/mysql
+      - ./init-slave.sql:/docker-entrypoint-initdb.d/init-slave.sql
     healthcheck:
       test:
         [
@@ -332,7 +234,7 @@ services:
     volumes:
       - n8n_data:/home/node/.n8n
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://n8n:5678/healthz"]
+      test: ["CMD", "wget", "--spider", "-q", "http://n8n:5678/healthz"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -371,6 +273,7 @@ services:
       retries: 5
     networks:
       - default
+      - mysql-network
 
   # ===== Redis Master/Slaves/Sentinels =====
   redis-master:

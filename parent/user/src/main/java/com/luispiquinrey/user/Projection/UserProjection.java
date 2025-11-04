@@ -1,6 +1,5 @@
 package com.luispiquinrey.user.Projection;
 
-import java.io.IOException;
 import java.util.Optional;
 
 import org.axonframework.config.ProcessingGroup;
@@ -8,29 +7,34 @@ import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.luispiquinrey.Error.UpdateException;
+import com.luispiquinrey.user.Entities.Address;
 import com.luispiquinrey.user.Entities.Contact;
+import com.luispiquinrey.user.Event.AddressAddedToUserEvent;
+import com.luispiquinrey.user.Event.AddressRemovedFromUserEvent;
 import com.luispiquinrey.user.Event.UserCreatedEvent;
 import com.luispiquinrey.user.Event.UserDeletedEvent;
 import com.luispiquinrey.user.Event.UserUpdatedEvent;
 import com.luispiquinrey.user.Event.UserUploadedImageEvent;
+import com.luispiquinrey.user.Repository.AddressRepository;
 import com.luispiquinrey.user.Service.ContactService;
-import com.luispiquinrey.user.Service.S3CloudService;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @ProcessingGroup("user-group")
+@Slf4j
 public class UserProjection {
 
     private final ContactService contactService;
-    private final S3CloudService s3CloudService;
+    private final AddressRepository addressRepository;
 
     @Autowired
     public UserProjection(ContactService contactService,
-            S3CloudService s3CloudService) {
+            AddressRepository addressRepository) {
         this.contactService = contactService;
-        this.s3CloudService = s3CloudService;
+        this.addressRepository = addressRepository;
     }
 
     @EventHandler
@@ -57,34 +61,57 @@ public class UserProjection {
     }
 
     @EventHandler
-    public void on(UserUploadedImageEvent userUploadedImageEvent) throws IOException {
-        String key = userUploadedImageEvent.getKey();
-        MultipartFile image = userUploadedImageEvent.getImage();
-        Optional<Contact> contactOpt = contactService.findByUsername(userUploadedImageEvent.getUsername());
-        if (!contactOpt.isPresent()) {
-            throw new IllegalStateException("No user found with username: " + userUploadedImageEvent.getUsername());
-        }
-        if (!isValidImageFile(image)) {
-            throw new IllegalArgumentException("Invalid image type: " + image.getContentType());
-        }
-        String imageUrl = s3CloudService.fileExists(key)
-                ? s3CloudService.getFileUrl(key)
-                : s3CloudService.uploadFile(key, image);
-        Contact contact = contactOpt.get();
-        contact.setProfileImage(imageUrl);
+    public void on(UserUploadedImageEvent event) {
         try {
+            Optional<Contact> contactOpt = contactService.findByUsername(event.getUsername());
+            if (!contactOpt.isPresent()) {
+                throw new IllegalStateException("No user found with username: " + event.getUsername());
+            }
+            Contact contact = contactOpt.get();
+            contact.setProfileImage(event.getImageUrl());
             contactService.updateTarget(contact);
+            log.info("Profile image updated for user: {}", event.getUsername());
         } catch (UpdateException e) {
+            log.error("Failed to update contact with image URL for user: {}", event.getUsername(), e);
             throw new RuntimeException("Failed to update contact with image URL", e);
+        } catch (Exception e) {
+            log.error("Error handling UserUploadedImageEvent for user: {}", event.getUsername(), e);
+            throw e;
         }
     }
 
-    private boolean isValidImageFile(MultipartFile file) {
-        String contentType = file.getContentType();
-        return contentType != null && (contentType.equals("image/jpeg")
-                || contentType.equals("image/jpg")
-                || contentType.equals("image/png")
-                || contentType.equals("image/gif")
-                || contentType.equals("image/webp"));
+    @EventHandler
+    public void on(AddressAddedToUserEvent event) {
+        try {
+            Optional<Contact> contactOpt = contactService.findByUsername(event.getUsername());
+            if (!contactOpt.isPresent()) {
+                throw new IllegalStateException("No user found with username: " + event.getUsername());
+            }
+            Contact contact = contactOpt.get();
+
+            Address address = new Address.Builder()
+                    .idAddress(event.getIdAddress())
+                    .street(event.getStreet())
+                    .city(event.getCity())
+                    .state(event.getState())
+                    .country(event.getCountry())
+                    .postalCode(event.getPostalCode())
+                    .contact(contact)
+                    .build();
+            addressRepository.save(address);
+            log.info("Address {} added to user: {}", event.getIdAddress(), event.getUsername());
+        } catch (Exception e) {
+            log.error("Error adding address {} to user: {}", event.getIdAddress(), event.getUsername(), e);
+            throw e;
+        }
+    }
+    @EventHandler
+    public void on(AddressRemovedFromUserEvent event) {
+        if (addressRepository.existsById(event.getIdAddress())) {
+            addressRepository.deleteById(event.getIdAddress());
+            log.info("Address {} removed from projection", event.getIdAddress());
+        } else {
+            log.warn("Attempted to remove non-existent address: {}", event.getIdAddress());
+        }
     }
 }

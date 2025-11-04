@@ -5,13 +5,13 @@ import org.axonframework.modelling.command.TargetAggregateIdentifier;
 import lombok.Builder;
 import lombok.Data;
 
-@Data 
+@Data
 @Builder
 public class CreateProductCommand {
     @TargetAggregateIdentifier
     private String idProduct;
     private String name;
-    private String brand;
+    private String idBrand;
     private float price;
     private Integer stock;
 }

@@ -1,13 +1,12 @@
 package com.luispiquinrey.order.Entities;
 
-import java.math.BigDecimal;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Entity
 @Table(name="item")
@@ -22,27 +21,27 @@ public class OrderItem {
 
     @Positive
     @Column(nullable = false)
-    private Integer quantity;
+    private int quantity;
 
-    @NotNull
-    @Column(name = "subtotal", nullable = false, precision = 10, scale = 2)
-    private BigDecimal subtotal;
+    @PositiveOrZero
+    @Column(name = "subtotal", nullable = false)
+    private float subtotal;
 
-    @Column(name = "discount", precision = 10, scale = 2)
-    private BigDecimal discount;
+    @PositiveOrZero
+    @Column(name = "discount")
+    private float discount;
 
     public OrderItem() {
     }
 
-    public OrderItem(@NotNull String idProduct, @Positive Integer quantity, @NotNull BigDecimal subtotal,
-            BigDecimal discount) {
+    public OrderItem(@NotNull String idProduct, int quantity, float subtotal, float discount) {
         this.idProduct = idProduct;
         this.quantity = quantity;
         this.subtotal = subtotal;
         this.discount = discount;
     }
 
-    public OrderItem(@Positive Integer quantity, @NotNull BigDecimal subtotal, BigDecimal discount) {
+    public OrderItem(int quantity, float subtotal, float discount) {
         this.quantity = quantity;
         this.subtotal = subtotal;
         this.discount = discount;
@@ -64,27 +63,27 @@ public class OrderItem {
         this.idProduct = idProduct;
     }
 
-    public Integer getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public BigDecimal getSubtotal() {
+    public float getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(BigDecimal subtotal) {
+    public void setSubtotal(float subtotal) {
         this.subtotal = subtotal;
     }
 
-    public BigDecimal getDiscount() {
+    public float getDiscount() {
         return discount;
     }
 
-    public void setDiscount(BigDecimal discount) {
+    public void setDiscount(float discount) {
         this.discount = discount;
     }
 }

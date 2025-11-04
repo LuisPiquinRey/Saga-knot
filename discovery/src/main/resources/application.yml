@@ -2,8 +2,8 @@ spring:
     application:
         name: discovery
     config:
-        import: configserver:http://configs:8090/
+        import: configserver:http://localhost:8090/
     cloud:
         config:
-            uri: http://configs:8090
+            uri: http://localhost:8090
             fail-fast: true

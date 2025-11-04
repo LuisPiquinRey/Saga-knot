@@ -1,10 +1,10 @@
 package com.luispiquinrey.cart.Entities;
 
+import java.io.Serializable;
+import java.util.UUID;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.io.Serializable;
-import java.math.BigDecimal;
 
 import com.luispiquinrey.Entities.AuditInfo;
 
@@ -12,9 +12,9 @@ import com.luispiquinrey.Entities.AuditInfo;
 public class CartItem implements Serializable {
 
     @Id
-    private String idItem;
+    private String idItem=UUID.randomUUID().toString();
     private int quantity;
-    private BigDecimal total;
+    private float total;
     private AuditInfo auditInfo;
     private String idCart;
     private String idProduct;
@@ -26,14 +26,14 @@ public class CartItem implements Serializable {
         this.idItem = idItem;
     }
 
-    public CartItem(String idItem, int quantity, BigDecimal total, AuditInfo auditInfo) {
+    public CartItem(String idItem, int quantity, float total, AuditInfo auditInfo) {
         this.idItem = idItem;
         this.quantity = quantity;
         this.total = total;
         this.auditInfo = auditInfo;
     }
 
-    public CartItem(String idCart, String idProduct, int quantity, BigDecimal total) {
+    public CartItem(String idCart, String idProduct, int quantity, float total) {
         this.idCart = idCart;
         this.idProduct = idProduct;
         this.quantity = quantity;
@@ -56,11 +56,11 @@ public class CartItem implements Serializable {
         this.quantity = quantity;
     }
 
-    public BigDecimal getTotal() {
+    public float getTotal() {
         return total;
     }
 
-    public void setTotal(BigDecimal total) {
+    public void setTotal(float total) {
         this.total = total;
     }
 
@@ -71,7 +71,22 @@ public class CartItem implements Serializable {
     public void setAuditInfo(AuditInfo auditInfo) {
         this.auditInfo = auditInfo;
     }
-    
+
+    public String getIdCart() {
+        return idCart;
+    }
+
+    public void setIdCart(String idCart) {
+        this.idCart = idCart;
+    }
+
+    public String getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(String idProduct) {
+        this.idProduct = idProduct;
+    }
 
     @Override
     public String toString() {
@@ -80,6 +95,8 @@ public class CartItem implements Serializable {
                 ", quantity=" + quantity +
                 ", total=" + total +
                 ", auditInfo=" + auditInfo +
+                ", idCart='" + idCart + '\'' +
+                ", idProduct='" + idProduct + '\'' +
                 '}';
     }
 }

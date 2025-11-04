@@ -10,11 +10,17 @@ public class ContactLookup {
 
     @Id
     private String username;
+    private String email;
 
     public ContactLookup() {
     }
     public ContactLookup(String username) {
         this.username = username;
+    }
+    
+    public ContactLookup(String username, String email) {
+        this.username = username;
+        this.email = email;
     }
     public String getUsername() {
         return username;
@@ -22,4 +28,11 @@ public class ContactLookup {
     public void setUsername(String username) {
         this.username = username;
     }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
 }

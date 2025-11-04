@@ -8,7 +8,7 @@ import lombok.Data;
 public class ProductCreatedEvent {
     private String idProduct;
     private String name;
-    private String brand;
+    private String idBrand;
     private float price;
     private Integer stock;
 
