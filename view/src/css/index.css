@@ -13,4 +13,8 @@ body {
 
 body::-webkit-scrollbar {
   display: none;
+}
+
+p {
+  color: white;
 }/*# sourceMappingURL=index.css.map */
