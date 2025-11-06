@@ -1,6 +1,5 @@
 {
     "configurations": [
-        
         {
             "type": "java",
             "name": "Spring Boot-ConfigsApplication<configs>",
@@ -76,7 +75,7 @@
             "mainClass": "com.luispiquinrey.user.UserApplication",
             "projectName": "user",
             "args": "",
-            "envFile": "${workspaceFolder}/.env",
+            "envFile": "${workspaceFolder}/.env"
         },
         {
             "type": "java",
@@ -121,6 +120,16 @@
             "args": "",
             "envFile": "${workspaceFolder}/.env",
             "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=60466 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=administration"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-AiApplication<ai>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.luispiquinrey.ai.AiApplication",
+            "projectName": "ai",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ],
     

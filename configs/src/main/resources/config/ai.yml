@@ -1,0 +1,11 @@
+spring:
+  ai:
+    ollama:
+      chat:
+        options:
+          model: qwen3:0.6b
+    chat:
+      client:
+        enabled: false
+server:
+  port: 7779
