@@ -5,9 +5,9 @@ services:
     container_name: axon-server
     restart: always
     ports:
-      - "8024:8024"
-      - "8124:8124"
-      - "8224:8224"
+      - "8025:8024"
+      - "8125:8124"
+      - "8225:8224"
     environment:
       AXONIQ_AXONSERVER_NAME: axon-server-dev
       AXONIQ_AXONSERVER_HOSTNAME: axon-server
