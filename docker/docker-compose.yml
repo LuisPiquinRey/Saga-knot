@@ -24,7 +24,27 @@ services:
       retries: 5
     networks:
       - default
-
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports: ["11434:11434"]
+    volumes:
+      - ./model_files:/model_files  
+    pull_policy: always
+    tty: true
+    restart: unless-stopped
+    entrypoint: ["/bin/sh", "/model_files/run_ollama.sh"]
+  ollama-webui:
+    image: ghcr.io/ollama-webui/ollama-webui:main
+    container_name: ollama-webui
+    ports: ["3000:8080"]
+    volumes:
+      - ollama-webui:/app/backend/data
+    depends_on:
+      - ollama
+    environment:
+      - 'OLLAMA_API_BASE_URL=http://ollama:11434/api'
+    restart: unless-stopped
   # ===== RabbitMQ =====
   rabbitmq:
     image: rabbitmq:3.13-management
@@ -464,6 +484,8 @@ volumes:
   axon_data: {}
   axon_events: {}
   axon_config: {}
+  ollama: {}
+  ollama-webui: {}
 
 networks:
   default:
