@@ -45,6 +45,11 @@ services:
     environment:
       - 'OLLAMA_API_BASE_URL=http://ollama:11434/api'
     restart: unless-stopped
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+      - "6334:6334"
   # ===== RabbitMQ =====
   rabbitmq:
     image: rabbitmq:3.13-management
