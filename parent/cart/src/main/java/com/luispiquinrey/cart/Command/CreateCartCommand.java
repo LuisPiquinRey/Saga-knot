@@ -11,6 +11,7 @@ import lombok.Data;
 @Builder
 public class CreateCartCommand {
     @TargetAggregateIdentifier
-    private String idCart=UUID.randomUUID().toString();
-    private String idUser;
+    @Builder.Default
+    private String idCart = UUID.randomUUID().toString();
+    private Long idUser;
 }

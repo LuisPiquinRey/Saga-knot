@@ -22,7 +22,7 @@ public class Cart extends BaseEntity<String> implements Serializable {
     @Id
     private String idCart = UUID.randomUUID().toString();
 
-    private String idUser;
+    private Long idUser;
 
     @PositiveOrZero
     private float total;
@@ -53,7 +53,7 @@ public class Cart extends BaseEntity<String> implements Serializable {
         this.items = items;
     }
 
-    public Cart(String idUser, List<CartItem> items, int quantity, float total) {
+    public Cart(Long idUser, List<CartItem> items, int quantity, float total) {
         this.idUser = idUser;
         this.items = items;
         this.quantity = quantity;
@@ -91,11 +91,11 @@ public class Cart extends BaseEntity<String> implements Serializable {
     public void setItems(List<CartItem> items) {
         this.items = items;
     }
-    public String getIdUser() {
+    public Long getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(String idUser) {
+    public void setIdUser(Long idUser) {
         this.idUser = idUser;
     }
 

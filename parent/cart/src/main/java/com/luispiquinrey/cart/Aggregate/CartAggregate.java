@@ -31,7 +31,7 @@ public class CartAggregate {
 
     @AggregateIdentifier
     private String idCart;
-    private String idUser;
+    private Long idUser;
     private float total;
     private int quantity;
     private Map<String, CartItem> items = new HashMap<>();

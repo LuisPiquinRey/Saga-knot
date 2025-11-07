@@ -3,8 +3,6 @@ package com.luispiquinrey.user.Configuration;
 import java.util.logging.Logger;
 
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory.CacheMode;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory.ConfirmType;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
@@ -19,17 +17,13 @@ public class ConfigurationRabbit {
 
     @Bean
     public CachingConnectionFactory cachingConnectionFactory() {
-
-        CachingConnectionFactory connectionFactory = new CachingConnectionFactory("localhost");
-        connectionFactory.setUsername("guest");
-        connectionFactory.setPassword("guest");
-        connectionFactory.setChannelCacheSize(50);
-        connectionFactory.setPublisherConfirmType(ConfirmType.CORRELATED);
-        connectionFactory.setCacheMode(CacheMode.CONNECTION);
-        connectionFactory.setConnectionNameStrategy(connectionNameStrategy -> "CONNECTION_KNOT_ORDER_USER");
-
-        return connectionFactory;
+        CachingConnectionFactory factory = new CachingConnectionFactory("localhost");
+        factory.setUsername("guest");
+        factory.setPassword("guest");
+        factory.setPort(5672);
+        return factory;
     }
+
     @Bean
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate template = new RabbitTemplate(cachingConnectionFactory());
@@ -41,7 +35,8 @@ public class ConfigurationRabbit {
         retryTemplate.setBackOffPolicy(backOffPolicy);
         template.setRetryTemplate(retryTemplate);
         template.setExchange("exchange-order-user");
-        template.setMessageConverter(new Jackson2JsonMessageConverter());
+        template.setDefaultReceiveQueue("queue-order-server");
+        template.setRoutingKey("routing-key-order-user");
         template.setConfirmCallback((correlationData, ack, cause) -> {
             if (ack) {
                 LOGGER.info("Message confirmed: " + correlationData.getId());

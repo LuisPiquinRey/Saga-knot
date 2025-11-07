@@ -53,8 +53,8 @@ public class CommandInterceptorCart implements MessageDispatchInterceptor<Messag
         if (command.getIdCart() == null || command.getIdCart().isEmpty()) {
             throw new IllegalArgumentException("Cart ID cannot be null or empty");
         }
-        if (command.getIdUser() == null || command.getIdUser().isEmpty()) {
-            throw new IllegalArgumentException("User ID cannot be null or empty");
+        if (command.getIdUser() == null) {
+            throw new IllegalArgumentException("User ID cannot be null");
         }
         if (repositoryCart.existsById(command.getIdCart())) {
             throw new IllegalStateException("Cart already exists with id: " + command.getIdCart());

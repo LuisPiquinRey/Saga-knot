@@ -7,5 +7,5 @@ import lombok.Data;
 @Builder
 public class CreatedCartEvent {
     private String idCart;
-    private String idUser;
+    private Long idUser;
 }

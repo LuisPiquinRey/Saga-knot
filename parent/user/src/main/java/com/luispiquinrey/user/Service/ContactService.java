@@ -52,13 +52,15 @@ public class ContactService extends WrapperCrudServiceRedis<Contact, Long> imple
     @Override
     public Contact createTarget(Contact target) throws CreationException {
         Contact created = super.createTarget(target);
+        Long idContact=created.getIdContact();
         CorrelationData correlation = new CorrelationData(UUID.randomUUID().toString());
         rabbitTemplate.convertAndSend(
                 "exchange-order-user",
-                "routing-key-order-user", 
-                created, 
+                "routing-key-order-user",
+                idContact,
                 correlation
         );
+
         super.redisTemplate.opsForValue().set(USERNAME_CACHE_PREFIX + created.getUsername(), created);
         return created;
     }

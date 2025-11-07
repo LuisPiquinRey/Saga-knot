@@ -54,6 +54,8 @@ services:
     image: rabbitmq:3.13-management
     container_name: amqp
     restart: always
+    command: >
+      sh -c "chown -R rabbitmq:rabbitmq /var/lib/rabbitmq && rabbitmq-server"
     ports:
       - "5672:5672"
       - "15672:15672"
