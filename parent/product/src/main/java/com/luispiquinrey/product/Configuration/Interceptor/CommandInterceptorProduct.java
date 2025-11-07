@@ -28,7 +28,6 @@ public class CommandInterceptorProduct implements MessageDispatchInterceptor<Mes
                 CreateProductCommand createProductCommand = (CreateProductCommand) command.getPayload();
                 if (createProductCommand.getIdProduct().isEmpty())throw new IllegalArgumentException("Product id cannot be null");
                 if (createProductCommand.getName() == null || createProductCommand.getName().isBlank())throw new IllegalArgumentException("Product name cannot be null or empty");
-                if (createProductCommand.getIdBrand() == null || createProductCommand.getIdBrand().isBlank())throw new IllegalArgumentException("Product brand cannot be null or empty");
                 if (createProductCommand.getPrice() < 0)throw new IllegalArgumentException("Product price cannot be negative");
                 if (createProductCommand.getStock() < 0)throw new IllegalArgumentException("Product stock cannot be negative");
                 if (repositoryLookup.findById(createProductCommand.getIdProduct()).isPresent())throw new IllegalStateException("Product is already in database");

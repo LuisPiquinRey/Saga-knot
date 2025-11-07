@@ -70,7 +70,7 @@ public class Product extends BaseEntity<String> implements Serializable {
     @Embedded
     private Gender gender;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "id_brand")
     private Brand brand;
 
