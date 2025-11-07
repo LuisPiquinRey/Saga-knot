@@ -28,12 +28,11 @@ services:
     image: ollama/ollama:latest
     container_name: ollama
     ports: ["11434:11434"]
-    volumes:
-      - ./model_files:/model_files  
     pull_policy: always
+    volumes:
+      - ollama_data:/root/.ollama 
     tty: true
     restart: unless-stopped
-    entrypoint: ["/bin/sh", "/model_files/run_ollama.sh"]
   ollama-webui:
     image: ghcr.io/ollama-webui/ollama-webui:main
     container_name: ollama-webui
@@ -46,7 +45,7 @@ services:
       - 'OLLAMA_API_BASE_URL=http://ollama:11434/api'
     restart: unless-stopped
   qdrant:
-    image: qdrant/qdrant:latest
+    image: qdrant/qdrant:v1.13.0
     ports:
       - "6333:6333"
       - "6334:6334"
@@ -491,6 +490,7 @@ volumes:
   axon_config: {}
   ollama: {}
   ollama-webui: {}
+  ollama_data: {}   
 
 networks:
   default:

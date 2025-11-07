@@ -1,17 +1,24 @@
 spring:
   ai:
     ollama:
+      base-url: http://localhost:11434  
       chat:
         options:
           model: qwen3:0.6b
-    chat:
-      client:
-        enabled: false
+      embedding:
+        options:
+          model: all-minilm
   vectorstore:
     qdrant:
       initialize-schema: true
       host: localhost
-      port: 6334
-      collection-name: context-luispiquinrey
+      port: 6333
+      collection-name: vector_store 
+      use-tls: false
+logging:
+  level:
+    org.springframework.ai: DEBUG
+    org.springframework.ai.vectorstore: DEBUG
+    org.springframework.ai.retrieval: DEBUG
 server:
   port: 7779
