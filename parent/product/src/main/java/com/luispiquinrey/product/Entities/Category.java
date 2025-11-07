@@ -31,17 +31,9 @@ public class Category extends BaseEntity<String> implements Serializable{
     @Size(max = 255, message = "Image URL cannot exceed 255 characters")
     private String image;
 
-    @ManyToMany(
-        cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-        mappedBy = "categories",
-        targetEntity = Product.class
-    )
-    private List<Product> products;
-
     public Category() {}
 
     public Category(String name, String description, String image) {
-        this.idCategory = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
         this.image = image;
@@ -79,13 +71,6 @@ public class Category extends BaseEntity<String> implements Serializable{
 
     public void setImage(String image) {
         this.image = image;
-    }
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
     }
 
     @Override

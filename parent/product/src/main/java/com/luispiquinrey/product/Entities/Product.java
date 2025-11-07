@@ -60,8 +60,7 @@ public class Product extends BaseEntity<String> implements Serializable {
     private Integer stock=0;
 
     @ManyToMany(
-            targetEntity = Category.class,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+            targetEntity = Category.class)
     @JoinTable(name = "product_category",
             joinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id_product"),
             inverseJoinColumns = @JoinColumn(name = "id_category", referencedColumnName = "id_category"))
@@ -70,7 +69,7 @@ public class Product extends BaseEntity<String> implements Serializable {
     @Embedded
     private Gender gender;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_brand")
     private Brand brand;
 

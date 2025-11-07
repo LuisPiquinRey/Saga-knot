@@ -59,6 +59,9 @@ public class ProductAggregate {
     public void on(ProductCreatedEvent event) {
         this.idProduct = event.getIdProduct();
         this.name = event.getName();
+        this.brand= event.getBrand();
+        this.categories= event.getCategories();
+        this.gender= event.getGender();
         this.price = event.getPrice();
         this.stock = event.getStock();
     }
@@ -66,6 +69,9 @@ public class ProductAggregate {
     public void on(ProductUpdatedEvent event) {
         this.idProduct = event.getIdProduct();
         this.name = event.getName();
+        this.brand= event.getBrand();
+        this.categories= event.getCategories();
+        this.gender= event.getGender();
         this.price = event.getPrice();
         this.stock = event.getStock();
         this.status=event.getStatus();
