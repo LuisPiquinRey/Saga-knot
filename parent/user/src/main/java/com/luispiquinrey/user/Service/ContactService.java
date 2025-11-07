@@ -1,5 +1,6 @@
 package com.luispiquinrey.user.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.redis.core.RedisTemplate;
@@ -117,5 +118,9 @@ public class ContactService extends WrapperCrudServiceRedis<Contact, Long> imple
 
         existingContact.addAddress(address);
         return updateTarget(existingContact);
+    }
+    @Override
+    public List<Contact> findAllUsers() {
+        return contactRepository.findAll();
     }
 }

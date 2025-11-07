@@ -1,5 +1,6 @@
 package com.luispiquinrey.user.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,6 +34,7 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
 
     boolean existsByEmail(String email);
     boolean existsByUsername(String username);
+    List<Contact> findAllUsers();
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.REPEATABLE_READ)
