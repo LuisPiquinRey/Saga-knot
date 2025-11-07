@@ -22,7 +22,7 @@ import com.luispiquinrey.cart.Event.ItemQuantityUpdatedEvent;
 import com.luispiquinrey.cart.Event.ItemRemovedFromCartEvent;
 import com.luispiquinrey.cart.Event.UpdatedCartEvent;
 import com.luispiquinrey.cart.Repository.RepositoryCart;
-import com.luispiquinrey.cart.Repository.RepositoryItem;
+import com.luispiquinrey.cart.Repository.RepositoryCartItem;
 
 @Component
 @ProcessingGroup("cart-collection")
@@ -30,10 +30,10 @@ import com.luispiquinrey.cart.Repository.RepositoryItem;
 public class CartProjection {
 
     private final RepositoryCart repositoryCart;
-    private final RepositoryItem repositoryItem;
+    private final RepositoryCartItem repositoryItem;
 
     @Autowired
-    public CartProjection(RepositoryCart repositoryCart, RepositoryItem repositoryItem) {
+    public CartProjection(RepositoryCart repositoryCart, RepositoryCartItem repositoryItem) {
         this.repositoryCart = repositoryCart;
         this.repositoryItem = repositoryItem;
     }

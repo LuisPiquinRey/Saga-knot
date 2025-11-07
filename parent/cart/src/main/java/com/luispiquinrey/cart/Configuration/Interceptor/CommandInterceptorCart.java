@@ -13,7 +13,7 @@ import com.luispiquinrey.cart.Command.CreateCartCommand;
 import com.luispiquinrey.cart.Command.RemoveItemFromCartCommand;
 import com.luispiquinrey.cart.Command.UpdateItemQuantityCommand;
 import com.luispiquinrey.cart.Repository.RepositoryCart;
-import com.luispiquinrey.cart.Repository.RepositoryItem;
+import com.luispiquinrey.cart.Repository.RepositoryCartItem;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,10 +22,10 @@ import lombok.extern.slf4j.Slf4j;
 public class CommandInterceptorCart implements MessageDispatchInterceptor<Message<?>> {
 
     private final RepositoryCart repositoryCart;
-    private final RepositoryItem repositoryItem;
+    private final RepositoryCartItem repositoryItem;
 
     @Autowired
-    public CommandInterceptorCart(RepositoryCart repositoryCart, RepositoryItem repositoryItem) {
+    public CommandInterceptorCart(RepositoryCart repositoryCart, RepositoryCartItem repositoryItem) {
         this.repositoryCart = repositoryCart;
         this.repositoryItem = repositoryItem;
     }
