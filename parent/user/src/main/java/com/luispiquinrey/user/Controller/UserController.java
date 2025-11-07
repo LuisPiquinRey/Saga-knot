@@ -1,15 +1,20 @@
 package com.luispiquinrey.user.Controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.messaging.responsetypes.ResponseType;
+import org.axonframework.messaging.responsetypes.ResponseTypes;
+import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,6 +31,10 @@ import com.luispiquinrey.user.Command.UploadImageUserCommand;
 import com.luispiquinrey.user.DTOs.AddressDto;
 import com.luispiquinrey.user.DTOs.ContactDto;
 import com.luispiquinrey.user.DTOs.UpdateContactDto;
+import com.luispiquinrey.user.Entities.Contact;
+import com.luispiquinrey.user.Queries.FindUserByEmailQuery;
+import com.luispiquinrey.user.Queries.FindUserByUsernameQuery;
+import com.luispiquinrey.user.Queries.FindUsersQuery;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -36,10 +45,12 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 
     private final CommandGateway commandGateway;
+    private final QueryGateway queryGateway;
 
     @Autowired
-    public UserController(CommandGateway commandGateway) {
+    public UserController(CommandGateway commandGateway, QueryGateway queryGateway) {
         this.commandGateway = commandGateway;
+        this.queryGateway = queryGateway;
     }
 
     @PostMapping("/create")
@@ -51,14 +62,14 @@ public class UserController {
             });
             return ResponseEntity.badRequest().body(errors);
         }
-        
+
         CreateUserCommand createUserCommand = CreateUserCommand.builder()
                 .username(requestContactDto.username())
                 .email(requestContactDto.email())
                 .password(requestContactDto.password())
                 .phoneNumber(requestContactDto.phoneNumber())
                 .build();
-        
+
         return handleCommand(createUserCommand, "User created successfully");
     }
 
@@ -153,12 +164,30 @@ public class UserController {
         return handleCommand(command, "Address removed successfully");
     }
 
+    @GetMapping("/")
+    public List<Contact> getAllUsers() {
+        FindUsersQuery findUsersQuery = new FindUsersQuery();
+        return queryGateway.query(findUsersQuery,
+                ResponseTypes.multipleInstancesOf(Contact.class)).join();
+    }
+
+    @GetMapping("/find/{username}")
+    public ResponseEntity<?> findByUsername(@PathVariable String username) {
+        FindUserByUsernameQuery findUserByUsernameQuery = new FindUserByUsernameQuery(username);
+        return handleQuery(findUserByUsernameQuery, username,ResponseTypes.optionalInstanceOf(Contact.class));
+    }
+    @GetMapping("/find/{email}")
+    public ResponseEntity<?> findByEmail(@PathVariable String email){
+        FindUserByEmailQuery findUserByEmailQuery =new FindUserByEmailQuery(email);
+        return handleQuery(findUserByEmailQuery,email,ResponseTypes.optionalInstanceOf(Contact.class));
+    }
+
     private ResponseEntity<?> handleCommand(Object command, String message) {
         try {
             Object result = commandGateway.sendAndWait(command);
             return ResponseEntity.ok(Map.of(
-                "message", message,
-                "result", result
+                    "message", message,
+                    "result", result
             ));
         } catch (IllegalArgumentException | IllegalStateException e) {
             log.error("Validation error: {}", e.getMessage());
@@ -170,4 +199,23 @@ public class UserController {
                     .body(Map.of("error", "Operation failed: " + e.getMessage()));
         }
     }
+
+    private <Q, R> ResponseEntity<?> handleQuery(Q query, String message, ResponseType<R> responseType) {
+        try {
+            R result = queryGateway.query(query, responseType).join();
+            return ResponseEntity.ok(Map.of(
+                    "result", result,
+                    "message", message
+            ));
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            log.error("Validation error: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", e.getMessage()));
+        } catch (Exception e) {
+            log.error("Query execution failed", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Operation failed: " + e.getMessage()));
+        }
+    }
+
 }
