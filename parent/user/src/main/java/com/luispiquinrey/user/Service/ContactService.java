@@ -3,6 +3,7 @@ package com.luispiquinrey.user.Service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +22,13 @@ public class ContactService extends WrapperCrudServiceRedis<Contact, Long> imple
     private final ContactRepository contactRepository;
     private static final String USERNAME_CACHE_PREFIX = "contact:username:";
     private static final String EMAIL_CACHE_PREFIX = "contact:email:";
+    private final RabbitTemplate rabbitTemplate;
 
     public ContactService(RedisTemplate<String, Contact> redisTemplate,
-            ContactRepository contactRepository) {
+            ContactRepository contactRepository, RabbitTemplate rabbitTemplate) {
         super(redisTemplate, contactRepository, Contact.class);
         this.contactRepository = contactRepository;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     public Optional<Contact> findByUsername(String username) {
@@ -47,6 +50,11 @@ public class ContactService extends WrapperCrudServiceRedis<Contact, Long> imple
     @Override
     public Contact createTarget(Contact target) throws CreationException {
         Contact created = super.createTarget(target);
+        rabbitTemplate.convertAndSend(
+                "exchange-order-user",
+                "routing-key-order-user", 
+                created
+        );
         super.redisTemplate.opsForValue().set(USERNAME_CACHE_PREFIX + created.getUsername(), created);
         return created;
     }
@@ -118,9 +126,5 @@ public class ContactService extends WrapperCrudServiceRedis<Contact, Long> imple
 
         existingContact.addAddress(address);
         return updateTarget(existingContact);
-    }
-    @Override
-    public List<Contact> findAllUsers() {
-        return contactRepository.findAll();
     }
 }

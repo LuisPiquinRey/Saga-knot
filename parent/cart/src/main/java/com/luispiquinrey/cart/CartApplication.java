@@ -11,8 +11,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
     org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration.class
 })
 @EnableMongoRepositories
-@ComponentScan(basePackages = "com.luispiquinrey.Error.Handler")
-@EnableJpaAuditing
 public class CartApplication {
 
 	public static void main(String[] args) {

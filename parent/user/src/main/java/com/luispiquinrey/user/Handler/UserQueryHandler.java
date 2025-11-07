@@ -11,7 +11,6 @@ import com.luispiquinrey.user.Entities.Contact;
 import com.luispiquinrey.user.Queries.FindUserByEmailQuery;
 import com.luispiquinrey.user.Queries.FindUserByIdQuery;
 import com.luispiquinrey.user.Queries.FindUserByUsernameQuery;
-import com.luispiquinrey.user.Queries.FindUsersQuery;
 import com.luispiquinrey.user.Service.ContactService;
 
 @Component
@@ -33,9 +32,5 @@ public class UserQueryHandler {
     @QueryHandler
     public Optional<Contact> findById(FindUserByIdQuery query) {
         return contactService.findTargetById(query.getIdContact());
-    }
-    @QueryHandler
-    public List<Contact> findAll(FindUsersQuery query){
-        return contactService.findAllUsers();
     }
 }

@@ -34,8 +34,6 @@ import com.luispiquinrey.user.DTOs.UpdateContactDto;
 import com.luispiquinrey.user.Entities.Contact;
 import com.luispiquinrey.user.Queries.FindUserByEmailQuery;
 import com.luispiquinrey.user.Queries.FindUserByUsernameQuery;
-import com.luispiquinrey.user.Queries.FindUsersQuery;
-
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
@@ -162,13 +160,6 @@ public class UserController {
                 .idAddress(addressId)
                 .build();
         return handleCommand(command, "Address removed successfully");
-    }
-
-    @GetMapping("/")
-    public List<Contact> getAllUsers() {
-        FindUsersQuery findUsersQuery = new FindUsersQuery();
-        return queryGateway.query(findUsersQuery,
-                ResponseTypes.multipleInstancesOf(Contact.class)).join();
     }
 
     @GetMapping("/find/{username}")

@@ -69,20 +69,7 @@ public class ConfigurationRabbit {
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory() {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setMessageConverter(new Jackson2JsonMessageConverter());
+        factory.setConnectionFactory(rabbitConnectionFactory());
         return factory;
     }
 }
-/*
- * @Configuration
-@EnableRabbit
-public class Config implements RabbitListenerConfigurer {
-    @Autowired
-    private LocalValidatorFactoryBean validator;
-    ...
-    @Override
-    public void configureRabbitListeners(RabbitListenerEndpointRegistrar registrar) {
-      registrar.setValidator(this.validator);
-    }
-}
-    ACUERDATE DE AGREGAR ESTO
- */

@@ -15,7 +15,6 @@ public class CartItem implements Serializable {
     private String idItem=UUID.randomUUID().toString();
     private int quantity;
     private float total;
-    private AuditInfo auditInfo;
     private String idCart;
     private String idProduct;
 
@@ -26,11 +25,10 @@ public class CartItem implements Serializable {
         this.idItem = idItem;
     }
 
-    public CartItem(String idItem, int quantity, float total, AuditInfo auditInfo) {
+    public CartItem(String idItem, int quantity, float total) {
         this.idItem = idItem;
         this.quantity = quantity;
         this.total = total;
-        this.auditInfo = auditInfo;
     }
 
     public CartItem(String idCart, String idProduct, int quantity, float total) {
@@ -64,14 +62,6 @@ public class CartItem implements Serializable {
         this.total = total;
     }
 
-    public AuditInfo getAuditInfo() {
-        return auditInfo;
-    }
-
-    public void setAuditInfo(AuditInfo auditInfo) {
-        this.auditInfo = auditInfo;
-    }
-
     public String getIdCart() {
         return idCart;
     }
@@ -94,7 +84,6 @@ public class CartItem implements Serializable {
                 "idItem='" + idItem + '\'' +
                 ", quantity=" + quantity +
                 ", total=" + total +
-                ", auditInfo=" + auditInfo +
                 ", idCart='" + idCart + '\'' +
                 ", idProduct='" + idProduct + '\'' +
                 '}';

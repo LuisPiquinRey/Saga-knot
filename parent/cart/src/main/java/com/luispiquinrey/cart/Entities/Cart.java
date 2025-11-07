@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.luispiquinrey.Entities.AuditInfo;
 import com.luispiquinrey.Entities.BaseEntity;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -22,8 +23,6 @@ public class Cart extends BaseEntity<String> implements Serializable {
     private String idCart = UUID.randomUUID().toString();
 
     private String idUser;
-
-    private AuditInfo auditInfo;
 
     @PositiveOrZero
     private float total;
@@ -47,9 +46,8 @@ public class Cart extends BaseEntity<String> implements Serializable {
         this.items = items;
     }
 
-    public Cart(String idCart, AuditInfo auditInfo,float total, int quantity, List<CartItem> items) {
+    public Cart(String idCart,float total, int quantity, List<CartItem> items) {
         this.idCart = idCart;
-        this.auditInfo = auditInfo;
         this.total = total;
         this.quantity = quantity;
         this.items = items;
@@ -68,14 +66,6 @@ public class Cart extends BaseEntity<String> implements Serializable {
 
     public void setIdCart(String idCart) {
         this.idCart = idCart;
-    }
-
-    public AuditInfo getAuditInfo() {
-        return auditInfo;
-    }
-
-    public void setAuditInfo(AuditInfo auditInfo) {
-        this.auditInfo = auditInfo;
     }
 
     public float getTotal() {
@@ -123,7 +113,6 @@ public class Cart extends BaseEntity<String> implements Serializable {
     public String toString() {
         return "Cart{" +
                 "idCart='" + idCart + '\'' +
-                ", auditInfo=" + auditInfo +
                 ", total=" + total +
                 ", quantity=" + quantity +
                 ", version=" + version +

@@ -81,7 +81,7 @@ eureka:
         show-details: ALWAYS
 axon:
   axonserver:
-    servers: localhost:8124
+    servers: localhost:8125
 axoniq:
   console:
     application-name: Shopping-axion
@@ -91,3 +91,4 @@ server:
   port: 9098
 aws:
   bucket-name: local-bucket-saga
+
