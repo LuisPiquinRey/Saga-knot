@@ -23,18 +23,4 @@ public class CartController {
     @Autowired
     private CommandGateway commandGateway;
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createOrder() {
-        Cart order = new Cart();
-        CreateCartCommand createOrderCommand = CreateCartCommand.builder()
-                .idCart(order.getIdCart()).build();
-        try {
-            String productId = commandGateway.sendAndWait(createOrderCommand);
-            return ResponseEntity.ok(productId);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error creating order: " + e.getMessage());
-        }
-    }
-
 }
