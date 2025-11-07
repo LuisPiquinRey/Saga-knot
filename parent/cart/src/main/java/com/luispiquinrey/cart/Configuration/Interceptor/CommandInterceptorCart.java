@@ -7,7 +7,7 @@ import org.axonframework.messaging.Message;
 import org.axonframework.messaging.MessageDispatchInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import com.luispiquinrey.cart.Configuration.OpenFeign.ProductExistenceValidator;
 import com.luispiquinrey.cart.Command.AddItemToCartCommand;
 import com.luispiquinrey.cart.Command.CreateCartCommand;
 import com.luispiquinrey.cart.Command.RemoveItemFromCartCommand;
@@ -23,11 +23,13 @@ public class CommandInterceptorCart implements MessageDispatchInterceptor<Messag
 
     private final RepositoryCart repositoryCart;
     private final RepositoryCartItem repositoryItem;
+    private final ProductExistenceValidator productExistenceValidator;
 
     @Autowired
-    public CommandInterceptorCart(RepositoryCart repositoryCart, RepositoryCartItem repositoryItem) {
+    public CommandInterceptorCart(RepositoryCart repositoryCart, RepositoryCartItem repositoryItem,ProductExistenceValidator productExistenceValidator) {
         this.repositoryCart = repositoryCart;
         this.repositoryItem = repositoryItem;
+        this.productExistenceValidator=productExistenceValidator;
     }
 
     @Override
@@ -62,6 +64,9 @@ public class CommandInterceptorCart implements MessageDispatchInterceptor<Messag
     }
 
     private void validateAddItemCommand(AddItemToCartCommand command) {
+        if (!productExistenceValidator.existsProduct(command.getIdProduct())){
+            throw new IllegalArgumentException("Product must exist");
+        }
         if (command.getIdCart() == null || command.getIdCart().isEmpty()) {
             throw new IllegalArgumentException("Cart ID cannot be null or empty");
         }

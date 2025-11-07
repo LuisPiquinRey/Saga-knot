@@ -135,7 +135,7 @@ public class OrderProjection {
             order.setNotes(event.getNotes());
             order.setUpdatedAt(LocalDateTime.now());
 
-            if (event.getItems() != null && !event.getItems().isEmpty()) {
+            if (event.getTax() != null && !event.getItems().isEmpty()) {
                 repositoryOrderItem.deleteByIdOrder(event.getIdOrder());
 
                 for (OrderItem item : event.getItems()) {

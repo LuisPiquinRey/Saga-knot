@@ -1,16 +1,1 @@
 spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          keycloak:
-            provider: keycloak
-            client-id: gateway-knot
-            client-secret: Qb9cyxG1cNDPNiM5jwDBWWuoDzMJ7Vtt
-            authorization-grant-type: authorization_code
-            redirect-uri: "{baseScheme}://{baseHost}{basePort}{basePath}/authorized/{registrationId}"
-            scope: openid,profile
-        provider:
-          my-oidc-provider:
-            issuer-uri: http://localhost:9030/realms/SagaDev
-            token-uri: http://localhost:9030/realms/SagaDev/protocol/openid-connect/token
