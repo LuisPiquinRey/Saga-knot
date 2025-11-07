@@ -3,6 +3,7 @@ package com.luispiquinrey.cart;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -13,6 +14,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 })
 @EnableMongoRepositories
 @EnableRabbit
+@EnableFeignClients
 public class CartApplication {
 
 	public static void main(String[] args) {
