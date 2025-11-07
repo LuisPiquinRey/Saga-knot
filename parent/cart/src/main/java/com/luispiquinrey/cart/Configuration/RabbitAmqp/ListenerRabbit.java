@@ -6,7 +6,10 @@ import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class ListenerRabbit {
 
     @RabbitListener(bindings = @QueueBinding(
@@ -14,6 +17,7 @@ public class ListenerRabbit {
             exchange = @Exchange(value = "exchange-order-user", ignoreDeclarationExceptions = "true"),
             key = "routing-key-order-user")
     )
-    public void processOrder() {
+    public void processOrder(String message) {
+        log.info("Listener catch message -> " + message);
     }
 }

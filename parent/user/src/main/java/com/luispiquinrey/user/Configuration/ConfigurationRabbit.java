@@ -6,6 +6,7 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory.CacheMode;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory.ConfirmType;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.backoff.ExponentialBackOffPolicy;
@@ -29,7 +30,6 @@ public class ConfigurationRabbit {
 
         return connectionFactory;
     }
-
     @Bean
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate template = new RabbitTemplate(cachingConnectionFactory());
@@ -41,7 +41,7 @@ public class ConfigurationRabbit {
         retryTemplate.setBackOffPolicy(backOffPolicy);
         template.setRetryTemplate(retryTemplate);
         template.setExchange("exchange-order-user");
-        template.setRoutingKey("routing-key-order-user");
+        template.setMessageConverter(new Jackson2JsonMessageConverter());
         template.setConfirmCallback((correlationData, ack, cause) -> {
             if (ack) {
                 LOGGER.info("Message confirmed: " + correlationData.getId());

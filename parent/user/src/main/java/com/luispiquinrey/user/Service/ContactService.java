@@ -2,7 +2,9 @@ package com.luispiquinrey.user.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -50,10 +52,12 @@ public class ContactService extends WrapperCrudServiceRedis<Contact, Long> imple
     @Override
     public Contact createTarget(Contact target) throws CreationException {
         Contact created = super.createTarget(target);
+        CorrelationData correlation = new CorrelationData(UUID.randomUUID().toString());
         rabbitTemplate.convertAndSend(
                 "exchange-order-user",
                 "routing-key-order-user", 
-                created
+                created, 
+                correlation
         );
         super.redisTemplate.opsForValue().set(USERNAME_CACHE_PREFIX + created.getUsername(), created);
         return created;
