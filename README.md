@@ -37,28 +37,6 @@ The project serves as both a learning resource and a foundation for building sca
 
 ---
 
-## 🤝 Contributing
-
-Contributions are welcome! This project is under active development.
-
-### How to Contribute
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Coding Standards
-
-- Follow Java coding conventions
-- Write unit tests for new features
-- Update documentation as needed
-- Use meaningful commit messages
-
----
-
-
 ## 👤 Author
 
 **Luis Piquin Rey**
@@ -66,19 +44,8 @@ Contributions are welcome! This project is under active development.
 - GitHub: [@luispiquinrey](https://github.com/luispiquinrey)
 - Email: piquin.rey@gmail.com
 
----
-
-## 📞 Support
-
-If you have questions or need help:
-
-- Open an issue on GitHub
-- Check the [documentation](documentation/)
-- Review existing issues and PRs
-
----
 
 **⚠️ Remember: This project is under active development. Not all features are complete or stable. Use at your own risk in non-production environments.**
 
----
+
 
