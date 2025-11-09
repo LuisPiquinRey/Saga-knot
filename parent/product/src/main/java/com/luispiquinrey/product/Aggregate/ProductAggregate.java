@@ -11,6 +11,7 @@ import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 import com.luispiquinrey.Enums.StatusProduct;
 import com.luispiquinrey.product.Command.CreateProductCommand;
+import com.luispiquinrey.product.Command.DeleteProductCommand;
 import com.luispiquinrey.product.Command.UpdateProductCommand;
 import com.luispiquinrey.product.Entities.Brand;
 import com.luispiquinrey.product.Entities.Category;
@@ -49,10 +50,18 @@ public class ProductAggregate {
         AggregateLifecycle.apply(productCreatedEvent);
     }
     @CommandHandler
-    public ProductAggregate(UpdateProductCommand updateProductCommand){
+    public void handle(UpdateProductCommand updateProductCommand){
         ProductUpdatedEvent productUpdatedEvent=ProductUpdatedEvent.builder().build();
         BeanUtils.copyProperties(updateProductCommand,productUpdatedEvent);
         AggregateLifecycle.apply(productUpdatedEvent);
+    }
+
+    @CommandHandler
+    public void handle(DeleteProductCommand deleteProductCommand){
+        ProductDeletedEvent productDeletedEvent=ProductDeletedEvent.builder()
+                .idProduct(deleteProductCommand.getIdProduct())
+                .build();
+        AggregateLifecycle.apply(productDeletedEvent);
     }
 
     @EventSourcingHandler

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import com.luispiquinrey.product.Entities.ProductLookup;
 import com.luispiquinrey.product.Event.ProductCreatedEvent;
+import com.luispiquinrey.product.Event.ProductDeletedEvent;
+import com.luispiquinrey.product.Event.ProductUpdatedEvent;
 import com.luispiquinrey.product.Repository.RepositoryProductLookup;
 
 @Component
@@ -25,5 +27,18 @@ public class LookupProductProjection {
         ProductLookup lookup=new ProductLookup();
         BeanUtils.copyProperties(productCreatedEvent,lookup);
         repositoryLookup.save(lookup);
+    }
+
+    @EventHandler
+    public void on(ProductUpdatedEvent event) {
+        repositoryLookup.findById(event.getIdProduct()).ifPresent(lookup -> {
+            BeanUtils.copyProperties(event, lookup);
+            repositoryLookup.save(lookup);
+        });
+    }
+
+    @EventHandler
+    public void on(ProductDeletedEvent event) {
+        repositoryLookup.deleteById(event.getIdProduct());
     }
 }

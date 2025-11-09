@@ -13,7 +13,6 @@ import com.luispiquinrey.Entities.BaseEntity;
 import com.luispiquinrey.Enums.StatusProduct;
 
 import jakarta.persistence.Cacheable;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;

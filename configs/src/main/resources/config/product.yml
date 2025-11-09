@@ -34,7 +34,7 @@ eureka:
         show-details: ALWAYS
 axon:
   axonserver:
-    servers: localhost:8124
+    servers: localhost:8125
 axoniq:
   console:
     application-name: Shopping-axion

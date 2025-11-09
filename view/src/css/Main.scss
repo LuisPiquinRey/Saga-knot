@@ -7,17 +7,6 @@
   padding: 2rem;
   flex-wrap: wrap;            
 }
-.main-block-text{
-
-    padding: 5px;
-    width: 100%;
-    height: 700px;
-    display: grid;
-    grid-template-columns: 1.5fr 2fr;
-    grid-template-rows: 5fr 1fr;
-    column-gap: 15px;
-    row-gap: 10px;
-}
 
 .title {
   color: white;
@@ -27,10 +16,7 @@
   text-align: center;
   cursor: default;
 }
-.data-project{
-    background-color: rebeccapurple;
-    grid-column: 1 / -1;
-}
+
 .text-gradient {
   background-image: linear-gradient(
     270deg,
@@ -46,28 +32,26 @@
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
-.terminal{
-    background-color: rgb(1, 1, 1);
-    border-radius: 20px;
-    opacity: 0.9;
-    border: white 2px solid;
+
+.collection-buttons {
+  display: inline-block;
 }
-.button{
-    height: 40px;
-    width: 120px;
-    border-radius: 20px;
-    border: none;
-    margin: 5px;
+
+.button {
+  height: 40px;
+  width: 120px;
+  border-radius: 20px;
+  border: none;
+  margin: 5px;
 }
-.button-transparent{
-    @extend .button;
-    border: 2px solid rgb(255, 255, 255);
-    background-color: transparent;
-    color: white;
+
+.button-transparent {
+  @extend .button;
+  border: 2px solid rgb(255, 255, 255);
+  background-color: transparent;
+  color: white;
 }
-.collection-buttons{
-    display: inline-block;
-}
+
 @keyframes gradient-move {
   0% {  
     background-position: 0% 50%;

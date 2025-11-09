@@ -1,5 +1,8 @@
 package com.luispiquinrey.product.Service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
@@ -8,9 +11,16 @@ import com.luispiquinrey.product.Entities.Category;
 import com.luispiquinrey.product.Repository.RepositoryCategory;
 
 @Service
-public class CategoryService extends CrudService<Category,String>{
-
+public class CategoryService extends CrudService<Category, String> {
+    private final RepositoryCategory repositoryCategory;
+    
+    @Autowired
     public CategoryService(RepositoryCategory repositoryCategory) {
         super(repositoryCategory, Category.class);
+        this.repositoryCategory = repositoryCategory;
+    }
+
+    public List<Category> findAll() {
+        return repositoryCategory.findAll();
     }
 }
