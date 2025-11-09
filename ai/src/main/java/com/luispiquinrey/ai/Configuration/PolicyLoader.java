@@ -17,6 +17,7 @@ import jakarta.annotation.PostConstruct;
 
 @Component
 public class PolicyLoader {
+
     @Value("classpath:politics.pdf")
     Resource policyFile;
 
@@ -25,10 +26,17 @@ public class PolicyLoader {
 
     @PostConstruct
     public void loadPdf() throws IOException {
-        TikaDocumentReader tikaDocumentReader=new TikaDocumentReader(policyFile);
-        List<Document> docs= tikaDocumentReader.get();
-        TextSplitter textSplitter=
-            TokenTextSplitter.builder().withChunkSize(100).withMaxNumChunks(400).build();
-        vectorStore.add(textSplitter.split(docs));
+        TikaDocumentReader tikaDocumentReader = new TikaDocumentReader(policyFile);
+        List<Document> docs = tikaDocumentReader.get();
+        TextSplitter textSplitter
+                = TokenTextSplitter.builder()
+                        .withChunkSize(300)
+                        .withMaxNumChunks(1000)
+                        .build();
+        List<Document> splitDocs = textSplitter.split(docs)
+                .stream()
+                .distinct() 
+                .toList();
+        vectorStore.add(splitDocs);
     }
 }
