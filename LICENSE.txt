@@ -1,7 +1,13 @@
-Copyright (c) 2025 Luis Piquín Rey
+Copyright © 2025 Luis Piquín Rey. All Rights Reserved.
 
-All Rights Reserved.
-
-This software and all its contents are the exclusive property of the author. 
-No part of this repository may be copied, modified, distributed, or used 
-for any purpose without explicit written permission from the author.
+This software, including all source code, documentation, configuration files, graphical resources, and any other materials contained in this repository (hereinafter referred to as "the Software"), is the exclusive property of Luis Piquín Rey (hereinafter referred to as "the Author"). All rights, title, and interest in and to the Software, including all intellectual property rights therein, are and shall remain the sole and exclusive property of the Author.
+Without the prior written consent of the Author, it is strictly prohibited to copy, reproduce, or duplicate the Software or any of its components, in whole or in part, by any means or in any form. It is also strictly prohibited to modify, adapt, translate, or create derivative works based on the Software, or to reverse engineer, decompile, disassemble, or otherwise attempt to derive the source code or underlying algorithms of the Software.
+The distribution, publication, sublicensing, transfer, sale, lease, or lending of the Software to any third party is expressly forbidden. The use of the Software for any commercial, business, or profit-making purposes is prohibited. The use of the Software for personal, educational, research, or non-commercial purposes is also prohibited without explicit written authorization from the Author.
+Removing, obscuring, or altering any copyright notices, trademarks, proprietary legends, or other ownership notifications contained in the Software is strictly prohibited. The public display, public performance, or broadcast of the Software is not permitted. Incorporating the Software into other projects, products, services, or systems, whether in whole or in part, is expressly forbidden.
+The publication of this code on GitHub is solely for the Author's personal portfolio and private version control purposes. The visibility of this repository does not constitute a grant of license, permission to use, or any other right or authorization of any kind. Viewing or accessing the Software does not grant any rights to use, copy, modify, or distribute it.
+THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. THE AUTHOR MAKES NO REPRESENTATIONS OR WARRANTIES REGARDING THE ACCURACY, COMPLETENESS, RELIABILITY, OR SUITABILITY OF THE SOFTWARE FOR ANY PURPOSE.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. THIS INCLUDES, WITHOUT LIMITATION, ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES, EVEN IF THE AUTHOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+To request permission to use the Software, obtain a commercial license, or seek any other authorization, please contact Luis Piquín Rey at [your-email@example.com] or via GitHub at [your-github-username]. All requests must be made in writing and will be considered at the sole discretion of the Author.
+Any unauthorized use of the Software constitutes a violation of copyright law and other intellectual property rights, and may result in civil and criminal legal action under applicable laws. The Author reserves all rights to pursue legal remedies for any infringement or unauthorized use of the Software.
+Effective Date: November 9, 2025
+Last Updated: November 9, 2025
