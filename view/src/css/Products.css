@@ -1,10 +1,8 @@
 #menu-products-block {
   display: flex;
   flex-direction: column;
-  padding: 16px;
-  height: 100vh;
-  width: 100vw;
-  max-width: 1200px;
+  height: 98vh;
+  width: 98vw;
   margin: 0 auto;
   box-sizing: border-box;
   background: rgba(255, 255, 255, 0.13);
@@ -16,6 +14,7 @@
   opacity: 0.9;
   scrollbar-width: none;
   position: relative;
+  overflow: hidden;
 }
 
 #products {
@@ -35,4 +34,48 @@
 
 #products::-webkit-scrollbar {
   display: none;
+}
+
+.header-bar {
+  background-color: rgba(53, 53, 54, 0.95);
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  flex-direction: row;
+  height: 60px;
+}
+
+.profile-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.profile-link:hover .profile-avatar {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+.search {
+  border: none;
+  border-radius: 20px;
+  background-color: rgb(255, 255, 255);
+  height: 40px;
+  width: 300px;
+  margin-left: 90px;
+}
+
+.nav-items {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }/*# sourceMappingURL=Products.css.map */
