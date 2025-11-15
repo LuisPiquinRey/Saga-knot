@@ -6,6 +6,8 @@
   gap: 2rem;
   padding: 2rem;
   flex-wrap: wrap;
+  height: 100%;
+  width: 100%;
 }
 
 .title {
@@ -29,6 +31,15 @@
 
 .collection-buttons {
   display: inline-block;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.2em;
+  max-width: 600px;
+  text-align: center;
+  line-height: 1.6;
+  margin: -1rem 0 0 0;
 }
 
 .feature-card {

@@ -1,5 +1,4 @@
 import React from "react";
-import { Counter } from "./Counter";
 import StatsContainer from "./StatsContainer";
 import FeaturesGrid from "./FeaturesGrid";
 export function Main() {
@@ -32,16 +31,7 @@ export function Main() {
                 Reinventing the way <br /> you buy and
                 <span className="text-gradient"> win</span>
             </h1>
-            <p
-                style={{
-                    color: "rgba(255, 255, 255, 0.7)",
-                    fontSize: "1.2em",
-                    maxWidth: "600px",
-                    textAlign: "center",
-                    lineHeight: "1.6",
-                    margin: "-1rem 0 0 0",
-                }}
-            >
+            <p className="subtitle">
                 Experience a revolutionary platform that transforms your purchasing
                 power into winning opportunities
             </p>
