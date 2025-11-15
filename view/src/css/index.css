@@ -3,13 +3,16 @@ body {
   background-image: linear-gradient(#101010 0.9px, transparent 0.9px), linear-gradient(to right, #101010 0.9px, #000000 0.9px);
   background-size: 18px 18px;
   margin: 0;
-  padding: 0;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  padding: 10px;
+  overflow: hidden;
   -ms-overflow-style: none;
   scrollbar-width: none;
   min-height: 100vh;
   width: 100vw;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
 }
 
 body::-webkit-scrollbar {
