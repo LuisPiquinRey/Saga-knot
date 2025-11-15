@@ -1,5 +1,10 @@
 spring:
   ai:
+    mcp:
+      client:
+        sse:
+          connections: 
+            product: http://localhost:8071
     ollama:
       base-url: http://localhost:11434  
       chat:

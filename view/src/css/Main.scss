@@ -1,30 +1,28 @@
 .main-block {
   display: flex;
-  align-items: center;       
-  justify-content: center;    
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
-  gap: 2rem;              
+  gap: 2rem;
   padding: 2rem;
-  flex-wrap: wrap;            
+  flex-wrap: wrap;
 }
 
 .title {
   color: white;
   font-size: 3em;
-  max-width: 500px;            
+  max-width: 500px;
   line-height: 1.2;
   text-align: center;
   cursor: default;
 }
 
 .text-gradient {
-  background-image: linear-gradient(
-    270deg,
-    #b76cf3,
-    #ff6bcb,
-    #ffe985,
-    #b76cf3
-  );
+  background-image: linear-gradient(270deg,
+      #b76cf3,
+      #ff6bcb,
+      #ffe985,
+      #b76cf3);
   background-size: 400% 400%;
   animation: gradient-move 6s ease infinite;
   -webkit-background-clip: text;
@@ -37,6 +35,26 @@
   display: inline-block;
 }
 
+.feature-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+}
+
+.stat-item {
+    color: white;
+    font-size: 2.5em;
+    font-weight: bold;
+    background-image: linear-gradient(135deg, #b76cf3, #ff6bcb);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 .button {
   height: 40px;
   width: 120px;
@@ -53,12 +71,14 @@
 }
 
 @keyframes gradient-move {
-  0% {  
+  0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }

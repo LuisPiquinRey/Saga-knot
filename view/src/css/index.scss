@@ -1,19 +1,19 @@
 body {
-    background-color: #000000;
-    opacity: 0.8;
-    background-image: linear-gradient(#101010 0.9px, transparent 0.9px),
+  background-color: #000000;
+  opacity: 0.8;
+  background-image: linear-gradient(#101010 0.9px, transparent 0.9px),
     linear-gradient(to right, #101010 0.9px, #000000 0.9px);
-    background-size: 18px 18px;
-    margin: 0px;
-    padding: 0px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  background-size: 18px 18px;
+  margin: 0px;
+  padding: 0px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 body::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
-p{
-    color: white;
+p {
+  color: white;
 }
