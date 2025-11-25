@@ -1,0 +1,6 @@
+@use 'Variables' as vars;
+.basic-block{
+    background-color: vars.$grey-dark-solid;
+    height: 700px;
+    width: 800px;
+}

@@ -1,6 +1,7 @@
 import React from "react";
 import StatsContainer from "./StatsContainer";
 import FeaturesGrid from "./FeaturesGrid";
+import { Header } from "./Header";
 export function Main() {
     const features = [
         {
@@ -26,22 +27,25 @@ export function Main() {
         { number: "99.9%", label: "Satisfaction" },
     ];
     return (
-        <div className="main-block">
-            <h1 className="title">
-                Reinventing the way <br /> you buy and
-                <span className="text-gradient"> win</span>
-            </h1>
-            <p className="subtitle">
-                Experience a revolutionary platform that transforms your purchasing
-                power into winning opportunities
-            </p>
-            <FeaturesGrid features={features}/>
-            <StatsContainer stats={stats} />
+        <>
+            <Header />
+            <div className="main-block">
+                <h1 className="title">
+                    Reinventing the way <br /> you buy and
+                    <span className="text-gradient"> win</span>
+                </h1>
+                <p className="subtitle">
+                    Experience a revolutionary platform that transforms your purchasing
+                    power into winning opportunities
+                </p>
+                <FeaturesGrid features={features} />
+                <StatsContainer stats={stats} />
 
-            <div className="collection-buttons">
-                <button className="button">Get started</button>
-                <button className="button-transparent">Book a demo</button>
+                <div className="collection-buttons">
+                    <button className="button">Get started</button>
+                    <button className="button-transparent">Book a demo</button>
+                </div>
             </div>
-        </div>
+        </>
     );
 }

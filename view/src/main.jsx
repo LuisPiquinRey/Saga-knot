@@ -1,15 +1,15 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Main } from './components/Main';
-import './css/index.css';
+import './assets/css/index.css';
 import { Header } from './components/Header';
-import './css/Header.css'
-import './css/Main.css'
-
-import Products from './components/Products';
+import './assets/css/Header.css'
+import './assets/css/Main.css'
+import './assets/css/SignIn.css'
+import SignIn from './components/SignIn';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Products/>
+    <SignIn/>
   </StrictMode>,
 )
