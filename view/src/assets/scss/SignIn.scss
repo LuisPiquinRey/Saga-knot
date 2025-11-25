@@ -1,6 +1,96 @@
 @use 'Variables' as vars;
-.basic-block{
-    background-color: vars.$grey-dark-solid;
-    height: 700px;
-    width: 800px;
+
+.basic-block {
+    background-color: rgba(28, 28, 40, 0.95);
+    backdrop-filter: blur(10px);
+    min-height: 700px;
+    width: 100%;
+    max-width: 480px;
+    border-radius: 24px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    padding: 40px 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.input-rectangle {
+    border: none;
+    border-radius: 5px;
+    margin: 10px;
+    height: 50px;
+    width: 400px;
+}
+
+.divider-text {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.divider-text::before,
+.divider-text::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #f9f9f9;
+}
+
+.divider-text::before {
+    margin-right: 15px;
+}
+
+.divider-text::after {
+    margin-left: 15px;
+}
+
+.socialButtons {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.socialButton {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.socialButton:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.circle-container {
+    display: flex;
+    position: relative;
+    bottom: 10px;
+}
+
+.circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ddd;
+    margin-left: -15px;
+    box-shadow: 0 0 0 1.5px black;
+}
+
+.circle:first-child {
+    margin-left: 0;
 }

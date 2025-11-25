@@ -19,6 +19,6 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-p {
+p, h1, h2, h3 {
   color: white;
 }/*# sourceMappingURL=index.css.map */
