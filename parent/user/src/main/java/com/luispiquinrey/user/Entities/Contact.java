@@ -91,6 +91,8 @@ public class Contact extends BaseEntity<Long> implements Serializable {
     @Column(name = "OPTLOCK")
     private Integer version;
 
+    private String keycloakId;
+
     public Contact() {
     }
 
@@ -170,6 +172,14 @@ public class Contact extends BaseEntity<Long> implements Serializable {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getKeycloakId() {
+        return keycloakId;
+    }
+
+    public void setKeycloakId(String keycloakId) {
+        this.keycloakId = keycloakId;
     }
 
     public LocalDateTime getUpdatedAt() {

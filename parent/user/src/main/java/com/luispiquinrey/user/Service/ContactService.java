@@ -3,7 +3,14 @@ package com.luispiquinrey.user.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
+import jakarta.ws.rs.core.Response;
+import org.keycloak.admin.client.CreatedResponseUtil;
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.representations.idm.ClientRepresentation;
+import org.keycloak.representations.idm.CredentialRepresentation;
+import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -22,9 +29,13 @@ import com.luispiquinrey.user.Repository.ContactRepository;
 public class ContactService extends WrapperCrudServiceRedis<Contact, Long> implements IContactService {
 
     private final ContactRepository contactRepository;
-    private static final String USERNAME_CACHE_PREFIX = "contact:username:";
-    private static final String EMAIL_CACHE_PREFIX = "contact:email:";
+    private static final String USERNAME_CACHE_PREFIX;
+    private static final String EMAIL_CACHE_PREFIX;
     private final RabbitTemplate rabbitTemplate;
+    private static final Keycloak keycloak;
+    private static final RealmResource realmResource;
+    private static final UsersResource usersResource;
+    private static final String INTERNAL_CLIENT_ID;
 
     public ContactService(RedisTemplate<String, Contact> redisTemplate,
             ContactRepository contactRepository, RabbitTemplate rabbitTemplate) {
@@ -32,7 +43,25 @@ public class ContactService extends WrapperCrudServiceRedis<Contact, Long> imple
         this.contactRepository = contactRepository;
         this.rabbitTemplate = rabbitTemplate;
     }
-
+    static{
+        USERNAME_CACHE_PREFIX = "contact:username:";
+        EMAIL_CACHE_PREFIX = "contact:email:";
+        keycloak = Keycloak.getInstance(
+            "http://localhost:9030",
+            "keycloak",
+            "admin",
+            "admin",
+            "QbE58qtrfigGtfm6ZqOWPIFbi5NCcxZ6"
+        );
+        realmResource = keycloak.realm("master");
+        usersResource = realmResource.users();
+        ClientRepresentation client = realmResource.clients()
+                .findByClientId("knot")
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Client not found"));
+        INTERNAL_CLIENT_ID = client.getId();
+    }
     public Optional<Contact> findByUsername(String username) {
         String cacheKey = USERNAME_CACHE_PREFIX + username;
         Contact cached = super.redisTemplate.opsForValue().get(cacheKey);
@@ -52,7 +81,8 @@ public class ContactService extends WrapperCrudServiceRedis<Contact, Long> imple
     @Override
     public Contact createTarget(Contact target) throws CreationException {
         Contact created = super.createTarget(target);
-        Long idContact=created.getIdContact();
+
+        Long idContact = created.getIdContact();
         CorrelationData correlation = new CorrelationData(UUID.randomUUID().toString());
         rabbitTemplate.convertAndSend(
                 "exchange-order-user",
@@ -62,6 +92,30 @@ public class ContactService extends WrapperCrudServiceRedis<Contact, Long> imple
         );
 
         super.redisTemplate.opsForValue().set(USERNAME_CACHE_PREFIX + created.getUsername(), created);
+
+        try {
+            UserRepresentation newUser = new UserRepresentation();
+            newUser.setUsername(created.getUsername());
+            newUser.setEnabled(true);
+            newUser.setEmail(created.getEmail());
+
+            Response response = usersResource.create(newUser);
+            String keycloakId = CreatedResponseUtil.getCreatedId(response);
+
+            created.setKeycloakId(keycloakId);
+            contactRepository.save(created);
+
+            CredentialRepresentation passwordCred = new CredentialRepresentation();
+            passwordCred.setType(CredentialRepresentation.PASSWORD);
+            passwordCred.setValue(created.getPassword());
+            passwordCred.setTemporary(false);
+
+            usersResource.get(keycloakId).resetPassword(passwordCred);
+
+        } catch (Exception e) {
+            throw new CreationException("Error creating user keycloak: " + e.getMessage());
+        }
+
         return created;
     }
 
@@ -69,14 +123,43 @@ public class ContactService extends WrapperCrudServiceRedis<Contact, Long> imple
     public Contact updateTarget(Contact target) throws UpdateException {
         Contact updated = super.updateTarget(target);
         super.redisTemplate.opsForValue().set(USERNAME_CACHE_PREFIX + updated.getUsername(), updated);
+
+        String keycloakId = updated.getKeycloakId();
+        if (keycloakId == null) {
+            throw new UpdateException("This user does not have a Keycloak ID associated.");
+        }
+
+        try {
+            UserRepresentation userRep = usersResource.get(keycloakId).toRepresentation();
+            userRep.setUsername(updated.getUsername());
+            userRep.setEmail(updated.getEmail());
+            userRep.setEnabled(true);
+
+            usersResource.get(keycloakId).update(userRep);
+
+        } catch (Exception e) {
+            throw new UpdateException("Error updating user in Keycloak: " + e.getMessage());
+        }
+
         return updated;
     }
 
     @Override
     public void deleteTarget(Long id) throws DeleteException {
         Optional<Contact> contactOpt = super.findTargetById(id);
+
         super.deleteTarget(id);
-        contactOpt.ifPresent(c -> super.redisTemplate.delete(USERNAME_CACHE_PREFIX + c.getUsername()));
+
+        contactOpt.ifPresent(c -> {
+            super.redisTemplate.delete(USERNAME_CACHE_PREFIX + c.getUsername());
+
+            if (c.getKeycloakId() != null) {
+                try {
+                    usersResource.get(c.getKeycloakId()).remove();
+                } catch (Exception ignored) {
+                }
+            }
+        });
     }
 
     @Override

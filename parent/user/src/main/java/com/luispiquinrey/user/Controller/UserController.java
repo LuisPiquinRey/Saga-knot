@@ -50,7 +50,6 @@ public class UserController {
         this.commandGateway = commandGateway;
         this.queryGateway = queryGateway;
     }
-
     @PostMapping("/create")
     public ResponseEntity<?> create(@Valid @RequestBody ContactDto requestContactDto, BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {

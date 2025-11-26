@@ -1,0 +1,14 @@
+{
+    "realm": "knot",
+    "enabled": true,
+    "clients": [
+        {
+            "clientId": "knot",
+            "publicClient": true,
+            "directAccessGrantsEnabled": true,
+            "redirectUris": [
+                "*"
+            ]
+        }
+    ]
+}
