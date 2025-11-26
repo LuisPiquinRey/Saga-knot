@@ -9,6 +9,8 @@ import './assets/css/SignIn.css'
 import './assets/css/Shop.css'
 import SignIn from './components/SignIn';
 import Shop from './components/Shop';
+import './assets/css/CreateAccount.css'
+import CreateAccount from './components/CreateAccount';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

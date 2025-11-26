@@ -1,0 +1,20 @@
+.page-alternative {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #d3b6ef;
+    background-image: linear-gradient(#ab5de3 0.8px, transparent 0.8px), linear-gradient(to right, #ab5de3 0.8px, #d3b6ef 0.8px);
+    background-size: 16px 16px;
+}
+
+.link-text {
+    color: #AB5ED0;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.link-text:hover {
+    text-decoration: underline;
+}

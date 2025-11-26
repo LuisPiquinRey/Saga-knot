@@ -4,7 +4,7 @@
           backdrop-filter: blur(10px);
   min-height: 700px;
   width: 100%;
-  max-width: 480px;
+  max-width: 600px;
   border-radius: 24px;
   display: flex;
   justify-content: flex-start;
