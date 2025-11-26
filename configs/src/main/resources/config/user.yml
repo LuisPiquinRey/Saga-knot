@@ -1,4 +1,9 @@
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9030/realms/master
   data:
     redis:
       sentinel:
@@ -91,4 +96,3 @@ server:
   port: 9098
 aws:
   bucket-name: local-bucket-saga
-
