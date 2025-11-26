@@ -5,6 +5,9 @@
   padding: 1rem 2rem;
   background-color: transparent;
   color: white;
+  width: 100%;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 
 .logo-container {

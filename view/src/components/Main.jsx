@@ -45,6 +45,15 @@ export function Main() {
                     <button className="button">Get started</button>
                     <button className="button-transparent">Book a demo</button>
                 </div>
+                <div className="marquee">
+                    <div className="marquee-content">
+                        <span>Free Shipping +$100</span> •{" "}
+                        <span>New Weekly Drops</span> • <span>Exclusive Design</span> •{" "}
+                        <span>Premium Quality</span> • <span>Free Shipping +$100</span> •{" "}
+                        <span>New Weekly Drops</span> • <span>Exclusive Design</span> •{" "}
+                        <span>Premium Quality</span>
+                    </div>
+                </div>
             </div>
         </>
     );

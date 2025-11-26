@@ -28,14 +28,16 @@ export default function SignIn() {
                     }}
                 >
                     <input
-                        type="text"
+                        type="email"
                         placeholder={"Email"}
                         className="input-rectangle"
+                        required
                     />
                     <input
                         type="password"
                         placeholder={"Password"}
                         className="input-rectangle"
+                        required
                     />
                     <h4 style={{ color: "white", fontSize: "1em", textAlign: "end" }}>
                         Forget your password?
@@ -63,11 +65,11 @@ export default function SignIn() {
                 Join over <span className="text-gradient">2M</span> global social media
                 users
             </h3>
-            <div class="circle-container">
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
-                <div class="circle"></div>
+            <div className="circle-container">
+                <div className="circle"></div>
+                <div className="circle"></div>
+                <div className="circle"></div>
+                <div className="circle"></div>
             </div>
         </div>
     );

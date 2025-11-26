@@ -4,10 +4,9 @@
   justify-content: center;
   flex-direction: column;
   gap: 2rem;
-  padding: 2rem;
   flex-wrap: wrap;
-  height: 100%;
-  width: 100%;
+  width: 100vw;
+  padding: 0px;
 }
 
 .title {
@@ -36,35 +35,38 @@
 .collection-buttons {
   display: inline-block;
 }
+
 .subtitle {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 1.2em;
-    max-width: 600px;
-    text-align: center;
-    line-height: 1.6;
-    margin: -1rem 0 0 0;
-    margin: 3px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.2em;
+  max-width: 600px;
+  text-align: center;
+  line-height: 1.6;
+  margin: -1rem 0 0 0;
+  margin: 3px;
 }
+
 .feature-card {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    padding: 1.5rem;
-    text-align: center;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
 }
 
 .stat-item {
-    color: white;
-    font-size: 2.5em;
-    font-weight: bold;
-    background-image: linear-gradient(135deg, #b76cf3, #ff6bcb);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+  color: white;
+  font-size: 2.5em;
+  font-weight: bold;
+  background-image: linear-gradient(135deg, #b76cf3, #ff6bcb);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
+
 .button {
   height: 40px;
   width: 120px;
@@ -80,6 +82,29 @@
   color: white;
 }
 
+.marquee {
+  background-color: #b76cf3;
+  padding: 15px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+  top: 0;
+}
+
+.marquee-content {
+  display: inline-block;
+  animation: marquee 20s linear infinite;
+}
+
+.marquee span {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 0 40px;
+  color: white;
+}
+
 @keyframes gradient-move {
   0% {
     background-position: 0% 50%;
@@ -91,5 +116,15 @@
 
   100% {
     background-position: 0% 50%;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
   }
 }

@@ -4,10 +4,9 @@
   justify-content: center;
   flex-direction: column;
   gap: 2rem;
-  padding: 2rem;
   flex-wrap: wrap;
-  height: 100%;
-  width: 100%;
+  width: 100vw;
+  padding: 0px;
 }
 
 .title {
@@ -79,6 +78,29 @@
   color: white;
 }
 
+.marquee {
+  background-color: #b76cf3;
+  padding: 15px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+  top: 0;
+}
+
+.marquee-content {
+  display: inline-block;
+  animation: marquee 20s linear infinite;
+}
+
+.marquee span {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 0 40px;
+  color: white;
+}
+
 @keyframes gradient-move {
   0% {
     background-position: 0% 50%;
@@ -88,5 +110,13 @@
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
   }
 }/*# sourceMappingURL=Main.css.map */
