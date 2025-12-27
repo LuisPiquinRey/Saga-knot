@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.luispiquinrey.product.Configuration.EventErrorHandler;
-import com.luispiquinrey.product.Configuration.Interceptor.CommandInterceptorProduct;
+
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -21,10 +21,6 @@ public class ProductApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProductApplication.class, args);
-	}
-	@Autowired
-	public void registerInterceptorCommandProduct(ApplicationContext context, CommandBus commandBus){
-		commandBus.registerDispatchInterceptor(context.getBean(CommandInterceptorProduct.class));
 	}
 	@Autowired
 	public void configure(EventProcessingConfigurer config){

@@ -30,15 +30,17 @@ public class CategoryProjection {
         BeanUtils.copyProperties(event, category);
         categoryService.createTarget(category);
     }
-
     @EventHandler
     public void on(CategoryUpdatedEvent event) {
-        categoryService.findTargetById(event.getIdCategory()).ifPresent(category -> {
-            category.setName(event.getName());
-            category.setDescription(event.getDescription());
-            category.setImage(event.getImage());
-            categoryService.createTarget(category);
-        });
+        Category category = categoryService.findTargetById(event.getIdCategory())
+                .orElseThrow(() -> new IllegalStateException(
+                        "Category with ID " + event.getIdCategory() + " does not exist in read model"));
+
+        category.setName(event.getName());
+        category.setDescription(event.getDescription());
+        category.setImage(event.getImage());
+
+        categoryService.updateTarget(category);
     }
 
     @EventHandler

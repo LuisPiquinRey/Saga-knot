@@ -1,5 +1,6 @@
 package com.luispiquinrey.product.Projection;
 
+import lombok.extern.slf4j.Slf4j;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
@@ -12,6 +13,7 @@ import com.luispiquinrey.product.Event.ProductCreatedEvent;
 import com.luispiquinrey.product.Event.ProductDeletedEvent;
 import com.luispiquinrey.product.Event.ProductUpdatedEvent;
 import com.luispiquinrey.product.Service.ProductService;
+
 
 @Component
 @ProcessingGroup("product-collection")
@@ -32,16 +34,19 @@ public class ProductProjection {
     }
     @EventHandler
     public void on(ProductUpdatedEvent event) {
-        productService.findTargetById(event.getIdProduct()).ifPresent(product -> {
-            product.setName(event.getName());
-            product.setBrand(event.getBrand());
-            product.setCategories(event.getCategories());
-            product.setGender(event.getGender());
-            product.setPrice(event.getPrice());
-            product.setStock(event.getStock());
-            product.setStatus(event.getStatus());
-            productService.createTarget(product);
-        });
+        Product product = productService.findTargetById(event.getIdProduct())
+                .orElseThrow(() -> new IllegalStateException(
+                        "Product with ID " + event.getIdProduct() + " does not exist"));
+
+        product.setName(event.getName());
+        product.setBrand(event.getBrand());
+        product.setCategories(event.getCategories());
+        product.setGender(event.getGender());
+        product.setPrice(event.getPrice());
+        product.setStock(event.getStock());
+        product.setStatus(event.getStatus());
+
+        productService.updateTarget(product);
     }
 
     @EventHandler

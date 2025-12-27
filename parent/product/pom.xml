@@ -90,16 +90,6 @@
     </dependencies>
     <profiles>
         <profile>
-            <id>test</id>
-            <dependencies>
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                    <scope>runtime</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
             <id>prod</id>
             <dependencies>
                 <dependency>

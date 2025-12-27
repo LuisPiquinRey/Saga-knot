@@ -12,8 +12,9 @@ import com.luispiquinrey.product.Repository.RepositoryCategory;
 
 @Service
 public class CategoryService extends CrudService<Category, String> {
+
     private final RepositoryCategory repositoryCategory;
-    
+
     @Autowired
     public CategoryService(RepositoryCategory repositoryCategory) {
         super(repositoryCategory, Category.class);
@@ -22,5 +23,9 @@ public class CategoryService extends CrudService<Category, String> {
 
     public List<Category> findAll() {
         return repositoryCategory.findAll();
+    }
+
+    public boolean existsById(String id) {
+        return repositoryCategory.existsById(id);
     }
 }

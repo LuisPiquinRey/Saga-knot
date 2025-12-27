@@ -8,9 +8,16 @@ import com.luispiquinrey.product.Entities.Brand;
 import com.luispiquinrey.product.Repository.RepositoryBrand;
 
 @Service
-public class BrandService extends CrudService<Brand,String>{
+public class BrandService extends CrudService<Brand, String> {
+
+    private final RepositoryBrand repositoryBrand;
 
     public BrandService(RepositoryBrand repositoryBrand) {
         super(repositoryBrand, Brand.class);
+        this.repositoryBrand = repositoryBrand;
+    }
+
+    public boolean existsById(String id) {
+        return repositoryBrand.existsById(id);
     }
 }

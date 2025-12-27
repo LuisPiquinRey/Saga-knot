@@ -31,16 +31,17 @@ public class BrandProjection {
         BeanUtils.copyProperties(event, brand);
         brandService.createTarget(brand);
     }
-
     @EventHandler
     public void on(BrandUpdatedEvent event) {
-        brandService.findTargetById(event.getIdBrand()).ifPresent(brand -> {
-            brand.setName(event.getName());
-            brand.setDescription(event.getDescription());
-            brandService.createTarget(brand);
-        });
-    }
+        Brand brand = brandService.findTargetById(event.getIdBrand())
+                .orElseThrow(() -> new IllegalStateException(
+                        "Brand with ID " + event.getIdBrand() + " does not exist in read model"));
 
+        brand.setName(event.getName());
+        brand.setDescription(event.getDescription());
+
+        brandService.updateTarget(brand);
+    }
     @EventHandler
     public void on(BrandDeletedEvent event) {
         brandService.deleteTarget(event.getIdBrand());
