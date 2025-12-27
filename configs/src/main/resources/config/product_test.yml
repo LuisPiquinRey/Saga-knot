@@ -13,3 +13,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+logging:
+  level:
+    web: trace

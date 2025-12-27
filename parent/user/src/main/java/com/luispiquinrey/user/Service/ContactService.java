@@ -3,6 +3,8 @@ package com.luispiquinrey.user.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
@@ -35,7 +37,6 @@ public class ContactService extends WrapperCrudServiceRedis<Contact, Long> imple
     private static final Keycloak keycloak;
     private static final RealmResource realmResource;
     private static final UsersResource usersResource;
-    private static final String INTERNAL_CLIENT_ID;
 
     public ContactService(RedisTemplate<String, Contact> redisTemplate,
             ContactRepository contactRepository, RabbitTemplate rabbitTemplate) {
@@ -48,19 +49,13 @@ public class ContactService extends WrapperCrudServiceRedis<Contact, Long> imple
         EMAIL_CACHE_PREFIX = "contact:email:";
         keycloak = Keycloak.getInstance(
             "http://localhost:9030",
-            "keycloak",
+            "knot",
             "admin",
             "admin",
-            "QbE58qtrfigGtfm6ZqOWPIFbi5NCcxZ6"
+            "knot"
         );
         realmResource = keycloak.realm("master");
         usersResource = realmResource.users();
-        ClientRepresentation client = realmResource.clients()
-                .findByClientId("knot")
-                .stream()
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Client not found"));
-        INTERNAL_CLIENT_ID = client.getId();
     }
     public Optional<Contact> findByUsername(String username) {
         String cacheKey = USERNAME_CACHE_PREFIX + username;
@@ -78,6 +73,7 @@ public class ContactService extends WrapperCrudServiceRedis<Contact, Long> imple
         return contactRepository.existsByUsername(username);
     }
 
+    @Transactional
     @Override
     public Contact createTarget(Contact target) throws CreationException {
         Contact created = super.createTarget(target);
@@ -119,6 +115,7 @@ public class ContactService extends WrapperCrudServiceRedis<Contact, Long> imple
         return created;
     }
 
+    @Transactional
     @Override
     public Contact updateTarget(Contact target) throws UpdateException {
         Contact updated = super.updateTarget(target);
@@ -144,6 +141,7 @@ public class ContactService extends WrapperCrudServiceRedis<Contact, Long> imple
         return updated;
     }
 
+    @Transactional
     @Override
     public void deleteTarget(Long id) throws DeleteException {
         Optional<Contact> contactOpt = super.findTargetById(id);

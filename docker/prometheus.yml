@@ -30,3 +30,8 @@ scrape_configs:
       # The label name is added as a label `label_name=<label_value>` to any timeseries scraped from this config.
         labels:
           app: "prometheus"
+  - job_name: "product-microservice"
+    metrics_path: "/actuator/prometheus"
+    scrape_interval: 1s
+    static_configs:
+      - targets: ["localhost:8071"]

@@ -54,8 +54,6 @@ public class WrapperCrudServiceRedis<T extends BaseEntity<ID>, ID> extends CrudS
         result.ifPresent(entity -> 
             redisTemplate.opsForValue().set(CACHE_PREFIX+idTarget, entity)
         );
-        
         return result;
     }
-    
 }
