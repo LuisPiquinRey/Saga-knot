@@ -4,7 +4,6 @@ spring:
   config:
     import:
       - "product_test.yml"
-      - "product_dev.yml"
       - "product_prod.yml"
   logging:
     file:

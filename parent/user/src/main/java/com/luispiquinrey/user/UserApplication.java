@@ -7,7 +7,7 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 import org.springframework.shell.command.annotation.CommandScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.luispiquinrey.common"})
+@ComponentScan(basePackages = {"com.luispiquinrey.common","com.luispiquinrey.user"})
 @CommandScan
 public class UserApplication {
 

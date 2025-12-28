@@ -3,6 +3,7 @@ package com.luispiquinrey.product;
 import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.config.EventProcessingConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -17,7 +18,7 @@ import com.luispiquinrey.product.Configuration.EventErrorHandler;
 @EnableDiscoveryClient
 @ComponentScan(basePackages = {"com.luispiquinrey.Error.Handler", "com.luispiquinrey.product.*"})
 @EnableJpaAuditing
-public class ProductApplication {
+public class ProductApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProductApplication.class, args);

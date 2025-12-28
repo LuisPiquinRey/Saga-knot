@@ -14,5 +14,4 @@ spring:
     hibernate:
       ddl-auto: create-drop
 logging:
-  level:
-    web: trace
+  level: root
