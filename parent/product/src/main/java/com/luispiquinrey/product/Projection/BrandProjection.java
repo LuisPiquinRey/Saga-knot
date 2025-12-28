@@ -1,6 +1,7 @@
 package com.luispiquinrey.product.Projection;
 
 import org.axonframework.config.ProcessingGroup;
+import org.axonframework.eventhandling.DisallowReplay;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.beans.BeanUtils;
@@ -16,6 +17,7 @@ import com.luispiquinrey.product.Service.BrandService;
 
 @Component
 @ProcessingGroup("brand-collection")
+@DisallowReplay
 public class BrandProjection {
 
     private final BrandService brandService;

@@ -2,6 +2,7 @@ package com.luispiquinrey.product.Projection;
 
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.config.ProcessingGroup;
+import org.axonframework.eventhandling.DisallowReplay;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.beans.BeanUtils;
@@ -17,6 +18,7 @@ import com.luispiquinrey.product.Service.ProductService;
 
 @Component
 @ProcessingGroup("product-collection")
+@DisallowReplay
 public class ProductProjection {
 
     private final ProductService productService;

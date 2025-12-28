@@ -25,6 +25,16 @@ eureka:
     serviceUrl:
       defaultZone: "http://localhost:8761/eureka"
 management:
+  tracing:
+    sampling:
+      probability: 1.0
+  otlp:
+    tracing:
+      endpoint: http://localhost:4318/v1/traces
+  metrics:
+    export:
+      otlp:
+        enabled: false
   endpoints:
     web:
       exposure:
@@ -33,6 +43,18 @@ management:
     health:
       show-details: ALWAYS
       show-components: ALWAYS
+otel:
+  traces:
+    exporter: otlp
+  exporter:
+    otlp:
+      endpoint: http://localhost:4318
+  resource:
+    attributes:
+      service.name: ${spring.application.name}
+      deployment.environment: ${spring.profiles.active:dev}
+  logs:
+    exporter: none
 axon:
   metrics:
     enabled: true

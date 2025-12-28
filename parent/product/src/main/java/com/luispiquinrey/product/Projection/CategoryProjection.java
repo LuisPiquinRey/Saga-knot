@@ -1,6 +1,7 @@
 package com.luispiquinrey.product.Projection;
 
 import org.axonframework.config.ProcessingGroup;
+import org.axonframework.eventhandling.DisallowReplay;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.beans.BeanUtils;
@@ -15,6 +16,7 @@ import com.luispiquinrey.product.Service.CategoryService;
 
 @Component
 @ProcessingGroup("category-collection")
+@DisallowReplay
 public class CategoryProjection {
 
     private final CategoryService categoryService;

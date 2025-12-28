@@ -13,7 +13,7 @@ import com.luispiquinrey.product.Configuration.EventErrorHandler;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@ComponentScan(basePackages = {"com.luispiquinrey.common"})
+@ComponentScan(basePackages = {"com.luispiquinrey.common","com.luispiquinrey.product"})
 @EnableJpaAuditing
 public class ProductApplication {
 
