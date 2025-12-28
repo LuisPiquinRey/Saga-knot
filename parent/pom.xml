@@ -12,7 +12,6 @@
         <module>order</module>
         <module>cart</module>
         <module>payment</module>
-        <module>saga</module>
         <module>user</module>
         <module>common</module>
     </modules>

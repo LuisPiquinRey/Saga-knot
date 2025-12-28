@@ -11,6 +11,11 @@
         <option value="$PROJECT_DIR$/ai/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/parent/saga/pom.xml" />
+      </set>
+    </option>
   </component>
   <component name="ProjectResources">
     <resource url="http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd" location="http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd" />

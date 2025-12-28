@@ -10,7 +10,6 @@
         <module name="ai" />
         <module name="configs" />
         <module name="common" />
-        <module name="saga" />
         <module name="user" />
         <module name="discovery" />
       </profile>
@@ -54,6 +53,9 @@
         <module name="product" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="saga" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
