@@ -1,4 +1,5 @@
 import React from "react";
+import '../assets/css/CreateAccount.css'
 export default function CreateAccount(){
     return(
         <div className="page-alternative">

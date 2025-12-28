@@ -29,7 +29,46 @@
     outline: none;
     margin: 10px;
 }
-
+.background-decor .blur-circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(140px);
+  mix-blend-mode: screen;
+  animation: float 25s infinite alternate ease-in-out;
+}
+.background-decor .top-left {
+  top: -10%;
+  left: -10%;
+  width: 40%;
+  height: 40%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.4), rgba(255, 165, 0, 0.05));
+}
+.background-decor .bottom-right {
+  bottom: -10%;
+  right: -10%;
+  width: 30%;
+  height: 30%;
+  background: radial-gradient(circle at 70% 70%, rgba(147, 51, 234, 0.3), rgba(106, 13, 173, 0.05));
+}
+.background-decor .center-left {
+  top: 30%;
+  left: -5%;
+  width: 25%;
+  height: 25%;
+  background: radial-gradient(circle at 50% 50%, rgba(180, 100, 250, 0.35), rgba(147, 51, 234, 0.05));
+}
+.background-decor .center-right {
+  bottom: 20%;
+  right: -5%;
+  width: 20%;
+  height: 20%;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 223, 0, 0.25), rgba(255, 140, 0, 0.05));
+}
+@keyframes float {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, -20px) scale(1.05); }
+  100% { transform: translate(-10px, 10px) scale(0.95); }
+}
 .input-rectangle:focus {
     border: 1px solid #AB5ED0;
     background-color: rgba(255, 255, 255, 0.08);

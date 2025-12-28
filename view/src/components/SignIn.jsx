@@ -1,7 +1,14 @@
 import React from "react";
+import '../assets/css/SignIn.css'
 export default function SignIn() {
     return (
         <div className="main-block">
+            <div className="background-decor">
+                <div className="blur-circle top-left"></div>
+                <div className="blur-circle bottom-right"></div>
+                <div className="blur-circle center-left"></div>
+                <div className="blur-circle center-right"></div>
+            </div>
             <div className="basic-block">
                 <div className="logo-container" style={{ height: "80px" }}>
                     <img

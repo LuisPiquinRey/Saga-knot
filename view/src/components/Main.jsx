@@ -2,6 +2,7 @@ import React from "react";
 import StatsContainer from "./StatsContainer";
 import FeaturesGrid from "./FeaturesGrid";
 import { Header } from "./Header";
+import '../assets/css/Main.css'
 export function Main() {
     const features = [
         {

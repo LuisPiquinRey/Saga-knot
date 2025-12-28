@@ -1,4 +1,5 @@
 import React from "react";
+import '../assets/css/Shop.css'
 export default function Shop() {
     return (
         <div className="shop-block">
