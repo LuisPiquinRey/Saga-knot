@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$/configs/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/discovery/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/parent/cart/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/parent/common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/parent/order/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/parent/payment/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/parent/product/src/main/java" charset="UTF-8" />

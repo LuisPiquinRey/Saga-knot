@@ -17,6 +17,7 @@ import org.axonframework.serialization.xml.XStreamSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 
 @Configuration
@@ -25,6 +26,11 @@ public class AxonConfig {
     @Bean
     public BeanValidationInterceptor<CommandMessage<?>> beanValidationInterceptor() {
         return new BeanValidationInterceptor<>();
+    }
+    @Autowired
+    public void configure(CommandBus commandBus,
+                          @Lazy BeanValidationInterceptor<CommandMessage<?>> interceptor) {
+        commandBus.registerDispatchInterceptor(interceptor);
     }
     @Bean
     public SnapshotTriggerDefinition productSnapshotTrigger(Snapshotter snapshotter) {

@@ -2,6 +2,10 @@ package com.luispiquinrey.user.Configuration;
 
 import java.time.Duration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -12,8 +16,7 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.data.redis.serializer.*;
 
 import com.luispiquinrey.user.Entities.Contact;
 
@@ -37,20 +40,22 @@ public class ConfigurationRedis {
     }
 
     @Bean
-    public RedisSerializer<Object> redisSerializer() {
-        org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer<Object> serializer
-                = new org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer<>(Object.class);
-
-        com.fasterxml.jackson.databind.ObjectMapper objectMapper = new com.fasterxml.jackson.databind.ObjectMapper();
-        objectMapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
-        objectMapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        serializer.setObjectMapper(objectMapper);
-
-        return serializer;
+    public RedisSerializer<Contact> contactRedisSerializer(
+            @Qualifier("redisObjectMapper") ObjectMapper redisObjectMapper) {
+        return new Jackson2JsonRedisSerializer<>(redisObjectMapper, Contact.class);
     }
 
     @Bean
-    public RedisTemplate<String, Contact> redisTemplate(RedisConnectionFactory redisConnectionFactory, RedisSerializer<Object> redisSerializer) {
+    public ObjectMapper redisObjectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        return mapper;
+    }
+
+
+    @Bean
+    public RedisTemplate<String, Contact> redisTemplate(RedisConnectionFactory redisConnectionFactory, RedisSerializer<Contact> redisSerializer) {
         RedisTemplate<String, Contact> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
@@ -63,14 +68,24 @@ public class ConfigurationRedis {
     }
 
     @Bean
-    public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-        RedisCacheConfiguration defaults = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofMinutes(5))
-                .disableCachingNullValues();
+    public RedisCacheManager cacheManager(
+            RedisConnectionFactory connectionFactory,
+            @Qualifier("redisObjectMapper") ObjectMapper redisObjectMapper) {
+
+        RedisCacheConfiguration defaults =
+                RedisCacheConfiguration.defaultCacheConfig()
+                        .serializeValuesWith(
+                                RedisSerializationContext.SerializationPair.fromSerializer(
+                                        new GenericJackson2JsonRedisSerializer(redisObjectMapper)
+                                )
+                        )
+                        .entryTtl(Duration.ofMinutes(5))
+                        .disableCachingNullValues();
 
         return RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(defaults)
                 .build();
     }
+
 
 }
