@@ -2,9 +2,5 @@ spring:
   config:
     activate:
       on-profile: "dev"
-  jpa:
-    management:
-      auditevents:
-        enabled: false
   liquibase:
     change-log: classpath:database/liquibase-changelog.xml
