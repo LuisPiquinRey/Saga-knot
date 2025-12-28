@@ -1,6 +1,6 @@
 package com.luispiquinrey.order.DTO;
 
-import com.luispiquinrey.Enums.StatusOrder;
+import com.luispiquinrey.common.Enums.StatusOrder;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

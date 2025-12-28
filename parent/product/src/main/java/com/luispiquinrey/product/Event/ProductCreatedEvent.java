@@ -2,7 +2,7 @@ package com.luispiquinrey.product.Event;
 
 import java.util.List;
 
-import com.luispiquinrey.Enums.StatusProduct;
+import com.luispiquinrey.common.Enums.StatusProduct;
 import com.luispiquinrey.product.Entities.Brand;
 import com.luispiquinrey.product.Entities.Category;
 import com.luispiquinrey.product.Entities.Gender;

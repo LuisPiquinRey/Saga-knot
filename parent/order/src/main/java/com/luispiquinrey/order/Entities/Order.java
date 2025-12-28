@@ -1,6 +1,6 @@
 package com.luispiquinrey.order.Entities;
 
-import com.luispiquinrey.Enums.StatusOrder;
+import com.luispiquinrey.common.Enums.StatusOrder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.io.Serializable;

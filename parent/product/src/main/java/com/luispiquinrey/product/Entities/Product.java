@@ -9,9 +9,9 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.luispiquinrey.Entities.AuditInfo;
-import com.luispiquinrey.Entities.BaseEntity;
-import com.luispiquinrey.Enums.StatusProduct;
+import com.luispiquinrey.common.Entities.AuditInfo;
+import com.luispiquinrey.common.Entities.BaseEntity;
+import com.luispiquinrey.common.Enums.StatusProduct;
 
 import jakarta.persistence.*;
 

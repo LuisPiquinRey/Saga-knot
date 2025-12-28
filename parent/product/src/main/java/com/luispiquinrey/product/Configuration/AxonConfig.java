@@ -22,16 +22,6 @@ import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class AxonConfig {
-
-    @Bean
-    public BeanValidationInterceptor<CommandMessage<?>> beanValidationInterceptor() {
-        return new BeanValidationInterceptor<>();
-    }
-    @Autowired
-    public void configure(CommandBus commandBus,
-                          @Lazy BeanValidationInterceptor<CommandMessage<?>> interceptor) {
-        commandBus.registerDispatchInterceptor(interceptor);
-    }
     @Bean
     public SnapshotTriggerDefinition productSnapshotTrigger(Snapshotter snapshotter) {
         return new EventCountSnapshotTriggerDefinition(snapshotter, 500);

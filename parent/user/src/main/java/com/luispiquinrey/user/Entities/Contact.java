@@ -8,7 +8,7 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.luispiquinrey.Entities.BaseEntity;
+import com.luispiquinrey.common.Entities.BaseEntity;
 
 import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Basic;

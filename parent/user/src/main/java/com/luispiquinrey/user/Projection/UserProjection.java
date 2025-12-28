@@ -8,7 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.luispiquinrey.Error.UpdateException;
+import com.luispiquinrey.common.Error.UpdateException;
 import com.luispiquinrey.user.Entities.Address;
 import com.luispiquinrey.user.Entities.Contact;
 import com.luispiquinrey.user.Event.AddressAddedToUserEvent;

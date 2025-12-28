@@ -1,6 +1,6 @@
 package com.luispiquinrey.order.Event;
 
-import com.luispiquinrey.Enums.StatusOrder;
+import com.luispiquinrey.common.Enums.StatusOrder;
 
 import lombok.Builder;
 import lombok.Data;

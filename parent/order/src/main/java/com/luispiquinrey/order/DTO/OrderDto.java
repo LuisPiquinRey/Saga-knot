@@ -3,7 +3,7 @@ package com.luispiquinrey.order.DTO;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.luispiquinrey.Enums.StatusOrder;
+import com.luispiquinrey.common.Enums.StatusOrder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -2,7 +2,7 @@ package com.luispiquinrey.product.DTO;
 
 import java.util.List;
 
-import com.luispiquinrey.Enums.StatusProduct;
+import com.luispiquinrey.common.Enums.StatusProduct;
 
 public record ProductDto(
         String name,

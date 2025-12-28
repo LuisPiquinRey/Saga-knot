@@ -3,7 +3,7 @@ package com.luispiquinrey.product.Entities;
 import java.io.Serializable;
 import java.util.UUID;
 
-import com.luispiquinrey.Entities.BaseEntity;
+import com.luispiquinrey.common.Entities.BaseEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

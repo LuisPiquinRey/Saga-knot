@@ -2,7 +2,7 @@ package com.luispiquinrey.order.Command;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-import com.luispiquinrey.Enums.StatusOrder;
+import com.luispiquinrey.common.Enums.StatusOrder;
 
 import lombok.Builder;
 import lombok.Data;

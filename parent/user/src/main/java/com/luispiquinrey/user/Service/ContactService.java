@@ -1,6 +1,5 @@
 package com.luispiquinrey.user.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -10,7 +9,6 @@ import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UsersResource;
-import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
@@ -18,10 +16,10 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import com.luispiquinrey.Error.CreationException;
-import com.luispiquinrey.Error.DeleteException;
-import com.luispiquinrey.Error.UpdateException;
-import com.luispiquinrey.Service.WrapperCrudServiceRedis;
+import com.luispiquinrey.common.Error.CreationException;
+import com.luispiquinrey.common.Error.DeleteException;
+import com.luispiquinrey.common.Error.UpdateException;
+import com.luispiquinrey.common.Service.WrapperCrudServiceRedis;
 import com.luispiquinrey.user.Entities.Address;
 import com.luispiquinrey.user.Entities.Contact;
 import com.luispiquinrey.user.Error.SearchException;

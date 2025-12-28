@@ -1,16 +1,13 @@
 package com.luispiquinrey.product.Entities;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.UUID;
 
-import com.luispiquinrey.Entities.BaseEntity;
+import com.luispiquinrey.common.Entities.BaseEntity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
-import java.util.UUID;
 
 @Entity
 @Table(name = "categories")

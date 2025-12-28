@@ -3,10 +3,9 @@ package com.luispiquinrey.product.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
-import com.luispiquinrey.Service.CrudService;
+import com.luispiquinrey.common.Service.CrudService;
 import com.luispiquinrey.product.Entities.Category;
 import com.luispiquinrey.product.Repository.RepositoryCategory;
 

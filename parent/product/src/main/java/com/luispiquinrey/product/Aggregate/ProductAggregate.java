@@ -1,7 +1,6 @@
 package com.luispiquinrey.product.Aggregate;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.luispiquinrey.product.Service.BrandService;
 import com.luispiquinrey.product.Service.CategoryService;
@@ -13,7 +12,7 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.serialization.Revision;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
-import com.luispiquinrey.Enums.StatusProduct;
+import com.luispiquinrey.common.Enums.StatusProduct;
 import com.luispiquinrey.product.Command.CreateProductCommand;
 import com.luispiquinrey.product.Command.DeleteProductCommand;
 import com.luispiquinrey.product.Command.UpdateProductCommand;

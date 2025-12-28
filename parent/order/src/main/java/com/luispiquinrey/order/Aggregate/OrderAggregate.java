@@ -11,7 +11,7 @@ import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
-import com.luispiquinrey.Enums.StatusOrder;
+import com.luispiquinrey.common.Enums.StatusOrder;
 import com.luispiquinrey.order.Command.AddItemToOrderCommand;
 import com.luispiquinrey.order.Command.CreateOrderCommand;
 import com.luispiquinrey.order.Command.DeleteOrderCommand;

@@ -1,6 +1,6 @@
 package com.luispiquinrey.product.AxonIQ;
 
-import com.luispiquinrey.Enums.StatusProduct;
+import com.luispiquinrey.common.Enums.StatusProduct;
 import com.luispiquinrey.product.Aggregate.BrandAggregate;
 import com.luispiquinrey.product.Aggregate.CategoryAggregate;
 import com.luispiquinrey.product.Aggregate.ProductAggregate;
@@ -36,7 +36,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.Mockito.mock;
