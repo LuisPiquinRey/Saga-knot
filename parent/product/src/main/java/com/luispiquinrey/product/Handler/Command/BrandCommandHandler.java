@@ -1,9 +1,8 @@
-package com.luispiquinrey.product.Projection;
+package com.luispiquinrey.product.Handler.Command;
 
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.DisallowReplay;
 import org.axonframework.eventhandling.EventHandler;
-import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,12 +17,12 @@ import com.luispiquinrey.product.Service.BrandService;
 @Component
 @ProcessingGroup("brand-collection")
 @DisallowReplay
-public class BrandProjection {
+public class BrandCommandHandler {
 
     private final BrandService brandService;
 
     @Autowired
-    public BrandProjection(BrandService brandService) {
+    public BrandCommandHandler(BrandService brandService) {
         this.brandService = brandService;
     }
 

@@ -6,6 +6,7 @@ import org.axonframework.commandhandling.CommandBus;
 import org.axonframework.commandhandling.CommandMessage;
 import org.axonframework.config.Configurer;
 import org.axonframework.config.ConfigurerModule;
+import org.axonframework.config.EventProcessingConfigurer;
 import org.axonframework.eventsourcing.EventCountSnapshotTriggerDefinition;
 import org.axonframework.eventsourcing.SnapshotTriggerDefinition;
 import org.axonframework.eventsourcing.Snapshotter;
@@ -25,5 +26,9 @@ public class AxonConfig {
     @Bean
     public SnapshotTriggerDefinition productSnapshotTrigger(Snapshotter snapshotter) {
         return new EventCountSnapshotTriggerDefinition(snapshotter, 500);
+    }
+    @Autowired
+    public void configureProcessingGroupErrorHandling(EventProcessingConfigurer configurer) {
+        configurer.registerDefaultListenerInvocationErrorHandler(conf -> new RetryHandler(10));
     }
 }

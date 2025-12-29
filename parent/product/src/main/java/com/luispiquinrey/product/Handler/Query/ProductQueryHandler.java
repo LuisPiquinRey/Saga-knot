@@ -1,4 +1,4 @@
-package com.luispiquinrey.product.Handler;
+package com.luispiquinrey.product.Handler.Query;
 
 import java.util.List;
 import java.util.Optional;

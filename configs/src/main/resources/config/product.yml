@@ -55,6 +55,13 @@ otel:
   logs:
     exporter: none
 axon:
+  eventhandling:
+    processors:
+      fraud-detection:
+        mode: SUBSCRIBING
+        source: eventBus
+      product-collection:
+        mode: SUBSCRIBING
   metrics:
     enabled: true
   axonserver:

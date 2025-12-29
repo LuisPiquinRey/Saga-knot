@@ -1,9 +1,8 @@
-package com.luispiquinrey.product.Projection;
+package com.luispiquinrey.product.Handler.Command;
 
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.DisallowReplay;
 import org.axonframework.eventhandling.EventHandler;
-import org.axonframework.messaging.interceptors.ExceptionHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,12 +16,12 @@ import com.luispiquinrey.product.Service.CategoryService;
 @Component
 @ProcessingGroup("category-collection")
 @DisallowReplay
-public class CategoryProjection {
+public class CategoryCommandHandler {
 
     private final CategoryService categoryService;
 
     @Autowired
-    public CategoryProjection(CategoryService categoryService) {
+    public CategoryCommandHandler(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
