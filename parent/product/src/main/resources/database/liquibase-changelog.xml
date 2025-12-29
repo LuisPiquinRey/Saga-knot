@@ -9,5 +9,8 @@
                 path="changelog-v0.0.1.sql"
                 relativeToChangelogFile="true"/>
     </changeSet>
-
+    <changeSet id="v0.0.2" author="Luis Piquin Rey">
+        <sqlFile path="changelog-v0.0.2.sql"
+                 relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>

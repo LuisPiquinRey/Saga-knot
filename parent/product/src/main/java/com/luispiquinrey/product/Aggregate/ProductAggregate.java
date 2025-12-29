@@ -2,6 +2,7 @@ package com.luispiquinrey.product.Aggregate;
 
 import java.util.List;
 
+import com.luispiquinrey.product.Repository.RepositoryProductLookup;
 import com.luispiquinrey.product.Service.BrandService;
 import com.luispiquinrey.product.Service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
@@ -49,21 +50,7 @@ public class ProductAggregate {
     }
 
     @CommandHandler
-    public ProductAggregate(CreateProductCommand command, BrandService brandService, CategoryService categoryService) {
-        log.info("Handling CreateProductCommand for product: {}", command.getName());
-
-        if(!brandService.existsById(command.getBrand().getId())) {
-            log.error("Brand with ID {} does not exist", command.getBrand().getId());
-            throw new IllegalArgumentException("Brand does not exist");
-        }
-
-        for(Category c : command.getCategories()) {
-            if(!categoryService.existsById(c.getId())) {
-                log.error("Category with ID {} does not exist", c.getId());
-                throw new IllegalArgumentException("Category " + c.getId() + " does not exist");
-            }
-        }
-
+    public ProductAggregate(CreateProductCommand command, BrandService brandService, CategoryService categoryService, RepositoryProductLookup repositoryProductLookup) {
         log.debug("Creating ProductCreatedEvent for product: {}", command.getName());
         ProductCreatedEvent event = ProductCreatedEvent.builder().build();
         BeanUtils.copyProperties(command, event);
@@ -71,21 +58,7 @@ public class ProductAggregate {
         log.info("ProductCreatedEvent applied successfully for product ID: {}", command.getIdProduct());
     }
     @CommandHandler
-    public void handle(UpdateProductCommand command, BrandService brandService, CategoryService categoryService){
-        log.info("Handling UpdateProductCommand for product ID: {}", command.getIdProduct());
-
-        if(!brandService.existsById(command.getBrand().getId())) {
-            log.error("Brand with ID {} does not exist during product update", command.getBrand().getId());
-            throw new IllegalArgumentException("Brand does not exist");
-        }
-
-        for(Category c : command.getCategories()) {
-            if(!categoryService.existsById(c.getId())) {
-                log.error("Category with ID {} does not exist during product update", c.getId());
-                throw new IllegalArgumentException("Category " + c.getId() + " does not exist");
-            }
-        }
-
+    public void handle(UpdateProductCommand command, BrandService brandService, CategoryService categoryService, RepositoryProductLookup repositoryProductLookup) {
         log.debug("Creating ProductUpdatedEvent for product ID: {}", command.getIdProduct());
         ProductUpdatedEvent productUpdatedEvent=ProductUpdatedEvent.builder().build();
         BeanUtils.copyProperties(command,productUpdatedEvent);
@@ -94,7 +67,7 @@ public class ProductAggregate {
     }
 
     @CommandHandler
-    public void handle(DeleteProductCommand deleteProductCommand){
+    public void handle(DeleteProductCommand deleteProductCommand, RepositoryProductLookup repositoryProductLookup) {
         log.info("Handling DeleteProductCommand for product ID: {}", deleteProductCommand.getIdProduct());
         ProductDeletedEvent productDeletedEvent=ProductDeletedEvent.builder()
                 .idProduct(deleteProductCommand.getIdProduct())

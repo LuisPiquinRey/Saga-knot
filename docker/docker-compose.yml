@@ -270,7 +270,7 @@ services:
     image: redis:latest
     container_name: redis
     ports:
-      - "6379:6379"
+      - "6380:6379"
     command: [ "redis-server", "--appendonly", "yes", "--protected-mode", "no" ]
     healthcheck:
       test: [ "CMD", "redis-cli", "PING" ]

@@ -40,18 +40,8 @@ public class ProductCommandHandler {
     }
     @EventHandler
     public void on(ProductUpdatedEvent event) {
-        Product product = iDataService.findTargetById(event.getIdProduct())
-                .orElseThrow(() -> new IllegalStateException(
-                        "Product with ID " + event.getIdProduct() + " does not exist"));
-
-        product.setName(event.getName());
-        product.setBrand(event.getBrand());
-        product.setCategories(event.getCategories());
-        product.setGender(event.getGender());
-        product.setPrice(event.getPrice());
-        product.setStock(event.getStock());
-        product.setStatus(event.getStatus());
-
+        Product product=new Product();
+        BeanUtils.copyProperties(event,product);
         iDataService.updateTarget(product);
     }
 
