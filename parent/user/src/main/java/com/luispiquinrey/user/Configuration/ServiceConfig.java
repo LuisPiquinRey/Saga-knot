@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.luispiquinrey.common.Service.RedisDecorator;
+import com.luispiquinrey.common.Utilities.RedisDecorator;
 import com.luispiquinrey.user.Entities.Contact;
 import com.luispiquinrey.user.Repository.ContactRepository;
 

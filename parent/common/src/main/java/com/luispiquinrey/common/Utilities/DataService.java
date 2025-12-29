@@ -1,4 +1,4 @@
-package com.luispiquinrey.common.Service;
+package com.luispiquinrey.common.Utilities;
 
 import java.util.Optional;
 

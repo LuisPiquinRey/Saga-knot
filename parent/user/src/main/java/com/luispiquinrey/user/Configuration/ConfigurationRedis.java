@@ -87,5 +87,4 @@ public class ConfigurationRedis {
                 .build();
     }
 
-
 }

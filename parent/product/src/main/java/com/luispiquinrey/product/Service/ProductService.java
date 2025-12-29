@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.luispiquinrey.common.Service.DataService;
+import com.luispiquinrey.common.Utilities.DataService;
 import com.luispiquinrey.product.Entities.Product;
 import com.luispiquinrey.product.Repository.RepositoryProduct;
 

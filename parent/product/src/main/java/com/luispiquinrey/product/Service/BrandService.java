@@ -2,7 +2,7 @@ package com.luispiquinrey.product.Service;
 
 import org.springframework.stereotype.Service;
 
-import com.luispiquinrey.common.Service.DataService;
+import com.luispiquinrey.common.Utilities.DataService;
 import com.luispiquinrey.product.Entities.Brand;
 import com.luispiquinrey.product.Repository.RepositoryBrand;
 

@@ -3,10 +3,9 @@ package com.luispiquinrey.user.Projection;
 import java.util.Optional;
 
 import com.luispiquinrey.common.Error.CreationException;
-import com.luispiquinrey.common.Service.BaseDecorator;
-import com.luispiquinrey.common.Service.DataService;
-import com.luispiquinrey.common.Service.IDataService;
-import com.luispiquinrey.common.Service.RedisDecorator;
+import com.luispiquinrey.common.Utilities.DataService;
+import com.luispiquinrey.common.Utilities.IDataService;
+import com.luispiquinrey.common.Utilities.RedisDecorator;
 import com.luispiquinrey.user.Error.DeleteException;
 import com.luispiquinrey.user.Error.SearchException;
 import com.luispiquinrey.user.Repository.ContactRepository;
@@ -20,14 +19,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import com.luispiquinrey.common.Error.UpdateException;
-import com.luispiquinrey.user.Entities.Address;
 import com.luispiquinrey.user.Entities.Contact;
-import com.luispiquinrey.user.Event.AddressAddedToUserEvent;
-import com.luispiquinrey.user.Event.AddressRemovedFromUserEvent;
 import com.luispiquinrey.user.Event.UserCreatedEvent;
 import com.luispiquinrey.user.Event.UserDeletedEvent;
 import com.luispiquinrey.user.Event.UserUpdatedEvent;
-import com.luispiquinrey.user.Event.UserUploadedImageEvent;
 import com.luispiquinrey.user.Repository.AddressRepository;
 
 import lombok.extern.slf4j.Slf4j;

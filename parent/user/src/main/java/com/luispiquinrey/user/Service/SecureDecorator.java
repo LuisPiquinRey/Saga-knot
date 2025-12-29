@@ -1,8 +1,8 @@
 package com.luispiquinrey.user.Service;
 
 import com.luispiquinrey.common.Entities.BaseEntity;
-import com.luispiquinrey.common.Service.BaseDecorator;
-import com.luispiquinrey.common.Service.IDataService;
+import com.luispiquinrey.common.Utilities.BaseDecorator;
+import com.luispiquinrey.common.Utilities.IDataService;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.UsersResource;
 import java.util.Optional;
