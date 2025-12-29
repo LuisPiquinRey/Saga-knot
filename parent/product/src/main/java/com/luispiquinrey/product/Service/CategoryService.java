@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.luispiquinrey.common.Service.CrudService;
+import com.luispiquinrey.common.Service.DataService;
 import com.luispiquinrey.product.Entities.Category;
 import com.luispiquinrey.product.Repository.RepositoryCategory;
 
 @Service
-public class CategoryService extends CrudService<Category, String> {
+public class CategoryService extends DataService<Category, String> {
 
     private final RepositoryCategory repositoryCategory;
 

@@ -8,7 +8,7 @@ import com.luispiquinrey.common.Error.DeleteException;
 import com.luispiquinrey.common.Error.SearchException;
 import com.luispiquinrey.common.Error.UpdateException;
 
-public interface ICrudService<T extends BaseEntity<ID>,ID> {
+public interface IDataService<T extends BaseEntity<ID>,ID> {
     Optional<T> findTargetById(ID idTarget) throws SearchException;
     void deleteTarget(ID idTarget) throws DeleteException;
     T createTarget(T target) throws CreationException;

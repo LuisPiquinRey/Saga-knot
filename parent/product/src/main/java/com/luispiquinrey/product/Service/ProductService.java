@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.luispiquinrey.common.Service.CrudService;
+import com.luispiquinrey.common.Service.DataService;
 import com.luispiquinrey.product.Entities.Product;
 import com.luispiquinrey.product.Repository.RepositoryProduct;
 
 @Service
-public class ProductService extends CrudService<Product, String> {
+public class ProductService extends DataService<Product, String> {
 
     private final RepositoryProduct repositoryProduct;
     private final BrandService brandService;

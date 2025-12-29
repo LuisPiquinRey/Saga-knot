@@ -17,8 +17,7 @@ public class CountException extends RuntimeException {
     public CountException(String message, String countType) {
         this(message, null, countType, null);
     }
-    
-    // Constructor con causa
+
     public CountException(String message, Throwable cause) {
         this(message, cause, null, null);
     }

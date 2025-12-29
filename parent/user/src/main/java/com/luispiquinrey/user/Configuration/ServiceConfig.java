@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.luispiquinrey.common.Service.WrapperCrudServiceRedis;
+import com.luispiquinrey.common.Service.RedisDecorator;
 import com.luispiquinrey.user.Entities.Contact;
 import com.luispiquinrey.user.Repository.ContactRepository;
 
@@ -20,9 +20,9 @@ public class ServiceConfig {
     }
 
     @Bean
-    public WrapperCrudServiceRedis<Contact, Long> contactFacadeService(
+    public RedisDecorator<Contact, Long> contactFacadeService(
             RedisTemplate redisTemplate,
             ContactRepository contactRepository) {
-        return new WrapperCrudServiceRedis<>(redisTemplate, contactRepository, Contact.class);
+        return new RedisDecorator<>(redisTemplate, contactRepository, Contact.class);
     }
 }

@@ -13,13 +13,13 @@ import com.luispiquinrey.common.Error.DeleteException;
 import com.luispiquinrey.common.Error.SearchException;
 import com.luispiquinrey.common.Error.UpdateException;
 
-public class CrudService<T extends BaseEntity<ID>, ID> implements ICrudService<T , ID> {
+public class DataService<T extends BaseEntity<ID>, ID> implements IDataService<T , ID> {
 
-    private static final Logger logger = LoggerFactory.getLogger(CrudService.class);
+    private static final Logger logger = LoggerFactory.getLogger(DataService.class);
     protected final CrudRepository<T, ID> repositoryGeneric;
     private final String nameClass;
 
-    public CrudService(CrudRepository<T, ID> repositoryGeneric, Class<T> entityClass) {
+    public DataService(CrudRepository<T, ID> repositoryGeneric, Class<T> entityClass) {
         this.repositoryGeneric = repositoryGeneric;
         this.nameClass = entityClass.getSimpleName();
     }

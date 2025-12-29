@@ -2,12 +2,12 @@ package com.luispiquinrey.product.Service;
 
 import org.springframework.stereotype.Service;
 
-import com.luispiquinrey.common.Service.CrudService;
+import com.luispiquinrey.common.Service.DataService;
 import com.luispiquinrey.product.Entities.Brand;
 import com.luispiquinrey.product.Repository.RepositoryBrand;
 
 @Service
-public class BrandService extends CrudService<Brand, String> {
+public class BrandService extends DataService<Brand, String> {
 
     private final RepositoryBrand repositoryBrand;
 

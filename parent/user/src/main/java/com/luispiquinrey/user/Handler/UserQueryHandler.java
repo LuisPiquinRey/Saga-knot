@@ -1,6 +1,5 @@
 package com.luispiquinrey.user.Handler;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.axonframework.queryhandling.QueryHandler;
@@ -11,7 +10,6 @@ import com.luispiquinrey.user.Entities.Contact;
 import com.luispiquinrey.user.Queries.FindUserByEmailQuery;
 import com.luispiquinrey.user.Queries.FindUserByIdQuery;
 import com.luispiquinrey.user.Queries.FindUserByUsernameQuery;
-import com.luispiquinrey.user.Service.ContactService;
 
 @Component
 public class UserQueryHandler {
