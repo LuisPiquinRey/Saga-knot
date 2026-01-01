@@ -36,6 +36,7 @@ public class ProductController {
         this.queryGateway = queryGateway;
     }
 
+
     @PostMapping("/create")
     public ResponseEntity<String> createProduct(@RequestBody @Valid ProductDto productDto) {
         try {
