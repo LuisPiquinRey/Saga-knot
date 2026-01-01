@@ -33,6 +33,9 @@ public class Product extends BaseEntity<String> implements Serializable {
     @Column(nullable = false, length = 100)
     private String name;
 
+    @Column(name = "url_image")
+    private String urlImage;
+
     @Embedded
     private AuditInfo auditInfo;
 
@@ -84,6 +87,32 @@ public class Product extends BaseEntity<String> implements Serializable {
         this.categories = categories;
         this.gender = gender;
         this.brand = brand;
+    }
+    public Product(String idProduct, String name, StatusProduct status, float price, Integer stock, String urlImage) {
+        this.idProduct = idProduct;
+        this.name = name;
+        this.status = status;
+        this.price = price;
+        this.stock = stock;
+        this.urlImage = urlImage;
+    }
+    public Product(String idProduct, String name, StatusProduct status, float price, Integer stock,
+                   List<Category> categories, Gender gender, Brand brand, String urlImage) {
+        this.idProduct = idProduct;
+        this.name = name;
+        this.status = status;
+        this.price = price;
+        this.stock = stock;
+        this.categories = categories;
+        this.gender = gender;
+        this.brand = brand;
+        this.urlImage = urlImage;
+    }
+    public Product(String idProduct, String name, StatusProduct status, String urlImage) {
+        this.idProduct = idProduct;
+        this.name = name;
+        this.status = status;
+        this.urlImage = urlImage;
     }
 
     public String getName() { return name; }

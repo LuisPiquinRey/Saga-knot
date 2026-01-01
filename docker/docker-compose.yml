@@ -67,7 +67,6 @@ services:
       start_period: 60s  
     networks:
       - default
-
   # ===== Kafka =====
   kafka1:
     image: confluentinc/cp-kafka:8.0.0
