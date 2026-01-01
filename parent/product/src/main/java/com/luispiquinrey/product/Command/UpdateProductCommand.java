@@ -24,15 +24,11 @@ public class UpdateProductCommand {
     @Size(min = 5, max = 100, message = "Product name must be between 5 and 100 characters")
     private String name;
 
-    private Brand brand;
-
     @PositiveOrZero(message = "Price must be zero or positive")
     private float price;
 
     @PositiveOrZero(message = "Stock must be zero or positive")
     private Integer stock;
-
-    private List<Category> categories;
 
     private Gender gender;
 

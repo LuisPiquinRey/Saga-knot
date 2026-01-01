@@ -28,6 +28,7 @@ public class CategoryCommandHandler {
     @EventHandler
     public void on(CategoryCreatedEvent event) {
         Category category = new Category();
+        category.setId(event.getIdCategory());
         BeanUtils.copyProperties(event, category);
         categoryService.createTarget(category);
     }

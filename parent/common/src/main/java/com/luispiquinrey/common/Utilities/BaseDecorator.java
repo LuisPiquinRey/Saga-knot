@@ -5,6 +5,7 @@ import com.luispiquinrey.common.Error.CreationException;
 import com.luispiquinrey.common.Error.DeleteException;
 import com.luispiquinrey.common.Error.SearchException;
 import com.luispiquinrey.common.Error.UpdateException;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 

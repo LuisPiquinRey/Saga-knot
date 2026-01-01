@@ -19,7 +19,7 @@ public class Brand extends BaseEntity<String> implements Serializable{
 
     @Id
     @Column(name = "id_brand", updatable = false, nullable = false)
-    private String idBrand = UUID.randomUUID().toString();
+    private String idBrand;
 
     @NotBlank(message = "Name cannot be blank")
     @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
@@ -31,8 +31,7 @@ public class Brand extends BaseEntity<String> implements Serializable{
 
     public Brand() {}
 
-    public Brand(String name, String description) {
-        this.idBrand = UUID.randomUUID().toString();
+    public Brand(String idBrand,String name, String description) {
         this.name = name;
         this.description = description;
     }

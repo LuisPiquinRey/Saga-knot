@@ -225,12 +225,6 @@ public class AxonTransactionTest {
         String brandId = UUID.randomUUID().toString();
         String categoryId = UUID.randomUUID().toString();
 
-        Brand brand = new Brand("Nike", "Just Do It");
-        brand.setId(brandId);
-
-        Category category = new Category("Running Shoes", "Shoes for running", "image.jpg");
-        category.setId(categoryId);
-
         Gender gender = new Gender("Unisex");
 
         when(brandService.existsById(brandId)).thenReturn(true);
@@ -239,10 +233,10 @@ public class AxonTransactionTest {
         CreateProductCommand command = CreateProductCommand.builder()
                 .idProduct(productId)
                 .name("Nike Air Max 2024")
-                .brand(brand)
+                .idBrand(brandId)
                 .price(150.0f)
                 .stock(100)
-                .categories(Arrays.asList(category))
+                .idCategories(Arrays.asList(categoryId))
                 .gender(gender)
                 .status(StatusProduct.CREATED)
                 .build();
@@ -250,10 +244,10 @@ public class AxonTransactionTest {
         ProductCreatedEvent expectedEvent = ProductCreatedEvent.builder()
                 .idProduct(productId)
                 .name("Nike Air Max 2024")
-                .brand(brand)
+                .idBrand(brandId)
                 .price(150.0f)
                 .stock(100)
-                .categories(Arrays.asList(category))
+                .idCategories(Arrays.asList(categoryId))
                 .gender(gender)
                 .status(StatusProduct.CREATED)
                 .build();
@@ -270,12 +264,6 @@ public class AxonTransactionTest {
         String brandId = UUID.randomUUID().toString();
         String categoryId = UUID.randomUUID().toString();
 
-        Brand brand = new Brand("Nike", "Just Do It");
-        brand.setId(brandId);
-
-        Category category = new Category("Running Shoes", "Shoes for running", "image.jpg");
-        category.setId(categoryId);
-
         Gender gender = new Gender("Unisex");
 
         when(brandService.existsById(brandId)).thenReturn(false);
@@ -284,10 +272,10 @@ public class AxonTransactionTest {
         CreateProductCommand command = CreateProductCommand.builder()
                 .idProduct(productId)
                 .name("Nike Air Max 2024")
-                .brand(brand)
+                .idBrand(brandId)
                 .price(150.0f)
                 .stock(100)
-                .categories(Arrays.asList(category))
+                .idCategories(Arrays.asList(categoryId))
                 .gender(gender)
                 .status(StatusProduct.CREATED)
                 .build();
@@ -305,12 +293,6 @@ public class AxonTransactionTest {
         String brandId = UUID.randomUUID().toString();
         String categoryId = UUID.randomUUID().toString();
 
-        Brand brand = new Brand("Nike", "Just Do It");
-        brand.setId(brandId);
-
-        Category category = new Category("Running Shoes", "Shoes for running", "image.jpg");
-        category.setId(categoryId);
-
         Gender gender = new Gender("Unisex");
 
         when(brandService.existsById(brandId)).thenReturn(true);
@@ -319,10 +301,10 @@ public class AxonTransactionTest {
         CreateProductCommand command = CreateProductCommand.builder()
                 .idProduct(productId)
                 .name("Nike Air Max 2024")
-                .brand(brand)
+                .idBrand(brandId)
                 .price(150.0f)
                 .stock(100)
-                .categories(Arrays.asList(category))
+                .idCategories(Arrays.asList(categoryId))
                 .gender(gender)
                 .status(StatusProduct.CREATED)
                 .build();
@@ -339,12 +321,6 @@ public class AxonTransactionTest {
         String brandId = UUID.randomUUID().toString();
         String categoryId = UUID.randomUUID().toString();
 
-        Brand brand = new Brand("Nike", "Just Do It");
-        brand.setId(brandId);
-
-        Category category = new Category("Running Shoes", "Shoes for running", "image.jpg");
-        category.setId(categoryId);
-
         Gender gender = new Gender("Unisex");
 
         when(brandService.existsById(brandId)).thenReturn(true);
@@ -353,10 +329,10 @@ public class AxonTransactionTest {
         ProductCreatedEvent createdEvent = ProductCreatedEvent.builder()
                 .idProduct(productId)
                 .name("Nike Air Max 2024")
-                .brand(brand)
+                .idBrand(brandId)
                 .price(150.0f)
                 .stock(100)
-                .categories(Arrays.asList(category))
+                .idCategories(Arrays.asList(categoryId))
                 .gender(gender)
                 .status(StatusProduct.CREATED)
                 .build();
@@ -364,10 +340,8 @@ public class AxonTransactionTest {
         UpdateProductCommand updateCommand = UpdateProductCommand.builder()
                 .idProduct(productId)
                 .name("Nike Air Max 2024 Pro")
-                .brand(brand)
                 .price(180.0f)
                 .stock(80)
-                .categories(Arrays.asList(category))
                 .gender(gender)
                 .status(StatusProduct.CREATED)
                 .build();
@@ -375,10 +349,8 @@ public class AxonTransactionTest {
         ProductUpdatedEvent expectedEvent = ProductUpdatedEvent.builder()
                 .idProduct(productId)
                 .name("Nike Air Max 2024 Pro")
-                .brand(brand)
                 .price(180.0f)
                 .stock(80)
-                .categories(Arrays.asList(category))
                 .gender(gender)
                 .status(StatusProduct.CREATED)
                 .build();
@@ -395,21 +367,15 @@ public class AxonTransactionTest {
         String brandId = UUID.randomUUID().toString();
         String categoryId = UUID.randomUUID().toString();
 
-        Brand brand = new Brand("Nike", "Just Do It");
-        brand.setId(brandId);
-
-        Category category = new Category("Running Shoes", "Shoes for running", "image.jpg");
-        category.setId(categoryId);
-
         Gender gender = new Gender("Unisex");
 
         ProductCreatedEvent createdEvent = ProductCreatedEvent.builder()
                 .idProduct(productId)
                 .name("Nike Air Max 2024")
-                .brand(brand)
+                .idBrand(brandId)
                 .price(150.0f)
                 .stock(100)
-                .categories(Arrays.asList(category))
+                .idCategories(Arrays.asList(categoryId))
                 .gender(gender)
                 .status(StatusProduct.CREATED)
                 .build();
@@ -429,52 +395,46 @@ public class AxonTransactionTest {
     }
 
     @Test
-    @DisplayName("Test Product Update with Invalid Brand - Should throw IllegalArgumentException")
-    public void testUpdateProductWithInvalidBrand() {
+    @DisplayName("Test Product Update - Command should produce ProductUpdatedEvent")
+    public void testUpdateProductWithDifferentValues() {
         String productId = UUID.randomUUID().toString();
         String brandId = UUID.randomUUID().toString();
-        String newBrandId = UUID.randomUUID().toString();
         String categoryId = UUID.randomUUID().toString();
 
-        Brand brand = new Brand("Nike", "Just Do It");
-        brand.setId(brandId);
-
-        Brand newBrand = new Brand("Adidas", "Impossible is Nothing");
-        newBrand.setId(newBrandId);
-
-        Category category = new Category("Running Shoes", "Shoes for running", "image.jpg");
-        category.setId(categoryId);
-
         Gender gender = new Gender("Unisex");
+        Gender newGender = new Gender("Men");
 
         ProductCreatedEvent createdEvent = ProductCreatedEvent.builder()
                 .idProduct(productId)
                 .name("Nike Air Max 2024")
-                .brand(brand)
+                .idBrand(brandId)
                 .price(150.0f)
                 .stock(100)
-                .categories(Arrays.asList(category))
+                .idCategories(Arrays.asList(categoryId))
                 .gender(gender)
                 .status(StatusProduct.CREATED)
                 .build();
 
-        when(brandService.existsById(newBrandId)).thenReturn(false);
-        when(categoryService.existsById(categoryId)).thenReturn(true);
-
         UpdateProductCommand updateCommand = UpdateProductCommand.builder()
                 .idProduct(productId)
-                .name("Adidas Ultra Boost")
-                .brand(newBrand)
-                .price(180.0f)
-                .stock(80)
-                .categories(Arrays.asList(category))
-                .gender(gender)
+                .name("Nike Air Max 2024 Premium")
+                .price(200.0f)
+                .stock(50)
+                .gender(newGender)
+                .status(StatusProduct.CREATED)
+                .build();
+
+        ProductUpdatedEvent expectedEvent = ProductUpdatedEvent.builder()
+                .idProduct(productId)
+                .name("Nike Air Max 2024 Premium")
+                .price(200.0f)
+                .stock(50)
+                .gender(newGender)
                 .status(StatusProduct.CREATED)
                 .build();
 
         productFixture.given(createdEvent)
                 .when(updateCommand)
-                .expectException(IllegalArgumentException.class)
-                .expectExceptionMessage("Brand does not exist");
+                .expectEvents(expectedEvent);
     }
 }

@@ -13,10 +13,6 @@ services:
       AXONIQ_AXONSERVER_HOSTNAME: axon-server
       AXONIQ_AXONSERVER_DEVMODE_ENABLED: "true"
       AXONIQ_AXONSERVER_STANDALONE: "true"
-    volumes:
-      - axon_data:/axonserver/data
-      - axon_events:/axonserver/events
-      - axon_config:/axonserver/config
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8024/actuator/health"]
       interval: 10s
@@ -114,7 +110,7 @@ services:
 
   # ===== Kafka Connect =====
   kconnect:
-    image: debezium/connect:3.0.0.Final
+    image: debezium/connect:2.2
     container_name: kconnect
     restart: always
     ports:
@@ -386,9 +382,6 @@ volumes:
   mysql_master_data: {}
   mysql_slave_data: {}
   n8n_data: {}
-  axon_data: {}
-  axon_events: {}
-  axon_config: {}
   ollama: {}
   ollama-webui: {}
   ollama_data: {}

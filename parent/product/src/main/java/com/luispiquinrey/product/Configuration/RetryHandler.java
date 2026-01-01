@@ -5,42 +5,42 @@ import org.axonframework.eventhandling.EventMessageHandler;
 import org.axonframework.eventhandling.ListenerInvocationErrorHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 
 public class RetryHandler implements ListenerInvocationErrorHandler {
 
-    private static final Logger log =
-            LoggerFactory.getLogger(RetryHandler.class);
-    final int maxRetries;
-    int retryCount = 0;
+    private static final Logger log = LoggerFactory.getLogger(RetryHandler.class);
+    private final int maxRetries;
+
     public RetryHandler(int maxRetries) {
         this.maxRetries = maxRetries;
     }
+
     @Override
     public void onError(Exception exception,
                         EventMessage<?> event,
                         EventMessageHandler eventHandler) throws Exception {
 
-        if (exception instanceof IllegalStateException) {
-            log.warn(
-                    "Skipping event [{}] in handler [{}]. Reason: {}",
-                    event.getPayloadType().getSimpleName(),
-                    eventHandler.getClass().getSimpleName(),
-                    exception.getMessage()
-            );
+        String eventType = event.getPayloadType().getSimpleName();
+        String handlerName = eventHandler.getClass().getSimpleName();
+
+        if (exception instanceof DataIntegrityViolationException) {
+            log.warn("Skipping duplicate event [{}] (ID: {}) in handler [{}]: {}",
+                    eventType,
+                    event.getIdentifier(),
+                    handlerName,
+                    exception.getMessage());
+            return;
         }
-        if(retryCount < maxRetries) {
-            retryCount++;
-            log.info("Retrying event [{}] in handler [{}]. Attempt {}/{}",
-                    event.getPayloadType().getSimpleName(),
-                    eventHandler.getClass().getSimpleName(),
-                    retryCount,
-                    maxRetries);
-            eventHandler.handle(event);
-        }else{
-            log.error("Max retries reached for event [{}] in handler [{}]. Cancelling further processing.",
-                    event.getPayloadType().getSimpleName(),
-                    eventHandler.getClass().getSimpleName());
-        }
+
+
+        log.error("Error processing event [{}] (ID: {}) in handler [{}]. Error: {}",
+                eventType,
+                event.getIdentifier(),
+                handlerName,
+                exception.getMessage(),
+                exception);
+
         throw exception;
     }
 }

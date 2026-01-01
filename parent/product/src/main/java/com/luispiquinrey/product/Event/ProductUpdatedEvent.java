@@ -15,10 +15,8 @@ import lombok.Data;
 public class ProductUpdatedEvent {
     private String idProduct;
     private String name;
-    private Brand brand;
     private float price;
     private Integer stock;
-    private List<Category> categories;
     private Gender gender;
     private StatusProduct status;
 }

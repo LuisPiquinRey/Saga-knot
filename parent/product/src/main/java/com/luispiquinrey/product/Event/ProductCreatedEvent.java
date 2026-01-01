@@ -15,10 +15,10 @@ import lombok.Data;
 public class ProductCreatedEvent {
     private String idProduct;
     private String name;
-    private Brand brand;
+    private String idBrand;
     private float price;
     private Integer stock;
-    private List<Category> categories;
+    private List<String> idCategories;
     private Gender gender;
     private StatusProduct status;
 }

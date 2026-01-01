@@ -26,7 +26,7 @@ public class Product extends BaseEntity<String> implements Serializable {
 
     @Id
     @Column(name = "id_product", updatable = false, nullable = false)
-    private String idProduct = UUID.randomUUID().toString();
+    private String idProduct;
 
     @NotBlank(message = "Product name cannot be blank")
     @Size(min = 5, max = 100, message = "Product name must be between 5 and 100 characters")
@@ -50,34 +50,33 @@ public class Product extends BaseEntity<String> implements Serializable {
 
     private Integer stock = 0;
 
-    @ManyToMany(targetEntity = Category.class)
+    @ManyToMany(targetEntity = Category.class, cascade = CascadeType.REMOVE)
     @JoinTable(name = "product_category",
             joinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id_product"),
             inverseJoinColumns = @JoinColumn(name = "id_category", referencedColumnName = "id_category"))
-    @NotEmpty(message = "At least one category must be assigned to the product")
     private List<Category> categories;
 
     @Embedded
-    @NotNull(message = "Product gender is required")
     private Gender gender;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_brand")
-    @NotNull(message = "Product brand is required")
     private Brand brand;
 
     public Product() {
     }
 
-    public Product(String name, StatusProduct status, float price, Integer stock) {
+    public Product(String idProduct,String name, StatusProduct status, float price, Integer stock) {
+        this.idProduct = idProduct;
         this.name = name;
         this.status = status;
         this.price = price;
         this.stock = stock;
     }
 
-    public Product(String name, StatusProduct status, float price, Integer stock, List<Category> categories,
+    public Product(String idProduct,String name, StatusProduct status, float price, Integer stock, List<Category> categories,
                    Gender gender, Brand brand) {
+        this.idProduct = idProduct;
         this.name = name;
         this.status = status;
         this.price = price;
@@ -87,7 +86,6 @@ public class Product extends BaseEntity<String> implements Serializable {
         this.brand = brand;
     }
 
-    // Getters and Setters
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 

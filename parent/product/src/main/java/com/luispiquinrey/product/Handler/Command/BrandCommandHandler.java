@@ -29,6 +29,7 @@ public class BrandCommandHandler {
     @EventHandler
     public void on(BrandCreatedEvent event) {
         Brand brand = new Brand();
+        brand.setId(event.getIdBrand());
         BeanUtils.copyProperties(event, brand);
         brandService.createTarget(brand);
     }

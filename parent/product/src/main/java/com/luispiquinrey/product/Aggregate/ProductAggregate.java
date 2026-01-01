@@ -34,10 +34,6 @@ public class ProductAggregate {
 
     private String name;
 
-    private Brand brand;
-
-    private List<Category> categories;
-
     private Gender gender;
 
     private StatusProduct status=StatusProduct.CREATED;
@@ -81,8 +77,6 @@ public class ProductAggregate {
         log.debug("Applying ProductCreatedEvent for product ID: {}", event.getIdProduct());
         this.idProduct = event.getIdProduct();
         this.name = event.getName();
-        this.brand= event.getBrand();
-        this.categories= event.getCategories();
         this.gender= event.getGender();
         this.price = event.getPrice();
         this.stock = event.getStock();
@@ -94,8 +88,6 @@ public class ProductAggregate {
         log.debug("Applying ProductUpdatedEvent for product ID: {}", event.getIdProduct());
         this.idProduct = event.getIdProduct();
         this.name = event.getName();
-        this.brand= event.getBrand();
-        this.categories= event.getCategories();
         this.gender= event.getGender();
         this.price = event.getPrice();
         this.stock = event.getStock();

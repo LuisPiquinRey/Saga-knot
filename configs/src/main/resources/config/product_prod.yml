@@ -13,3 +13,50 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:database/liquibase-changeLog.xml
+axon:
+  eventhandling:
+    processors:
+      product-collection:
+        mode: tracking
+        initial-token: tail
+  timeout:
+    transaction:
+      event-processor:
+        my-processor:
+          timeout-ms: 2000
+          warning-threshold-ms: 1000
+          warning-interval-ms: 100
+      event-processors:
+        timeout-ms: 20000
+        warning-threshold-ms: 10000
+        warning-interval-ms: 1000
+      command-bus:
+        timeout-ms: 20000
+        warning-threshold-ms: 10000
+        warning-interval-ms: 1000
+      query:
+        timeout-ms: 20000
+        warning-threshold-ms: 10000
+        warning-interval-ms: 1000
+      deadline:
+        timeout-ms: 20000
+        warning-threshold-ms: 10000
+        warning-interval-ms: 1000
+
+    handler:
+      events:
+        timeout-ms: 20000
+        warning-threshold-ms: 5000
+        warning-interval-ms: 1000
+      commands:
+        timeout-ms: 20000
+        warning-threshold-ms: 5000
+        warning-interval-ms: 1000
+      queries:
+        timeout-ms: 20000
+        warning-threshold-ms: 5000
+        warning-interval-ms: 1000
+      deadlines:
+        timeout-ms: 20000
+        warning-threshold-ms: 5000
+        warning-interval-ms: 1000

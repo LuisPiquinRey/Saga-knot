@@ -25,7 +25,7 @@ public class CreateProductCommand {
     private String name;
 
     @NotNull(message = "Brand is required")
-    private Brand brand;
+    private String idBrand;
 
     @PositiveOrZero(message = "Price must be zero or positive")
     private float price;
@@ -34,7 +34,7 @@ public class CreateProductCommand {
     private Integer stock;
 
     @NotEmpty(message = "At least one category must be assigned")
-    private List<Category> categories;
+    private List<String> idCategories;
 
     @NotNull(message = "Gender is required")
     private Gender gender;

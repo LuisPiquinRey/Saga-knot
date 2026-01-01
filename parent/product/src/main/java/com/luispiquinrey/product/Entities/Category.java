@@ -15,7 +15,7 @@ public class Category extends BaseEntity<String> implements Serializable{
 
     @Id
     @Column(name = "id_category", updatable = false, nullable = false)
-    private String idCategory = UUID.randomUUID().toString();
+    private String idCategory;
 
     @NotBlank(message = "Name cannot be blank")
     @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
@@ -30,7 +30,7 @@ public class Category extends BaseEntity<String> implements Serializable{
 
     public Category() {}
 
-    public Category(String name, String description, String image) {
+    public Category(String idCategory,String name, String description, String image) {
         this.name = name;
         this.description = description;
         this.image = image;

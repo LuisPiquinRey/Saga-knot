@@ -27,8 +27,9 @@ public class AxonConfig {
     public SnapshotTriggerDefinition productSnapshotTrigger(Snapshotter snapshotter) {
         return new EventCountSnapshotTriggerDefinition(snapshotter, 500);
     }
+
     @Autowired
     public void configureProcessingGroupErrorHandling(EventProcessingConfigurer configurer) {
-        configurer.registerDefaultListenerInvocationErrorHandler(conf -> new RetryHandler(10));
+        configurer.registerDefaultListenerInvocationErrorHandler(conf -> new RetryHandler(3));
     }
 }

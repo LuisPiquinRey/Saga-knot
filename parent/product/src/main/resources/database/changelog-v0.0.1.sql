@@ -138,18 +138,6 @@ CREATE TABLE IF NOT EXISTS `product_master`.`product_category` (
     DEFAULT CHARACTER SET = utf8mb4
     COLLATE = utf8mb4_0900_ai_ci;
 
-
--- -----------------------------------------------------
--- Table `product_master`.`product_lookup`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `product_master`.`product_lookup` (
-                                                                 `id_product` VARCHAR(255) NOT NULL,
-    PRIMARY KEY (`id_product`))
-    ENGINE = InnoDB
-    DEFAULT CHARACTER SET = utf8mb4
-    COLLATE = utf8mb4_0900_ai_ci;
-
-
 -- -----------------------------------------------------
 -- Table `product_master`.`saga_entry`
 -- -----------------------------------------------------

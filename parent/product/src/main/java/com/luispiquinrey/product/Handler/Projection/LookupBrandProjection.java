@@ -22,21 +22,30 @@ public class LookupBrandProjection {
 
     @EventHandler
     public void on(BrandCreatedEvent event) {
+        log.info("Processing BrandCreatedEvent - ID: {}, Name: {}", event.getIdBrand(), event.getName());
         BrandLookup lookup = new BrandLookup();
         BeanUtils.copyProperties(event, lookup);
         repositoryBrandLookup.save(lookup);
+        log.info("BrandLookup created successfully - ID: {}", event.getIdBrand());
     }
 
     @EventHandler
     public void on(BrandUpdatedEvent event) {
-        repositoryBrandLookup.findById(event.getIdBrand()).ifPresent(lookup -> {
-            BeanUtils.copyProperties(event, lookup);
-            repositoryBrandLookup.save(lookup);
-        });
+        log.info("Processing BrandUpdatedEvent - ID: {}, Name: {}", event.getIdBrand(), event.getName());
+        repositoryBrandLookup.findById(event.getIdBrand()).ifPresentOrElse(
+            lookup -> {
+                BeanUtils.copyProperties(event, lookup);
+                repositoryBrandLookup.save(lookup);
+                log.info("BrandLookup updated successfully - ID: {}", event.getIdBrand());
+            },
+            () -> log.warn("BrandLookup not found for update - ID: {}", event.getIdBrand())
+        );
     }
 
     @EventHandler
     public void on(BrandDeletedEvent event) {
+        log.info("Processing BrandDeletedEvent - ID: {}", event.getIdBrand());
         repositoryBrandLookup.deleteById(event.getIdBrand());
+        log.info("BrandLookup deleted successfully - ID: {}", event.getIdBrand());
     }
 }
